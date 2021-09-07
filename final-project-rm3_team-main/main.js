@@ -475,7 +475,7 @@ class gameEnvironment {
 		this.activeCamera = 0;
 
 		this.scene = new THREE.Scene();
-		this.scene.fog = new THREE.Fog( 0x000000, 0, 500 );
+		//this.scene.fog = new THREE.Fog( 0x000000, 0, 500 );
 		
 		this.bulletManager = new BulletManager({manager: MANAGER, world: this.world, scene: this.scene});
 		this.entityManager = new EntityManager({scene: this.scene, world: this.world, manager: MANAGER,scoreManager: this.scoreManager ,bulletManager: this.bulletManager})
@@ -534,7 +534,7 @@ class gameEnvironment {
 		window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
 
 		//skybox
-		var skyBoxGeometry = new THREE.BoxGeometry(5000,5000,5000);
+		var skyBoxGeometry = new THREE.BoxGeometry(1000,1000,1000);
 		var skyBoxMaterials = [
 			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-front.png'), side: THREE.DoubleSide, dithering: true}),
 			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-back.png'), side: THREE.DoubleSide, dithering: true}),
@@ -544,17 +544,17 @@ class gameEnvironment {
 			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-left.png'), side: THREE.DoubleSide, dithering: true}),
 		];
 
-		var skyBoxMaterial = new THREE.MeshFaceMaterial(skyBoxMaterials);
+		//var skyBoxMaterial = new THREE.MeshFaceMaterial(skyBoxMaterials);
 		var skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterials);
 		this.scene.add(skyBox);
 
 		// floor
-		var geometry = new THREE.PlaneGeometry( 200, 200, 50, 50 );
+		var geometry = new THREE.PlaneGeometry( 1000, 1000, 50, 50);
 		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
 
 		//var material = new THREE.MeshLambertMaterial( { color: 0xeeee00 } );
 		//var material = new THREE.MeshPhongMaterial( { color: 0xeeee00, dithering: true } );
-		var material = new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader().load('resources\\images\\field.png'), dithering: true } );
+		var material = new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-down.png'), dithering: true } );
 
 		var mesh = new THREE.Mesh( geometry, material );
 		mesh.castShadow = true;
