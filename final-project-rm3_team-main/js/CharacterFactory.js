@@ -3,10 +3,10 @@ export class CharacterFactory {
 	static GUN_PISTOL_STATISTIC = {
 		name: CharacterFactory.GUN_PISTOL,
 		timeReloading: 4,
-		ammo: 6,
-		timeBetweenAmmo: 1.2,
+		ammo: 100,
+		timeBetweenAmmo: 0.2,
 		bullet: {
-			mass: 0.1,
+			mass: 90,
 			radius: 0.1,
 			shootVelocity: 45,
 		}
@@ -20,7 +20,7 @@ export class CharacterFactory {
 		bullet: {
 			mass: 0.5,
 			radius: 0.15,
-			shootVelocity: 55,
+			shootVelocity: 60,
 		}
 	};
     static GUN_SNIPER = "sniper";
@@ -30,7 +30,7 @@ export class CharacterFactory {
 		ammo: 4,
 		timeBetweenAmmo: 1.4,
 		bullet: {
-			mass: 0.5,
+			mass: 0.8,
 			radius: 0.2,
 			shootVelocity: 90,
 		}

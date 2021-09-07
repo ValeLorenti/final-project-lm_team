@@ -16,8 +16,8 @@ class gameManager {
 		this.setOptionsDefault = function() {
 			this.options = {
 				mouseSensibility : 1,
-				lifes: 5,
-				enemyQuantity: 30,
+				lifes: 100,
+				enemyQuantity: 5,
 				time: 180,
 				viewfinder: true,
 				velocityFactorDefault : 0.2,
@@ -76,7 +76,7 @@ class MenuEnvironment {
 		this.sliderTime = document.getElementById("sliderTime");
 		
 		this.wiewfinderCkBox = document.getElementById("wiewfinderCkBox");
-		
+
 		this.setUpMainButtons();
 		this.setUpSettingButton();
 		this.giveValueFromCookie();
@@ -429,9 +429,16 @@ class gameEnvironment {
 		}
 
 		// Update box positions
-		for(var i=0; i<this.boxes.length; i++){
+		for(var i=0; i < this.boxes.length; i++){
 			this.boxMeshes[i].position.copy(this.boxes[i].position);
 			this.boxMeshes[i].quaternion.copy(this.boxes[i].quaternion);
+		}
+		TWEEN.update()
+
+		// Update sphere positions
+		for(var i=0; i < this.spheres.length; i++){
+			this.sphereMeshes[i].position.copy(this.spheres[i].position);
+			this.sphereMeshes[i].quaternion.copy(this.spheres[i].quaternion);
 		}
 		TWEEN.update()
 	}
@@ -498,7 +505,7 @@ class gameEnvironment {
 		this.tourch.angle = Math.PI/4
 		this.tourch.distance = 100;
 		this.tourch.penumbra = 0.3;
-		this.tourch.intensity = 1;
+		this.tourch.intensity = 1.5;
 		if(true){
 			this.tourch.castShadow = true;
 
@@ -526,22 +533,42 @@ class gameEnvironment {
 
 		window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
 
+		//skybox
+		var skyBoxGeometry = new THREE.BoxGeometry(5000,5000,5000);
+		var skyBoxMaterials = [
+			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-front.png'), side: THREE.DoubleSide, dithering: true}),
+			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-back.png'), side: THREE.DoubleSide, dithering: true}),
+			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-up.png'), side: THREE.DoubleSide, dithering: true}),
+			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-down.png'), side: THREE.DoubleSide, dithering: true}),
+			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-right.png'), side: THREE.DoubleSide, dithering: true}),
+			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-left.png'), side: THREE.DoubleSide, dithering: true}),
+		];
+
+		var skyBoxMaterial = new THREE.MeshFaceMaterial(skyBoxMaterials);
+		var skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterials);
+		this.scene.add(skyBox);
+
 		// floor
-		var geometry = new THREE.PlaneGeometry( 300, 300, 50, 50 );
+		var geometry = new THREE.PlaneGeometry( 200, 200, 50, 50 );
 		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
 
 		//var material = new THREE.MeshLambertMaterial( { color: 0xeeee00 } );
-		var material = new THREE.MeshPhongMaterial( { color: 0xeeee00, dithering: true } );
+		//var material = new THREE.MeshPhongMaterial( { color: 0xeeee00, dithering: true } );
+		var material = new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader().load('resources\\images\\field.png'), dithering: true } );
 
 		var mesh = new THREE.Mesh( geometry, material );
 		mesh.castShadow = true;
 		mesh.receiveShadow = true;
-		this.scene.add( mesh );
+		this.scene.add(mesh);
 		
 		
 
 		this.boxes = [];
 		this.boxMeshes = [];
+
+		this.spheres = [];
+		this.sphereMeshes = [];
+
 		this.balls = [];
 		this.ballMeshes=[];
 		
@@ -570,48 +597,42 @@ class gameEnvironment {
 		}
 		*/
 		
-		var halfExtents = new CANNON.Vec3(20,20,5);
-		var boxShape = new CANNON.Box(halfExtents);
-		var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
-		for(var i = 0; i < 4; i++){
-			if( i == 0){
-				var x = 3;
-				var y = 20; 
-				var z = 0;
-				var randomColor = '#FFFF00';  //(Math.random() * 0xFFFFFF << 0).toString(16);
-			}
-			if( i == 1){
-				var x = 6;
-				var y = 20; 
-				var z = 10;
-				var randomColor = '#0000FF';
-			}
-			if( i == 2){
-				var x = 9;
-				var y = 20;
-				var z = 5;
-				var randomColor = '#FF0000';
-			}
-			if( i == 3){
-				var x = 12;
-				var y = 20;
-				var z = 14;
-				var randomColor = '#FFFFFF';
-			}
-			
-			var boxBody = new CANNON.Body({ mass: 5000 });
-			boxBody.addShape(boxShape);
+		var halfExtents = new CANNON.Vec3(5,5,5); // regolando questo facciamo altre figure
+		//var boxShape = new CANNON.Box(halfExtents);
+		var sphereShape = new CANNON.Sphere(halfExtents);
+		//var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
+		var sphereGeometry = new THREE.SphereGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
+		for(var i = 0; i < 1; i++){
+			var x = 20;
+			var y = 0;
+			var z = 20;
+			var randomColor = '#FFFF00';
+			//var boxBody = new CANNON.Body({ mass: 0 });
+			var sphereBody = new CANNON.Body({ mass: 0 });
+			//boxBody.addShape(boxShape);
+			sphereBody.addShape(sphereShape);
 			//var randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
 			var material2 = new THREE.MeshLambertMaterial( { color: randomColor } );
-			var boxMesh = new THREE.Mesh( boxGeometry, material2 );
-			this.world.add(boxBody);
-			this.scene.add(boxMesh);
-			boxBody.position.set(x,y,z);
-			boxMesh.position.set(x,y,z);
-			boxMesh.castShadow = true;
-			boxMesh.receiveShadow = true;
-			this.boxes.push(boxBody);
-			this.boxMeshes.push(boxMesh);
+			//var boxMesh = new THREE.Mesh( boxGeometry, material2 );
+			var sphereMesh = new THREE.Mesh(sphereGeometry, material2);
+			//this.world.add(boxBody);
+			//this.scene.add(boxMesh);
+			this.world.add(sphereBody);
+			this.scene.add(sphereMesh);
+
+			//boxBody.position.set(x,y,z);
+			//boxMesh.position.set(x,y,z);
+			//boxMesh.castShadow = true;
+			//boxMesh.receiveShadow = true;
+			//this.boxes.push(boxBody);
+			//this.boxMeshes.push(boxMesh);
+
+			sphereBody.position.set(x,y,z);
+			sphereMesh.position.set(x,y,z);
+			sphereMesh.castShadow = true;
+			sphereMesh.receiveShadow = true;
+			this.spheres.push(sphereBody);
+			this.sphereMeshes.push(sphereMesh);
 			
 		}
 		
