@@ -534,7 +534,7 @@ class gameEnvironment {
 		window.addEventListener( 'resize', this.onWindowResize.bind(this), false );
 
 		//skybox
-		var skyBoxGeometry = new THREE.BoxGeometry(1000,1000,1000);
+		var skyBoxGeometry = new THREE.BoxGeometry(900,900,900);
 		var skyBoxMaterials = [
 			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-front.png'), side: THREE.DoubleSide, dithering: true}),
 			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-back.png'), side: THREE.DoubleSide, dithering: true}),
@@ -546,10 +546,11 @@ class gameEnvironment {
 
 		//var skyBoxMaterial = new THREE.MeshFaceMaterial(skyBoxMaterials);
 		var skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterials);
+		skyBox.position.set(0, 250, 0);
 		this.scene.add(skyBox);
 
 		// floor
-		var geometry = new THREE.PlaneGeometry( 1000, 1000, 50, 50);
+		var geometry = new THREE.PlaneGeometry( 900, 900, 50, 50);
 		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
 
 		//var material = new THREE.MeshLambertMaterial( { color: 0xeeee00 } );
