@@ -551,12 +551,12 @@ class gameEnvironment {
 		this.scene.add(skyBox);
 
 		// floor
-		var geometry = new THREE.PlaneGeometry( 900, 900, 50, 50);
+		var geometry = new THREE.PlaneGeometry( 300, 300, 300, 50);
 		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
 
 		//var material = new THREE.MeshLambertMaterial( { color: 0xeeee00 } );
 		//var material = new THREE.MeshPhongMaterial( { color: 0xeeee00, dithering: true } );
-		var material = new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader().load('resources\\images\\field.png'), dithering: true } );
+		var material = new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader().load('resources\\images\\field1.png'), dithering: true } );
 
 		var mesh = new THREE.Mesh( geometry, material );
 		mesh.castShadow = true;
@@ -599,12 +599,12 @@ class gameEnvironment {
 		}
 		*/
 		
-		var halfExtents = new CANNON.Vec3(5,5,5); // regolando questo facciamo altre figure
+		var halfExtents = new CANNON.Vec3(10,10,10); // regolando questo facciamo altre figure
 		//var boxShape = new CANNON.Box(halfExtents);
 		var sphereShape = new CANNON.Sphere(halfExtents.x);
 		//var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
 		var sphereGeometry = new THREE.SphereGeometry(halfExtents.x, 10, 10);
-		for(var i = 0; i < 1; i++){
+		for(var i = 0; i < 10; i++){
 			var x = 20;
 			var y = -1;
 			var z = 20;
@@ -647,6 +647,7 @@ class gameEnvironment {
 			treeBody.addShape(treeShape);
 			treeBody.position.set(10,0,10);
 			this.world.add(treeBody);
+			console.log(this.models["alberi"]);
 			
 		}
 		
