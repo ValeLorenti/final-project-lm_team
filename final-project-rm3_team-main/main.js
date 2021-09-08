@@ -212,6 +212,86 @@ function searchInChild(root, name) {
 	return null;
 }
 
+
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+}
+
+function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, models){
+	
+var halfExtents = new CANNON.Vec3(8,4,0.5);
+var boxShape = new CANNON.Box(halfExtents);
+var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
+halfExtents = new CANNON.Vec3 (10, 20, 20);
+var sphereShape = new CANNON.Sphere(halfExtents.x);
+var sphereGeometry = new THREE.SphereGeometry(halfExtents.x, 20, 20);
+var x = 0;
+var y = 0;
+var z = 0;
+var genFactor = 0;
+
+	for(var i=0; i<150; i++){
+		x = (Math.random()-0.5)*300;
+		y = 0;
+		z = (Math.random()-0.5)*300;
+		genFactor = getRandomIntInclusive(1, 3);
+		switch(genFactor){
+							
+			case 1:
+				console.log("case1");
+				y = 4;
+				var boxBody = new CANNON.Body({ mass: 0 });
+				boxBody.addShape(boxShape);
+				var randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+				var material2 = new THREE.MeshLambertMaterial( { color: randomColor } );
+				var boxMesh = new THREE.Mesh( boxGeometry, material2 );
+				world.add(boxBody);
+				scene.add(boxMesh);
+				boxBody.position.set(x,y,z);
+				boxMesh.position.set(x,y,z);
+				boxMesh.castShadow = true;
+				boxMesh.receiveShadow = true;
+				boxes.push(boxBody);
+				boxMeshes.push(boxMesh);
+				break;
+			
+			case 2:
+				console.log("case2");
+				y = -7;
+				var sphereBody = new CANNON.Body({ mass: 0 });
+				sphereBody.addShape(sphereShape);
+				var material2 = new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load('resources\\images\\field.png'), side: THREE.DoubleSide } );
+				var sphereMesh = new THREE.Mesh(sphereGeometry, material2);
+				world.add(sphereBody);
+				scene.add(sphereMesh);
+				sphereBody.position.set(x,y,z);
+				sphereMesh.position.set(x,y,z);
+				sphereMesh.castShadow = true;
+				sphereMesh.receiveShadow = true;
+				spheres.push(sphereBody);
+				sphereMeshes.push(sphereMesh);
+				break;
+			
+			case 3: 
+				console.log("case3");
+				var tree = models["alberi"].model.clone();
+				scene.add(tree);
+				tree.position.set(x, y, z);
+				var halfExtents2 = new CANNON.Vec3(1.5, 4, 1.5);
+				var treeShape = new CANNON.Box(halfExtents2);
+				var treeBody = new CANNON.Body({ mass: 0 });
+				treeBody.addShape(treeShape);
+				treeBody.position.set(x, 2, z);
+				world.add(treeBody);
+				break;
+		}
+			
+	}
+}	
+
 class gameEnvironment {
 	constructor() {
 		this.models = {};
@@ -234,7 +314,7 @@ class gameEnvironment {
             this.getModel('Guns/scene.gltf', 0.001, 'Weapon_04'),
             this.getModel('Guns/scene.gltf', 0.0006, 'Weapon_06'),
             this.getModel('Guns/scene.gltf', 0.001, 'Weapon_08'),
-			this.getModel('alberi/scene.gltf', 1, "_1_tree"), 
+			this.getModel('alberi/scene.gltf', 2, "_1_tree"), 
 		];
 		Promise.all(promise).then(data => {
             var nameModels = [
@@ -553,10 +633,16 @@ class gameEnvironment {
 		// floor
 		var geometry = new THREE.PlaneGeometry( 300, 300, 300, 50);
 		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
+		
 
 		//var material = new THREE.MeshLambertMaterial( { color: 0xeeee00 } );
 		//var material = new THREE.MeshPhongMaterial( { color: 0xeeee00, dithering: true } );
-		var material = new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader().load('resources\\images\\field1.png'), dithering: true } );
+		var groundTexture = new THREE.TextureLoader().load('resources\\images\\field.png');
+		groundTexture.wrapS = THREE.RepeatWrapping;
+		groundTexture.wrapT = THREE.RepeatWrapping;
+		groundTexture.repeat = new THREE.Vector2(10,10);
+		
+		var material = new THREE.MeshPhongMaterial( { map: groundTexture , dithering: true } );
 
 		var mesh = new THREE.Mesh( geometry, material );
 		mesh.castShadow = true;
@@ -597,7 +683,7 @@ class gameEnvironment {
 			this.boxes.push(boxBody);
 			this.boxMeshes.push(boxMesh);
 		}
-		*/
+		
 		
 		var halfExtents = new CANNON.Vec3(10,10,10); // regolando questo facciamo altre figure
 		//var boxShape = new CANNON.Box(halfExtents);
@@ -650,6 +736,9 @@ class gameEnvironment {
 			console.log(this.models["alberi"]);
 			
 		}
+		*/
+		
+		mapGenerator(this.world, this.scene, this.boxes, this.boxMeshes, this.spheres, this.sphereMeshes, this.models);
 		
 		
 		//Add personaggio
@@ -666,7 +755,7 @@ class gameEnvironment {
 		this.scene.add(this.controls.getObject());
 		
 		this.spawnEnemy();
-		
+		/*
 		// Add linked boxes
 		var size = 0.5;
 		var he = new CANNON.Vec3(size,size,size*0.1);
@@ -703,7 +792,7 @@ class gameEnvironment {
 			}
 			last = boxbody;
 		}
-		
+		*/
 		this.locker();
 		var time = Date.now();
 		this.scoreManager.setStartTime(time);
@@ -771,6 +860,8 @@ class gameEnvironment {
 		groundBody.isGround = true;
 		world.add(groundBody);
 		return world
+	
+		
 	}
 
 
