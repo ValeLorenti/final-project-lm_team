@@ -234,6 +234,7 @@ class gameEnvironment {
             this.getModel('Guns/scene.gltf', 0.001, 'Weapon_04'),
             this.getModel('Guns/scene.gltf', 0.0006, 'Weapon_06'),
             this.getModel('Guns/scene.gltf', 0.001, 'Weapon_08'),
+			this.getModel('alberi/scene.gltf', 1, "_1_tree"), 
 		];
 		Promise.all(promise).then(data => {
             var nameModels = [
@@ -242,6 +243,7 @@ class gameEnvironment {
 				"pistol",
 				"sniper",
 				"rpg",
+				"alberi"
             ];
 
 			for(let i in nameModels){
@@ -433,7 +435,6 @@ class gameEnvironment {
 			this.boxMeshes[i].position.copy(this.boxes[i].position);
 			this.boxMeshes[i].quaternion.copy(this.boxes[i].quaternion);
 		}
-		TWEEN.update()
 
 		// Update sphere positions
 		for(var i=0; i < this.spheres.length; i++){
@@ -546,7 +547,7 @@ class gameEnvironment {
 
 		//var skyBoxMaterial = new THREE.MeshFaceMaterial(skyBoxMaterials);
 		var skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterials);
-		skyBox.position.set(0, 250, 0);
+		skyBox.position.set(0, 300, 0);
 		this.scene.add(skyBox);
 
 		// floor
@@ -555,7 +556,7 @@ class gameEnvironment {
 
 		//var material = new THREE.MeshLambertMaterial( { color: 0xeeee00 } );
 		//var material = new THREE.MeshPhongMaterial( { color: 0xeeee00, dithering: true } );
-		var material = new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-down.png'), dithering: true } );
+		var material = new THREE.MeshPhongMaterial( { map: new THREE.TextureLoader().load('resources\\images\\field.png'), dithering: true } );
 
 		var mesh = new THREE.Mesh( geometry, material );
 		mesh.castShadow = true;
@@ -600,12 +601,12 @@ class gameEnvironment {
 		
 		var halfExtents = new CANNON.Vec3(5,5,5); // regolando questo facciamo altre figure
 		//var boxShape = new CANNON.Box(halfExtents);
-		var sphereShape = new CANNON.Sphere(halfExtents);
+		var sphereShape = new CANNON.Sphere(halfExtents.x);
 		//var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
-		var sphereGeometry = new THREE.SphereGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
+		var sphereGeometry = new THREE.SphereGeometry(halfExtents.x, 10, 10);
 		for(var i = 0; i < 1; i++){
 			var x = 20;
-			var y = 0;
+			var y = -1;
 			var z = 20;
 			var randomColor = '#FFFF00';
 			//var boxBody = new CANNON.Body({ mass: 0 });
@@ -613,13 +614,14 @@ class gameEnvironment {
 			//boxBody.addShape(boxShape);
 			sphereBody.addShape(sphereShape);
 			//var randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
-			var material2 = new THREE.MeshLambertMaterial( { color: randomColor } );
+			var material2 = new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load('resources\\images\\field.png'), side: THREE.DoubleSide } );
 			//var boxMesh = new THREE.Mesh( boxGeometry, material2 );
 			var sphereMesh = new THREE.Mesh(sphereGeometry, material2);
 			//this.world.add(boxBody);
 			//this.scene.add(boxMesh);
 			this.world.add(sphereBody);
 			this.scene.add(sphereMesh);
+			
 
 			//boxBody.position.set(x,y,z);
 			//boxMesh.position.set(x,y,z);
@@ -634,6 +636,17 @@ class gameEnvironment {
 			sphereMesh.receiveShadow = true;
 			this.spheres.push(sphereBody);
 			this.sphereMeshes.push(sphereMesh);
+			
+			
+			
+			this.scene.add(this.models["alberi"].model);
+			this.models["alberi"].model.position.set(10,0,10);
+			var halfExtents2 = new CANNON.Vec3(0.5,3,0.5)
+			var treeShape = new CANNON.Box(halfExtents2);
+			var treeBody = new CANNON.Body({ mass: 0 });
+			treeBody.addShape(treeShape);
+			treeBody.position.set(10,0,10);
+			this.world.add(treeBody);
 			
 		}
 		
@@ -731,7 +744,7 @@ class gameEnvironment {
 		else
 			world.solver = solver;
 
-		world.gravity.set(0,-10,0);
+		world.gravity.set(0, -20, 0);
 		world.broadphase = new CANNON.NaiveBroadphase();
 
 		// Create a slippery material (friction coefficient = 0.0)
