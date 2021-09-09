@@ -39,12 +39,12 @@ export class CharacterFactory {
 	static GUN_RPG_STATISTIC = {
 		name: CharacterFactory.GUN_RPG,
 		timeReloading: 5,
-		ammo: 1,
-		timeBetweenAmmo: 3,
+		ammo: 5,
+		timeBetweenAmmo: 1,
 		bullet: {
-			mass: 50,
-			radius: 0.5,
-			shootVelocity: 35,
+			mass: 70,
+			radius: 1,
+			shootVelocity: 70,
 		}
 	};
 	
