@@ -1,0 +1,11 @@
+Model Information:
+* title:	Paintball Minigun
+* source:	https://sketchfab.com/3d-models/paintball-minigun-0411cdfb5a3c4310825041c535fbf136
+* author:	KitasMr1 (https://sketchfab.com/KitasMr1)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Paintball Minigun" (https://sketchfab.com/3d-models/paintball-minigun-0411cdfb5a3c4310825041c535fbf136) by KitasMr1 (https://sketchfab.com/KitasMr1) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

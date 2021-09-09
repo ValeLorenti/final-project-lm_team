@@ -254,9 +254,9 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 	var currentPos = [];
 	
 	for(var i=0; i<150; i++){
-		x = (Math.random()-0.5)*300;
+		x = (Math.random()-0.5)*280;
 		y = 0;
-		z = (Math.random()-0.5)*300;
+		z = (Math.random()-0.5)*280;
 		currentPos = [x,z];
 		if(checkPositions(forbiddenPositions, currentPos)){
 			genFactor = getRandomIntInclusive(1, 3);
@@ -352,11 +352,11 @@ class gameEnvironment {
 	
 	load() {
 		var promise = [
-            this.getModel('Pistola/scene.gltf', 5.0),
-            this.getModel('Guns/scene.gltf', 0.001, 'Weapon_03'),
-            this.getModel('Guns/scene.gltf', 0.001, 'Weapon_04'),
-            this.getModel('Guns/scene.gltf', 0.0006, 'Weapon_06'),
-            this.getModel('Guns/scene.gltf', 0.001, 'Weapon_08'),
+
+            this.getModel('pistol/scene.gltf', 1.25),
+            this.getModel('mp5/scene.gltf', 2.5),
+            this.getModel('minigun/scene.gltf', 0.009),
+
 			this.getModel('alberi/scene.gltf', 2, "_1_tree"),
 			this.getModel('alberi/scene.gltf', 1, "_2_tree"),
 			this.getModel('alberi/scene.gltf', 1, "_3_tree"),
@@ -368,11 +368,9 @@ class gameEnvironment {
 
 		Promise.all(promise).then(data => {
             var nameModels = [
-                "Pistola",
-				"ak47",
 				"pistol",
-				"sniper",
-				"rpg",
+				"mp5",
+				"minigun",
 				"albero1",
 				"albero2",
 				"albero3",
@@ -797,7 +795,7 @@ class gameEnvironment {
 		}
 		
 		
-		// Add boxes
+		// QG
 		var halfExtents = new CANNON.Vec3(1,1,1);
 		var boxShape = new CANNON.Box(halfExtents);
 		var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
@@ -879,7 +877,7 @@ class gameEnvironment {
 		
 		
 		//Add personaggio
-		var gunsPlayer = [CharacterFactory.GUN_PISTOL, "ak47", "sniper", "rpg"];
+		var gunsPlayer = [CharacterFactory.GUN_PISTOL, "mp5", "minigun"];
 		var playerStartPosition = [0, 1.6, 0];
 		this.playerEntity = this.entityManager.addEntityAndReturn({name: EntityManager.ENTITY_PLAYER, guns : gunsPlayer, position: playerStartPosition})
 		this.playerEntity.character.getMesh().add(this.tourch);

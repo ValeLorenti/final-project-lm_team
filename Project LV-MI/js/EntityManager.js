@@ -8,7 +8,6 @@ export class EntityManager{
 	
 	constructor(params){
         this.entities = [];
-        //this.collectables = [];
         this.player = null;
 
         this.scene = params.scene;

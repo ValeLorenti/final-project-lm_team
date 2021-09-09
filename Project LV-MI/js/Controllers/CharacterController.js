@@ -19,7 +19,7 @@ export class CharacterController {
 		this.shotTime = -1;
 		
 		this.input = new InputController({manager : this.MANAGER});
-		this.jumpVelocity = 20;
+		this.jumpVelocity = 16;
 
 		this.yawObject = new THREE.Object3D();
 		this.pitchObject = new THREE.Object3D();	

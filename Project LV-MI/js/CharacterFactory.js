@@ -2,60 +2,46 @@ export class CharacterFactory {
 	static GUN_PISTOL = "pistol";
 	static GUN_PISTOL_STATISTIC = {
 		name: CharacterFactory.GUN_PISTOL,
-		timeReloading: 4,
-		ammo: 100,
+		timeReloading: 2,
+		ammo: 14,
+		timeBetweenAmmo: 0.4,
+		bullet: {
+			mass: 10,
+			radius: 0.1,
+			shootVelocity: 30,
+		}
+	};
+    static GUN_MP5 = "mp5";
+	static GUN_MP5_STATISTIC = {
+		name: CharacterFactory.GUN_MP5,
+		timeReloading: 3.5,
+		ammo: 50,
 		timeBetweenAmmo: 0.2,
 		bullet: {
-			mass: 90,
-			radius: 0.1,
+			mass: 10,
+			radius: 0.145,
 			shootVelocity: 45,
 		}
 	};
-    static GUN_AK47 = "ak47";
-	static GUN_AK47_STATISTIC = {
-		name: CharacterFactory.GUN_AK47,
-		timeReloading: 4,
-		ammo: 10,
-		timeBetweenAmmo: 0.5,
-		bullet: {
-			mass: 0.5,
-			radius: 0.15,
-			shootVelocity: 60,
-		}
-	};
-    static GUN_SNIPER = "sniper";
-	static GUN_SNIPER_STATISTIC = {
-		name: CharacterFactory.GUN_SNIPER,
+    static GUN_MINIGUN = "minigun";
+	static GUN_MINIGUN_STATISTIC = {
+		name: CharacterFactory.GUN_MINIGUN,
 		timeReloading: 5,
-		ammo: 4,
-		timeBetweenAmmo: 1.4,
+		ammo: 200,
+		timeBetweenAmmo: 0.05,
 		bullet: {
-			mass: 0.8,
+			mass: 10,
 			radius: 0.2,
-			shootVelocity: 90,
-		}
-	};
-    static GUN_RPG = "rpg";
-	static GUN_RPG_STATISTIC = {
-		name: CharacterFactory.GUN_RPG,
-		timeReloading: 5,
-		ammo: 5,
-		timeBetweenAmmo: 1,
-		bullet: {
-			mass: 70,
-			radius: 1,
-			shootVelocity: 70,
+			shootVelocity: 60,
 		}
 	};
 	
 	static GUN_ALL = [CharacterFactory.GUN_PISTOL,
-						CharacterFactory.GUN_AK47,
-						CharacterFactory.GUN_SNIPER,
-						CharacterFactory.GUN_RPG]
+						CharacterFactory.GUN_MP5,
+						CharacterFactory.GUN_MINIGUN]
 	static GUN_ALL_STATISTIC = [CharacterFactory.GUN_PISTOL_STATISTIC,
-						CharacterFactory.GUN_AK47_STATISTIC,
-						CharacterFactory.GUN_SNIPER_STATISTIC,
-						CharacterFactory.GUN_RPG_STATISTIC]
+						CharacterFactory.GUN_MP5_STATISTIC,
+						CharacterFactory.GUN_MINIGUN_STATISTIC]
 	static GUN_RANDOM = CharacterFactory.GUN_ALL[Math.floor(Math.random() * CharacterFactory.GUN_ALL.length)]
 	
 	constructor(params){
@@ -150,23 +136,21 @@ export class CharacterFactory {
 			switch(this.gunsName[i]) {
 				case CharacterFactory.GUN_PISTOL:
 					this.guns.push(this.MANAGER.APP.models[CharacterFactory.GUN_PISTOL].model.clone())
-					this.guns[this.gunsQuantity].position.set(0.0,-0.9,-0.3);
+					this.guns[this.gunsQuantity].position.set(-0.05,-0.9,-0.3);
 					this.guns[this.gunsQuantity].rotation.x = -Math.PI/2;
 					break;
-				case CharacterFactory.GUN_AK47:
-					this.guns.push(this.MANAGER.APP.models[CharacterFactory.GUN_AK47].model.clone())
-					this.guns[this.gunsQuantity].position.set(0.0,-0.6,-0.3);
+				case CharacterFactory.GUN_MP5:
+					this.guns.push(this.MANAGER.APP.models[CharacterFactory.GUN_MP5].model.clone())
+					this.guns[this.gunsQuantity].position.set(-0.12,-0.6,-0.1);
+					this.guns[this.gunsQuantity].rotation.y = -Math.PI/2;
 					this.guns[this.gunsQuantity].rotation.x = -Math.PI/2;
 					break;
-				case CharacterFactory.GUN_SNIPER:
-					this.guns.push(this.MANAGER.APP.models[CharacterFactory.GUN_SNIPER].model.clone())
-					this.guns[this.gunsQuantity].position.set(0.0,-1.0,-0.4);
-					this.guns[this.gunsQuantity].rotation.x = -Math.PI;
-					break;
-				case CharacterFactory.GUN_RPG:
-					this.guns.push(this.MANAGER.APP.models[CharacterFactory.GUN_RPG].model.clone())
-					this.guns[this.gunsQuantity].position.set(0.0,-0.0,-0.3);
-					this.guns[this.gunsQuantity].rotation.x = -Math.PI;
+				case CharacterFactory.GUN_MINIGUN:
+					this.guns.push(this.MANAGER.APP.models[CharacterFactory.GUN_MINIGUN].model.clone())
+					this.guns[this.gunsQuantity].position.set(0.0,-1.0,0);
+					this.guns[this.gunsQuantity].rotation.y = Math.PI/2;
+					this.guns[this.gunsQuantity].rotation.z = -Math.PI/2;
+					//this.guns[this.gunsQuantity].rotation.x = -Math.PI;
 					break;
 			}
 			this.gunsQuantity++;
