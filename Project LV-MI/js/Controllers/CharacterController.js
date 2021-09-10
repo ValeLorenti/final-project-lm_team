@@ -155,16 +155,16 @@ export class CharacterController {
 
         this.inputVelocity.set(0,0,0);
         if (this.input.keys.forward){
-            this.inputVelocity.z = -this.MANAGER.getVelocityFactor() * time;
+            this.inputVelocity.z = -this.MANAGER.getVelocityFactor() * time*5;
         }
         if (this.input.keys.backward){
-            this.inputVelocity.z = this.MANAGER.getVelocityFactor() * time;
+            this.inputVelocity.z = this.MANAGER.getVelocityFactor() * time*5;
         }
         if (this.input.keys.left){
-            this.inputVelocity.x = -this.MANAGER.getVelocityFactor() * time;
+            this.inputVelocity.x = -this.MANAGER.getVelocityFactor() * time*5;
         }
         if (this.input.keys.right){
-            this.inputVelocity.x = this.MANAGER.getVelocityFactor() * time;
+            this.inputVelocity.x = this.MANAGER.getVelocityFactor() * time*5;
         }
 		if (this.input.keys.space && this.canJump){
 			this.velocity.y = this.jumpVelocity;

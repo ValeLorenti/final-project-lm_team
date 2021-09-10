@@ -220,19 +220,25 @@ function getRandomIntInclusive(min, max) {
 }
 
 function checkPositions(forbiddens, newPosition){
-	var around = 10;
+	var around = 0.01;
+	var result = false;
 	for (var i = 0; i<forbiddens.length; i++){
 		var forbiddenX = forbiddens[i].x;
 		var forbiddenZ = forbiddens[i].z;
 		if(((newPosition[0] < (forbiddenX-around))||(newPosition[0] > (forbiddenX+around))) && ((newPosition[1] < (forbiddenZ-around))||(newPosition[1] > (forbiddenZ+around)))){
-				console.log("true");
-				return true;
+			console.log("true");
+			console.log(newPosition);
+			console.log(forbiddens[i]);
+			result = true;
 		}
 		else{
 			console.log("false");
+			console.log(newPosition);
+			console.log(forbiddens[i]);
 			return false;
 		}
 	}
+	return result;
 }
 
 function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, models){
@@ -251,9 +257,9 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 	var genFactor = 0;
 	var spawn = new CANNON.Vec3(0, 1.6, 0);
 	var forbiddenPositions = [spawn];
-	var currentPos = [];
+	var currentPos;
 	
-	for(var i=0; i<150; i++){
+	for(var i=0; i<200; i++){
 		x = (Math.random()-0.5)*280;
 		y = 0;
 		z = (Math.random()-0.5)*280;
@@ -274,7 +280,6 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 					scene.add(boxMesh);
 					boxBody.position.set(x,y,z);
 					boxMesh.position.set(x,y,z);
-					console.log(boxBody.position);
 					forbiddenPositions.push(boxBody.position);
 					boxMesh.castShadow = true;
 					boxMesh.receiveShadow = true;
@@ -302,7 +307,6 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 				case 3:
 					var genFactor1 = getRandomIntInclusive(1, 7);
 					var tree;
-					console.log(genFactor1);
 					switch(genFactor1){
 						case 1: tree = models["albero1"].model.clone();
 							break;
@@ -356,7 +360,6 @@ class gameEnvironment {
             this.getModel('pistol/scene.gltf', 1.25),
             this.getModel('mp5/scene.gltf', 2.5),
             this.getModel('minigun/scene.gltf', 0.009),
-
 			this.getModel('alberi/scene.gltf', 2, "_1_tree"),
 			this.getModel('alberi/scene.gltf', 1, "_2_tree"),
 			this.getModel('alberi/scene.gltf', 1, "_3_tree"),
@@ -723,14 +726,12 @@ class gameEnvironment {
 			var halfExtents = new CANNON.Vec3(150,5,2);
 			var boxShape = new CANNON.Box(halfExtents);
 			var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
-			console.log("I = 3-")
 			}
 
 			if(i==2 || i==3){
 			var halfExtents = new CANNON.Vec3(2,5,150);
 			var boxShape = new CANNON.Box(halfExtents);
 			var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
-			console.log("I = 2-")
 			}
 
 			if(i==0){
@@ -749,14 +750,12 @@ class gameEnvironment {
 				var x = 150;
 				var y = 5;
 				var z = 0;
-				console.log("I = 2")
 			}
 
 			if(i==3){
 				var x = -150;
 				var y = 5;
 				var z = 0;
-				console.log("I = 3")
 
 			}
 
@@ -770,19 +769,6 @@ class gameEnvironment {
 
 			var material2 = new THREE.MeshLambertMaterial( { map: wallTexture, dithering: true } );
 			var boxMesh = new THREE.Mesh( boxGeometry, material2 );
-
-			if(i==2){
-				//boxMesh.rotateY = Math.PI/2;
-				//boxMesh.rotation.z = Math.PI/2;
-				console.log("I = 2+")
-
-			}
-			if(i==3){
-				//boxMesh.rotation.y = - Math.PI/2;
-				//boxMesh.rotation.z = - Math.PI/2;
-				console.log("I = 3+")
-
-			}
 
 			this.world.add(boxBody);
 			this.scene.add(boxMesh);
