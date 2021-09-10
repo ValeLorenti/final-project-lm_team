@@ -21,7 +21,7 @@ export class EntityManager{
 	addEntity(params) {
 		switch(params.name){
             case EntityManager.ENTITY_SIMPLE_ENEMY:
-				var character = new CharacterFactory({manager: this.MANAGER, guns: params.guns, position: params.position})
+				var character = new CharacterFactory({manager: this.MANAGER, guns: params.guns, position: params.position, type: 'enemy'})
                 var entity = new SimpleEnemyEntity({
                     manager: this.MANAGER,
 					entityManager: this,
@@ -36,7 +36,7 @@ export class EntityManager{
                 this.entities.push(entity);
                 break;
             case EntityManager.ENTITY_PLAYER:
-				var character = new CharacterFactory({manager: this.MANAGER, guns: params.guns, position: params.position})
+				var character = new CharacterFactory({manager: this.MANAGER, guns: params.guns, position: params.position, type: 'player'})
                 var entity = new PlayerEntity({
                     manager: this.MANAGER,
 					entityManager: this,

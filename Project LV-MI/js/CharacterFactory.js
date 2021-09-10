@@ -50,6 +50,7 @@ export class CharacterFactory {
 		this.guns = [];
 		this.gunsQuantity = 0;
 		this.actualGun = 0;
+		this.typeFlag = params.type;
 		
 		this.buildCharacter();
 		
@@ -71,25 +72,41 @@ export class CharacterFactory {
 	}
 	
 	buildCharacter() {
+
 		//Generate character
-		this.headMesh = this.generateBoxMesh(0.6,0.6,0.6, 0, 0, 0);
-		this.headMesh.name = "skull"
+		if(this.typeFlag == 'player') this.headMesh = this.generateBoxMesh(0.6,0.6,0.6, 0, 0, 0);
+
+  		if(this.typeFlag == 'enemy'){
+		   var boxGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
+		   var headTexture = [
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieHeadSlide.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieHeadSlide.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieHeadSlide.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieHeadSlide.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieHeadSlide.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieFace.png'), side: THREE.DoubleSide, dithering: true}),
+		  ];
+		   //var boxMaterial = new THREE.MeshPhongMaterial( { map: headTexture } );
+		   this.headMesh = new THREE.Mesh(boxGeometry, headTexture);
+		  }
+
+		this.headMesh.name = "skull";
 
 		this.headGroup = new THREE.Group();
-		this.headGroup.name = "head"
+		this.headGroup.name = "head";
 		this.headGroup.add(this.headMesh);
 		
 		// Body mesh models and groups
 		this.bodyMesh = this.generateBoxMesh(0.6, 1.2, 0.45, 0, -0.9, 0);
-		this.bodyMesh.name = "abdomen"
+		this.bodyMesh.name = "abdomen";
 		
 		//Legs
 		this.leftLeg = new THREE.Object3D;
-		this.leftLeg.position.y = -1.5
-		this.leftLeg.position.x = -0.155
-		this.leftLeg.name = "Left Leg"
+		this.leftLeg.position.y = -1.5;
+		this.leftLeg.position.x = -0.155;
+		this.leftLeg.name = "Left Leg";
 		this.leftLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
-		this.leftLeg.add(this.leftLegMesh)
+		this.leftLeg.add(this.leftLegMesh);
 		this.rightLeg = new THREE.Object3D;
 		this.rightLeg.position.y = -1.5
 		this.rightLeg.position.x = 0.155

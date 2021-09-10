@@ -226,15 +226,9 @@ function checkPositions(forbiddens, newPosition){
 		var forbiddenX = forbiddens[i].x;
 		var forbiddenZ = forbiddens[i].z;
 		if(((newPosition[0] < (forbiddenX-around))||(newPosition[0] > (forbiddenX+around))) && ((newPosition[1] < (forbiddenZ-around))||(newPosition[1] > (forbiddenZ+around)))){
-			console.log("true");
-			console.log(newPosition);
-			console.log(forbiddens[i]);
 			result = true;
 		}
 		else{
-			console.log("false");
-			console.log(newPosition);
-			console.log(forbiddens[i]);
 			return false;
 		}
 	}
@@ -259,7 +253,7 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 	var forbiddenPositions = [spawn];
 	var currentPos;
 	
-	for(var i=0; i<200; i++){
+	for(var i=0; i<150; i++){
 		x = (Math.random()-0.5)*280;
 		y = 0;
 		z = (Math.random()-0.5)*280;
@@ -782,16 +776,35 @@ class gameEnvironment {
 		
 		
 		// QG
-		var halfExtents = new CANNON.Vec3(1,1,1);
+		var halfExtents = new CANNON.Vec3(1,1,3);
 		var boxShape = new CANNON.Box(halfExtents);
 		var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
-		for(var i=0; i<7; i++){
-			var x = 100;
-			var y = 5;
+		for(var i=0; i<5; i++){
+			var x;
+			var y;
 			var z = 100;
+			if(i==0){
+				x = 102;
+				y = 2;
+			}
+			if(i==1){
+				x = 104;
+				y = 3;
+			}
+			if(i==2){
+				x = 106;
+				y = 4;
+			}
+			if(i==3){
+				x = 108;
+				y = 5;
+			}
+			if(i==4){
+				x = 110;
+				y = 6;
+			}
 			var boxBody = new CANNON.Body({ mass: 0 });
 			boxBody.addShape(boxShape);
-			//var randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
 			var color = '#CAA472'
 			var material2 = new THREE.MeshLambertMaterial( { color: color } );
 			var boxMesh = new THREE.Mesh( boxGeometry, material2 );
@@ -804,63 +817,119 @@ class gameEnvironment {
 			this.boxes.push(boxBody);
 			this.boxMeshes.push(boxMesh);
 		}
-		/*
-		
-		var halfExtents = new CANNON.Vec3(10,10,10); // regolando questo facciamo altre figure
-		//var boxShape = new CANNON.Box(halfExtents);
-		var sphereShape = new CANNON.Sphere(halfExtents.x);
-		//var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
-		var sphereGeometry = new THREE.SphereGeometry(halfExtents.x, 10, 10);
-		for(var i = 0; i < 10; i++){
-			var x = 20;
-			var y = -1;
-			var z = 20;
-			var randomColor = '#FFFF00';
-			//var boxBody = new CANNON.Body({ mass: 0 });
-			var sphereBody = new CANNON.Body({ mass: 0 });
-			//boxBody.addShape(boxShape);
-			sphereBody.addShape(sphereShape);
-			//var randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
-			var material2 = new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load('resources\\images\\field.png'), side: THREE.DoubleSide } );
-			//var boxMesh = new THREE.Mesh( boxGeometry, material2 );
-			var sphereMesh = new THREE.Mesh(sphereGeometry, material2);
-			//this.world.add(boxBody);
-			//this.scene.add(boxMesh);
-			this.world.add(sphereBody);
-			this.scene.add(sphereMesh);
-			
 
-			//boxBody.position.set(x,y,z);
-			//boxMesh.position.set(x,y,z);
-			//boxMesh.castShadow = true;
-			//boxMesh.receiveShadow = true;
-			//this.boxes.push(boxBody);
-			//this.boxMeshes.push(boxMesh);
+		var halfExtents = new CANNON.Vec3(9,1,9);
+		var boxShape = new CANNON.Box(halfExtents);
+		var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
+		var boxBody = new CANNON.Body({ mass: 0 });
+		var x = 120;
+		var y = 7.5;
+		var z = 100;
+		boxBody.addShape(boxShape);
+		var color = '#CAA472'
+		var material2 = new THREE.MeshLambertMaterial( { color: color } );
+		var boxMesh = new THREE.Mesh( boxGeometry, material2 );
+		this.world.add(boxBody);
+		this.scene.add(boxMesh);
+		boxBody.position.set(x,y,z);
+		boxMesh.position.set(x,y,z);
+		boxMesh.castShadow = true;
+		boxMesh.receiveShadow = true;
+		this.boxes.push(boxBody);
+		this.boxMeshes.push(boxMesh);
 
-			sphereBody.position.set(x,y,z);
-			sphereMesh.position.set(x,y,z);
-			sphereMesh.castShadow = true;
-			sphereMesh.receiveShadow = true;
-			this.spheres.push(sphereBody);
-			this.sphereMeshes.push(sphereMesh);
-			
-			
-			
-			this.scene.add(this.models["alberi"].model);
-			this.models["alberi"].model.position.set(10,0,10);
-			var halfExtents2 = new CANNON.Vec3(0.5,3,0.5)
-			var treeShape = new CANNON.Box(halfExtents2);
-			var treeBody = new CANNON.Body({ mass: 0 });
-			treeBody.addShape(treeShape);
-			treeBody.position.set(10,0,10);
-			this.world.add(treeBody);
-			console.log(this.models["alberi"]);
-			
+		var halfExtents = new CANNON.Vec3(9,1,1);
+		var boxShape = new CANNON.Box(halfExtents);
+		var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
+		var boxBody = new CANNON.Body({ mass: 0 });
+		for(var i=0; i<2; i++){
+			var x;
+			var y;
+			var z;
+			if(i==0){
+				x = 120;
+				y = 9.5;
+				z = 92;
+			}
+			if(i==1){
+				x = 120;
+				y = 9.5;
+				z = 108;
+			}
+
+			var boxBody = new CANNON.Body({ mass: 0 });
+			boxBody.addShape(boxShape);
+			var color = '#CAA472'
+			var material2 = new THREE.MeshLambertMaterial( { color: color } );
+			var boxMesh = new THREE.Mesh( boxGeometry, material2 );
+			this.world.add(boxBody);
+			this.scene.add(boxMesh);
+			boxBody.position.set(x,y,z);
+			boxMesh.position.set(x,y,z);
+			boxMesh.castShadow = true;
+			boxMesh.receiveShadow = true;
+			this.boxes.push(boxBody);
+			this.boxMeshes.push(boxMesh);
 		}
-		*/
+		var halfExtents = new CANNON.Vec3(1,1,7);
+		var boxShape = new CANNON.Box(halfExtents);
+		var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
+		var boxBody = new CANNON.Body({ mass: 0 });
+		var x = 128;
+		var y = 9.5;
+		var z = 100;
+		var boxBody = new CANNON.Body({ mass: 0 });
+		boxBody.addShape(boxShape);
+		var color = '#CAA472'
+		var material2 = new THREE.MeshLambertMaterial( { color: color } );
+		var boxMesh = new THREE.Mesh( boxGeometry, material2 );
+		this.world.add(boxBody);
+		this.scene.add(boxMesh);
+		boxBody.position.set(x,y,z);
+		boxMesh.position.set(x,y,z);
+		boxMesh.castShadow = true;
+		boxMesh.receiveShadow = true;
+		this.boxes.push(boxBody);
+		this.boxMeshes.push(boxMesh);
+
+		var halfExtents;
+		
+		for(var i=0; i<2; i++){
+			var x;
+			var y;
+			var z;
+			if(i==0){
+				halfExtents = new CANNON.Vec3(1,1,2);
+				x = 112;
+				y = 9.5;
+				z = 95;
+			}
+			if(i==1){
+				halfExtents = new CANNON.Vec3(1,1,1.8);
+				x = 112;
+				y = 9.5;
+				z = 105.3;
+			}
+			var boxShape = new CANNON.Box(halfExtents);
+			var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
+			var boxBody = new CANNON.Body({ mass: 0 });
+			var boxBody = new CANNON.Body({ mass: 0 });
+			boxBody.addShape(boxShape);
+			var color = '#CAA472'
+			var material2 = new THREE.MeshLambertMaterial( { color: color } );
+			var boxMesh = new THREE.Mesh( boxGeometry, material2 );
+			this.world.add(boxBody);
+			this.scene.add(boxMesh);
+			boxBody.position.set(x,y,z);
+			boxMesh.position.set(x,y,z);
+			boxMesh.castShadow = true;
+			boxMesh.receiveShadow = true;
+			this.boxes.push(boxBody);
+			this.boxMeshes.push(boxMesh);
+		}
+
 		
 		mapGenerator(this.world, this.scene, this.boxes, this.boxMeshes, this.spheres, this.sphereMeshes, this.models);
-		
 		
 		//Add personaggio
 		var gunsPlayer = [CharacterFactory.GUN_PISTOL, "mp5", "minigun"];
@@ -876,44 +945,7 @@ class gameEnvironment {
 		this.scene.add(this.controls.getObject());
 		
 		this.spawnEnemy();
-		/*
-		// Add linked boxes
-		var size = 0.5;
-		var he = new CANNON.Vec3(size,size,size*0.1);
-		var boxShape = new CANNON.Box(he);
-		var mass = 0;
-		var space = 0.1 * size;
-		var N = 5, last;
-		var boxGeometry = new THREE.BoxGeometry(he.x*2,he.y*2,he.z*2);
-		for(var i=0; i<N; i++){
-			var boxbody = new CANNON.Body({ mass: mass });
-			var randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
-			material2 = new THREE.MeshBasicMaterial( { color: randomColor } );
-			//console.log (randomColor);
-			boxbody.addShape(boxShape);
-			var boxMesh = new THREE.Mesh(boxGeometry, material2);
-			boxbody.position.set(5,(N-i)*(size*2+2*space) + size*2+space,0);
-			boxbody.linearDamping = 0.01;
-			boxbody.angularDamping = 0.01;
-			// boxMesh.castShadow = true;
-			boxMesh.receiveShadow = true;
-			this.world.add(boxbody);
-			this.scene.add(boxMesh);
-			this.boxes.push(boxbody);
-			this.boxMeshes.push(boxMesh);
 
-			if(i!=0){
-				// Connect this body to the last one
-				var c1 = new CANNON.PointToPointConstraint(boxbody,new CANNON.Vec3(-size,size+space,0),last,new CANNON.Vec3(-size,-size-space,0));
-				var c2 = new CANNON.PointToPointConstraint(boxbody,new CANNON.Vec3(size,size+space,0),last,new CANNON.Vec3(size,-size-space,0));
-				this.world.addConstraint(c1);
-				this.world.addConstraint(c2);
-			} else {
-				mass=0.3;
-			}
-			last = boxbody;
-		}
-		*/
 		this.locker();
 		var time = Date.now();
 		this.scoreManager.setStartTime(time);
@@ -923,7 +955,7 @@ class gameEnvironment {
 	}
 	
 	spawnEnemy() {
-		for(let i=0;i<MANAGER.getEnemyQuantity();i++) {
+		for(let i=0; i < MANAGER.getEnemyQuantity(); i++) {
 			var gun = CharacterFactory.GUN_ALL[Math.floor(Math.random()*CharacterFactory.GUN_ALL.length)];
 			var minDistanceSquared = 625;
 			var position = [0,2.5,0];
