@@ -94,6 +94,7 @@ export class CharacterFactory {
 
 		this.headGroup = new THREE.Group();
 		this.headGroup.name = "head";
+		
 		this.headGroup.add(this.headMesh);
 		
 		// Body mesh models and groups
@@ -119,16 +120,29 @@ export class CharacterFactory {
 		
 		//Arms
 		this.leftArm = new THREE.Object3D;
-		this.leftArm.position.x = -0.45
-		this.leftArm.position.y = -0.45
+		this.leftArm.position.x = -0.45;
+		this.leftArm.position.y = -0.75;
 		this.leftArm.name = "Left Arm"
-		this.leftArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+		if(this.typeFlag == 'player')
+			this.leftArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+		if(this.typeFlag == 'enemy'){
+			var leftGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);
+			console.log(leftGeometry);
+			var leftTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieArm.png'), side: THREE.DoubleSide, dithering: true})
+			this.leftArmMesh= new THREE.Mesh(leftGeometry, leftTexture);
+		}
 		this.leftArm.add(this.leftArmMesh)
 		this.rightArm = new THREE.Object3D;
-		this.rightArm.position.x = 0.45
-		this.rightArm.position.y = -0.45
+		this.rightArm.position.x = 0.45;
+		this.rightArm.position.y = -0.75;
 		this.rightArm.name = "Right Arm"
-		this.rightArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3,0, -0.3, 0);
+		if(this.typeFlag == 'player')
+			this.rightArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+		if(this.typeFlag == 'enemy'){
+			var rightGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);
+			var rightTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieArm.png'), side: THREE.DoubleSide, dithering: true})
+			this.rightArmMesh= new THREE.Mesh(rightGeometry, rightTexture);
+		}
 		this.rightArm.add(this.rightArmMesh)
 		this.rightArm.rotation.x = Math.PI / 2;
 		
