@@ -960,6 +960,7 @@ class gameEnvironment {
 		for(let i=0; i < MANAGER.getEnemyQuantity(); i++) {
 			var gun = CharacterFactory.GUN_ALL[Math.floor(Math.random()*CharacterFactory.GUN_ALL.length)];
 			var minDistanceSquared = 625;
+
 			var position = [0,2.5,0];
 			position[0] = Math.random()*2-1;
 			position[2] = Math.random()*2-1;
@@ -967,7 +968,18 @@ class gameEnvironment {
 			var factor = Math.sqrt(minDistanceSquared/distanceSquared);
 			position[0] *= (factor+Math.random()*100);
 			position[2] *= (factor+Math.random()*100);
+
+			var positionG = [0,2.5*5,0];
+			positionG[0] = Math.random()*2-1;
+			positionG[2] = Math.random()*2-1;
+			var distanceSquared = positionG[0]*positionG[0]+positionG[2]*positionG[2];
+			var factor = Math.sqrt(minDistanceSquared/distanceSquared);
+			positionG[0] *= (factor+Math.random()*100);
+			positionG[2] *= (factor+Math.random()*100);
+
+
 			this.entityManager.addEntity({name: EntityManager.ENTITY_SIMPLE_ENEMY, guns: [gun], position: position, maxDistance: 25});
+			this.entityManager.addEntity({name: EntityManager.ENTITY_GIANT_ENEMY, guns: [gun], position: positionG, maxDistance: 25});
 		}
 	}
 	

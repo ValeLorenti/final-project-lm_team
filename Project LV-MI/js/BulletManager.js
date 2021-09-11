@@ -27,6 +27,13 @@ export class BulletManager {
 			var y = position.y+1.8;
 			var z = position.z;
 		}
+
+		if(entity.character.typeFlag == 'giant'){
+			var x = position.x;
+			var y = position.y+1.8*5;
+			var z = position.z;
+		}
+
 		if(entity.character.typeFlag == 'enemy'){
 			var x = position.x;
 			var y = position.y+0.5;

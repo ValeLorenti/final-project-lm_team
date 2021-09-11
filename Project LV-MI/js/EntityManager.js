@@ -4,8 +4,9 @@ import {CharacterFactory} from './CharacterFactory.js';
 
 export class EntityManager{
 	static ENTITY_SIMPLE_ENEMY = "SimpleEnemy";
+    static ENTITY_GIANT_ENEMY = "GiantEnemy";
 	static ENTITY_PLAYER = "Player";
-	
+
 	constructor(params){
         this.entities = [];
         this.player = null;
@@ -35,6 +36,23 @@ export class EntityManager{
                 });
                 this.entities.push(entity);
                 break;
+
+            case EntityManager.ENTITY_GIANT_ENEMY:
+                var character = new CharacterFactory({manager: this.MANAGER, guns: params.guns, position: params.position, type: 'giant'})
+                var entity = new GiantEnemyEntity({
+                    manager: this.MANAGER,
+                    entityManager: this,
+                    maxDistance: params.maxDistance,
+                    scoreManager: this.scoreManager,
+                    pos: this.entities.length,
+                    target: character.getMesh(),
+                    body: this.buildBody(params),
+                    player: this.player,
+                    character : character, 
+                });
+                this.entities.push(entity);
+                break;
+
             case EntityManager.ENTITY_PLAYER:
 				var character = new CharacterFactory({manager: this.MANAGER, guns: params.guns, position: params.position, type: 'player'})
                 var entity = new PlayerEntity({
@@ -76,6 +94,9 @@ export class EntityManager{
         switch(params.name){ 
             case EntityManager.ENTITY_SIMPLE_ENEMY:
                 var body = new CANNON.Body({ mass: 30, shape: new CANNON.Sphere(2), });
+                break;
+            case EntityManager.ENTITY_GIANT_ENEMY:
+                var body = new CANNON.Body({ mass: 80, shape: new CANNON.Sphere(8), });
                 break;
             case EntityManager.ENTITY_PLAYER:
                 var body = new CANNON.Body({ mass: 50, shape: new CANNON.Sphere(1), });
@@ -120,7 +141,6 @@ class Entity{
     constructor(params){
         this.MANAGER = params.manager;
         this.entityManager = params.entityManager;
-        //this.scoreManager = params.scoreManager;
         this.target = params.target;
         this.body = params.body;
         this.pos = params.pos;
@@ -166,6 +186,7 @@ class SimpleEnemyEntity extends Entity{
 		this.scoreManager = params.scoreManager;
 		this.maxDistance = params.maxDistance;
 		this.character = params.character;
+        this.hit = 0;
 
 		this.controls = new BasicAIController({
 			manager: this.MANAGER,
@@ -180,8 +201,11 @@ class SimpleEnemyEntity extends Entity{
 	}
 
 	hitted(){
-		this.scoreManager.enemyKilled();
-		this.entityManager.eliminateThisEntity(this);
+        this.hit ++;
+        if(this.hit == 2){
+    		this.scoreManager.enemyKilled();
+    		this.entityManager.eliminateThisEntity(this);
+        }
 	}
 
 	update(timeInSeconds){
@@ -192,6 +216,45 @@ class SimpleEnemyEntity extends Entity{
 			this.entityManager.eliminateThisEntity(this);
 		}
 	}
+}
+
+class GiantEnemyEntity extends Entity{
+    constructor(params){
+        super(params);
+        
+        this.scoreManager = params.scoreManager;
+        this.maxDistance = params.maxDistance;
+        this.character = params.character;
+        this.hit = 0;
+
+        this.controls = new BasicAIController({
+            manager: this.MANAGER,
+            character: this.character,
+            entity: this,
+            target: this.target,
+            body: this.body,
+            player: this.player,
+            maxDistance: this.maxDistance,
+            bulletManager: this.entityManager.bulletManager,
+        });
+    }
+
+    hitted(){
+        this.hit ++;
+        if(this.hit == 10){
+            this.scoreManager.enemyKilled();
+            this.entityManager.eliminateThisEntity(this);
+        }
+    }
+
+    update(timeInSeconds){
+        this.controls.update(timeInSeconds);
+
+        if(this.body.position.y < -20){
+            this.scoreManager.enemyKilled();
+            this.entityManager.eliminateThisEntity(this);
+        }
+    }
 }
 
 class PlayerEntity extends Entity{

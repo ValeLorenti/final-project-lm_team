@@ -2,9 +2,9 @@ export class CharacterFactory {
 	static GUN_PISTOL = "pistol";
 	static GUN_PISTOL_STATISTIC = {
 		name: CharacterFactory.GUN_PISTOL,
-		timeReloading: 2,
+		timeReloading: 1.8,
 		ammo: 14,
-		timeBetweenAmmo: 0.4,
+		timeBetweenAmmo: 0.45,
 		bullet: {
 			mass: 10,
 			radius: 0.1,
@@ -14,12 +14,12 @@ export class CharacterFactory {
     static GUN_MP5 = "mp5";
 	static GUN_MP5_STATISTIC = {
 		name: CharacterFactory.GUN_MP5,
-		timeReloading: 3.5,
+		timeReloading: 3.2,
 		ammo: 50,
 		timeBetweenAmmo: 0.2,
 		bullet: {
 			mass: 10,
-			radius: 0.145,
+			radius: 0.15,
 			shootVelocity: 45,
 		}
 	};
@@ -28,7 +28,7 @@ export class CharacterFactory {
 		name: CharacterFactory.GUN_MINIGUN,
 		timeReloading: 5,
 		ammo: 200,
-		timeBetweenAmmo: 0.05,
+		timeBetweenAmmo: 0.009,
 		bullet: {
 			mass: 10,
 			radius: 0.2,
@@ -75,6 +75,7 @@ export class CharacterFactory {
 
 		//Generate character
 		if(this.typeFlag == 'player') this.headMesh = this.generateBoxMesh(0.6,0.6,0.6, 0, 0, 0);
+		if(this.typeFlag == 'giant') this.headMesh = this.generateBoxMesh(0.6*5,0.6*5,0.6*5, 0, 0, 0);
 
   		if(this.typeFlag == 'enemy'){
 		   var boxGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
@@ -98,6 +99,7 @@ export class CharacterFactory {
 		
 		// Body mesh models and groups
 		if(this.typeFlag == 'player') this.bodyMesh = this.generateBoxMesh(0.6, 1.2, 0.45, 0, -0.9, 0);
+		if(this.typeFlag == 'giant') this.bodyMesh = this.generateBoxMesh(0.6*5, 1.2*5, 0.45*5, 0, -0.9*5, 0);
 		if(this.typeFlag == 'enemy'){
 		   var boxGeometry = new THREE.BoxGeometry(0.6, 1.2, 0.45); 
 		   var bodyTexture = [
@@ -119,6 +121,11 @@ export class CharacterFactory {
 		this.leftLeg.position.x = -0.155;
 		this.leftLeg.name = "Left Leg";
 		if(this.typeFlag == 'player') this.leftLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
+		if(this.typeFlag == 'giant'){
+			this.leftLegMesh = this.generateBoxMesh(0.28*5, 1.0*5, 0.3*5, 0, -0.45*5, 0);
+			this.leftLeg.position.y = -1.5*5;
+			this.leftLeg.position.x = -0.155*5;
+		}
 		if(this.typeFlag == 'enemy'){
 		   var boxGeometry = new THREE.BoxGeometry(0.28, 1.0, 0.3);
 		   var legTexture = [
@@ -135,10 +142,15 @@ export class CharacterFactory {
 		  this.leftLeg.add(this.leftLegMesh)
 		
 		this.rightLeg = new THREE.Object3D;
-		this.rightLeg.position.y = -1.5
-		this.rightLeg.position.x = 0.155
+		this.rightLeg.position.y = -1.5;
+		this.rightLeg.position.x = 0.155;
 		this.rightLeg.name = "Right Leg"
 		if(this.typeFlag == 'player') this.rightLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
+		if(this.typeFlag == 'giant'){
+			this.rightLegMesh = this.generateBoxMesh(0.28*5, 1.0*5, 0.3*5, 0, -0.45*5, 0);
+			this.rightLeg.position.y = -1.5*5;
+			this.rightLeg.position.x = 0.155*5;
+		}
 		if(this.typeFlag == 'enemy'){
 		   var boxGeometry = new THREE.BoxGeometry(0.28, 1.0, 0.3);
 		   var legTexture = [
@@ -160,11 +172,15 @@ export class CharacterFactory {
 		
 		//Arms
 		this.leftArm = new THREE.Object3D;
-		this.leftArm.position.x = -0.45
-		this.leftArm.position.y = -0.45
+		this.leftArm.position.x = -0.45;
+		this.leftArm.position.y = -0.45;
 		this.leftArm.name = "Left Arm"
-		if(this.typeFlag == 'player')
-			this.leftArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+		if(this.typeFlag == 'player') this.leftArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+		if(this.typeFlag == 'giant'){
+			this.leftArmMesh = this.generateBoxMesh(0.2775*5, 0.9*5, 0.3*5, 0, -0.3*5, 0);
+			this.leftArm.position.x = -0.45*5;
+			this.leftArm.position.y = -0.45*5;
+		}
 		if(this.typeFlag == 'enemy'){
 			var leftGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);
 			var leftTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieArm.png'), side: THREE.DoubleSide, dithering: true})
@@ -172,12 +188,17 @@ export class CharacterFactory {
 			this.leftArmMesh.position.set(0, -0.3, 0);
 		}
 		this.leftArm.add(this.leftArmMesh)
+
 		this.rightArm = new THREE.Object3D;
-		this.rightArm.position.x = 0.45
-		this.rightArm.position.y = -0.45
+		this.rightArm.position.x = 0.45;
+		this.rightArm.position.y = -0.45;
 		this.rightArm.name = "Right Arm"
-		if(this.typeFlag == 'player')
-			this.rightArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+		if(this.typeFlag == 'player') this.rightArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+		if(this.typeFlag == 'giant'){
+			this.rightArmMesh = this.generateBoxMesh(0.2775*5, 0.9*5, 0.3*5, 0, -0.3*5, 0);
+			this.rightArm.position.x = 0.45*5;
+			this.rightArm.position.y = -0.45*5;
+		}
 		if(this.typeFlag == 'enemy'){
 			var rightGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);
 			var rightTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieArm.png'), side: THREE.DoubleSide, dithering: true})
@@ -199,6 +220,8 @@ export class CharacterFactory {
 		this.character = new THREE.Group();
 		this.character.name = "robot";
 		this.character.add(this.headGroup, this.bodyGroup);
+
+
 		}
 	
 
