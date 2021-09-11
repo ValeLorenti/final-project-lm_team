@@ -220,11 +220,11 @@ function getRandomIntInclusive(min, max) {
 }
 
 function checkPositions(forbiddens, newPosition){
-	var around = 0.01;
+	var around = 0.5;
 	var result = false;
-	for (var i = 0; i<forbiddens.length; i++){
-		var forbiddenX = forbiddens[i].x;
-		var forbiddenZ = forbiddens[i].z;
+	for (let forbidden of forbiddens){
+		var forbiddenX = forbidden.x;
+		var forbiddenZ = forbidden.z;
 		if(((newPosition[0] < (forbiddenX-around))||(newPosition[0] > (forbiddenX+around))) && ((newPosition[1] < (forbiddenZ-around))||(newPosition[1] > (forbiddenZ+around)))){
 			result = true;
 		}
@@ -253,7 +253,7 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 	var forbiddenPositions = [spawn];
 	var currentPos;
 	
-	for(var i=0; i<150; i++){
+	for(var i=0; i<500; i++){
 		x = (Math.random()-0.5)*280;
 		y = 0;
 		z = (Math.random()-0.5)*280;
@@ -634,27 +634,27 @@ class gameEnvironment {
 			//light.shadowCameraVisible = true;
 		}*/
 		
-		this.tourch = new THREE.SpotLight(0xffffff);
-		this.tourch.angle = Math.PI/4
-		this.tourch.distance = 100;
-		this.tourch.penumbra = 0.3;
-		this.tourch.intensity = 1.5;
+		this.torch = new THREE.SpotLight(0xffffff);
+		this.torch.angle = Math.PI/4
+		this.torch.distance = 100;
+		this.torch.penumbra = 0.3;
+		this.torch.intensity = 1.5;
 		if(true){
-			this.tourch.castShadow = true;
+			this.torch.castShadow = true;
 
-			this.tourch.shadow.camera.near = 3.5;
-			this.tourch.shadow.camera.far = 50;//camera.far;
-			this.tourch.shadow.camera.fov = 40;
+			this.torch.shadow.camera.near = 3.5;
+			this.torch.shadow.camera.far = 50;//camera.far;
+			this.torch.shadow.camera.fov = 40;
 
-			this.tourch.shadowMapBias = 0.1;
-			this.tourch.shadowMapDarkness = 0.7;
-			this.tourch.shadow.mapSize.width = 2*512;
-			this.tourch.shadow.mapSize.height = 2*512;
+			this.torch.shadowMapBias = 0.1;
+			this.torch.shadowMapDarkness = 0.7;
+			this.torch.shadow.mapSize.width = 2*512;
+			this.torch.shadow.mapSize.height = 2*512;
 
-			this.tourch.shadowCameraVisible = true;
+			this.torch.shadowCameraVisible = true;
 		}
-		  this.tourch.position.set(0, 1.5, 0);
-		  this.tourch.target.position.set(0, 1.5, -1);
+		  this.torch.position.set(0, 1.5, 0);
+		  this.torch.target.position.set(0, 1.5, -1);
 		  
 		
 		this.renderer = new THREE.WebGLRenderer({canvas: document.getElementById( 'canvas' ), antialias: true});
@@ -935,13 +935,15 @@ class gameEnvironment {
 		var gunsPlayer = [CharacterFactory.GUN_PISTOL, "mp5", "minigun"];
 		var playerStartPosition = [0, 1.6, 0];
 		this.playerEntity = this.entityManager.addEntityAndReturn({name: EntityManager.ENTITY_PLAYER, guns : gunsPlayer, position: playerStartPosition})
-		this.playerEntity.character.getMesh().add(this.tourch);
-		this.playerEntity.character.getMesh().add(this.tourch.target);
+		this.playerEntity.character.getMesh().add(this.torch);
+		this.playerEntity.character.getMesh().add(this.torch.target);
 		this.entityManager.setPlayer(this.playerEntity);
 		//this.person = new CharacterFactory({manager : MANAGER, guns : [CharacterFactory.GUN_PISTOL, "ak47", "sniper", "rpg"]});
 
 		this.controls = new CharacterController({manager: MANAGER, entity: this.playerEntity, camera: this.camera, bulletManager: this.bulletManager, scoreManager: this.scoreManager});
 		
+		this.controls.addTorch(this.torch);
+
 		this.scene.add(this.controls.getObject());
 		
 		this.spawnEnemy();

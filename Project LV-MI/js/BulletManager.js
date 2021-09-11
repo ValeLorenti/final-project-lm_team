@@ -22,9 +22,16 @@ export class BulletManager {
                 bullet.body.isBullet = undefined;
 				this.deletedBullets.push(bullet)
             }.bind(this));
-		var x = position.x;
-		var y = position.y+1.8;
-		var z = position.z;
+		if(entity.character.typeFlag == 'player'){
+			var x = position.x;
+			var y = position.y+1.8;
+			var z = position.z;
+		}
+		if(entity.character.typeFlag == 'enemy'){
+			var x = position.x;
+			var y = position.y+0.5;
+			var z = position.z;
+		}
 		
 		this.bullets.push(bullet);
 		

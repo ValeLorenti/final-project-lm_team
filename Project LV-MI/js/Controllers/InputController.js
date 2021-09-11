@@ -9,6 +9,8 @@ export class InputController {
             right: false,
             space: false,
             shift: false,
+            reload:false,
+            torch:false,
         };
 
         this.MANAGER = params.manager;
@@ -72,6 +74,15 @@ export class InputController {
 				event.preventDefault();
 				this.keys.tab = true;
 				break;
+
+            case 82: //r
+                this.keys.reload = true;
+                break;
+
+            case 84: //t
+                this.keys.torch = true;
+                break;
+
         }
     }
     onKeyUp(event) {
@@ -107,6 +118,14 @@ export class InputController {
 			case 9:		//Tab
 				this.keys.tab = false;
 				break;
+
+            case 82: //reload
+                this.keys.reload = false;
+                break;
+
+            case 84: //t
+                this.keys.torch = false;
+                break;
         }
     }
 }

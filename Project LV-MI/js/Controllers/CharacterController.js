@@ -98,6 +98,18 @@ export class CharacterController {
 		this.shotTime = this.timeReload;
 		this.isReloading = true;
 	}
+
+	addTorch(torch) {
+		var torchGroup = new THREE.Group();
+		torchGroup.add(torch, torch.target);
+		torchGroup.rotateX(-Math.PI/2);
+		this.character.rightArm.add(torchGroup);
+		this.torch = torch;
+	}
+	turnTorch() {
+		this.torch.visible = !this.torch.visible;
+	}
+
 	shot() {
 		if(this.MANAGER.gameEnable==false) return;
 		
@@ -175,6 +187,22 @@ export class CharacterController {
 			this.MANAGER.multiplyVelocityFactor();
 			this.shiftHelded = true;
 		}
+		if (this.input.keys.reload && !this.rHelded){
+			if(!this.isReloading) this.reload();
+			this.rHelded = true;
+		}
+		if (this.rHelded && !this.input.keys.reload){
+			this.rHelded = false;
+		}
+
+		if (this.input.keys.torch && !this.tHelded){
+			this.turnTorch();
+			this.tHelded = true;
+		}
+		if (this.tHelded && !this.input.keys.torch){
+			this.tHelded = false;
+		}
+
 		if (this.shiftHelded && !this.input.keys.shift){
 			this.MANAGER.resetVelocityFactor();
 			this.shiftHelded = false;
