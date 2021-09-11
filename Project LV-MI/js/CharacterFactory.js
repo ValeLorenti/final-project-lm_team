@@ -97,21 +97,62 @@ export class CharacterFactory {
 		this.headGroup.add(this.headMesh);
 		
 		// Body mesh models and groups
-		this.bodyMesh = this.generateBoxMesh(0.6, 1.2, 0.45, 0, -0.9, 0);
-		this.bodyMesh.name = "abdomen";
+		if(this.typeFlag == 'player') this.bodyMesh = this.generateBoxMesh(0.6, 1.2, 0.45, 0, -0.9, 0);
+		if(this.typeFlag == 'enemy'){
+		   var boxGeometry = new THREE.BoxGeometry(0.6, 1.2, 0.45); 
+		   var bodyTexture = [
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieBodyFront.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieBodyBack.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieBodyUp.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieBodyDown.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieBodyLeft.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieBodyRight.png'), side: THREE.DoubleSide, dithering: true}),
+		  ];
+		   this.bodyMesh = new THREE.Mesh(boxGeometry, bodyTexture);
+		   this.bodyMesh.position.set(0, -0.9, 0);
+		  }
+		
 		
 		//Legs
 		this.leftLeg = new THREE.Object3D;
 		this.leftLeg.position.y = -1.5;
 		this.leftLeg.position.x = -0.155;
 		this.leftLeg.name = "Left Leg";
-		this.leftLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
-		this.leftLeg.add(this.leftLegMesh);
+		if(this.typeFlag == 'player') this.leftLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
+		if(this.typeFlag == 'enemy'){
+		   var boxGeometry = new THREE.BoxGeometry(0.28, 1.0, 0.3);
+		   var legTexture = [
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegFront.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegBack.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegUp.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegDown.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegRight.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegLeft.png'), side: THREE.DoubleSide, dithering: true}),
+		  ];
+		   this.leftLegMesh = new THREE.Mesh(boxGeometry, legTexture);
+		   this.leftLegMesh.position.set(0, -0.45, 0);
+		  }
+		  this.leftLeg.add(this.leftLegMesh)
+		
 		this.rightLeg = new THREE.Object3D;
 		this.rightLeg.position.y = -1.5
 		this.rightLeg.position.x = 0.155
 		this.rightLeg.name = "Right Leg"
-		this.rightLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
+		if(this.typeFlag == 'player') this.rightLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
+		if(this.typeFlag == 'enemy'){
+		   var boxGeometry = new THREE.BoxGeometry(0.28, 1.0, 0.3);
+		   var legTexture = [
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegFront.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegBack.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegUp.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegDown.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegLeft.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegRight.png'), side: THREE.DoubleSide, dithering: true}),
+		  ];
+		   //var boxMaterial = new THREE.MeshPhongMaterial( { map: headTexture } );
+		   this.rightLegMesh = new THREE.Mesh(boxGeometry, legTexture);
+		   this.rightLegMesh.position.set(0, -0.45, 0);
+		  }
 		this.rightLeg.add(this.rightLegMesh)
 		this.legGroup = new THREE.Group();
 		this.legGroup.name = "leg"
@@ -122,13 +163,27 @@ export class CharacterFactory {
 		this.leftArm.position.x = -0.45
 		this.leftArm.position.y = -0.45
 		this.leftArm.name = "Left Arm"
-		this.leftArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+		if(this.typeFlag == 'player')
+			this.leftArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+		if(this.typeFlag == 'enemy'){
+			var leftGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);
+			var leftTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieArm.png'), side: THREE.DoubleSide, dithering: true})
+			this.leftArmMesh= new THREE.Mesh(leftGeometry, leftTexture);
+			this.leftArmMesh.position.set(0, -0.3, 0);
+		}
 		this.leftArm.add(this.leftArmMesh)
 		this.rightArm = new THREE.Object3D;
 		this.rightArm.position.x = 0.45
 		this.rightArm.position.y = -0.45
 		this.rightArm.name = "Right Arm"
-		this.rightArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+		if(this.typeFlag == 'player')
+			this.rightArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+		if(this.typeFlag == 'enemy'){
+			var rightGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);
+			var rightTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieArm.png'), side: THREE.DoubleSide, dithering: true})
+			this.rightArmMesh= new THREE.Mesh(rightGeometry, rightTexture);
+			this.rightArmMesh.position.set(0, -0.3, 0);
+		}
 		this.rightArm.add(this.rightArmMesh)
 		this.rightArm.rotation.x = Math.PI / 2;
 		

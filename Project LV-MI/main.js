@@ -268,7 +268,7 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 					var boxBody = new CANNON.Body({ mass: 0 });
 					boxBody.addShape(boxShape);
 					var randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
-					var material2 = new THREE.MeshLambertMaterial( { color: randomColor } );
+					var material2 = new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load('resources\\images\\wallBrick.png'), side: THREE.DoubleSide } );
 					var boxMesh = new THREE.Mesh( boxGeometry, material2 );
 					world.add(boxBody);
 					scene.add(boxMesh);
