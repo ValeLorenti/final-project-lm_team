@@ -69,13 +69,14 @@ export class CharacterFactory {
 		this.prepareGuns();
 		
 		this.initializeAnimation();
+		if(this.typeFlag == 'giant') this.character.scale.set(5,5,5);
 	}
 	
 	buildCharacter() {
 
 		//Generate character
 		if(this.typeFlag == 'player') this.headMesh = this.generateBoxMesh(0.6,0.6,0.6, 0, 0, 0);
-		if(this.typeFlag == 'giant') this.headMesh = this.generateBoxMesh(0.6*5,0.6*5,0.6*5, 0, 0, 0);
+		if(this.typeFlag == 'giant') this.headMesh = this.generateBoxMesh(0.6,0.6,0.6, 0, 0, 0);
 
   		if(this.typeFlag == 'enemy'){
 		   var boxGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
@@ -99,7 +100,7 @@ export class CharacterFactory {
 		
 		// Body mesh models and groups
 		if(this.typeFlag == 'player') this.bodyMesh = this.generateBoxMesh(0.6, 1.2, 0.45, 0, -0.9, 0);
-		if(this.typeFlag == 'giant') this.bodyMesh = this.generateBoxMesh(0.6*5, 1.2*5, 0.45*5, 0, -0.9*5, 0);
+		if(this.typeFlag == 'giant') this.bodyMesh = this.generateBoxMesh(0.6, 1.2, 0.45, 0, -0.9, 0);
 		if(this.typeFlag == 'enemy'){
 		   var boxGeometry = new THREE.BoxGeometry(0.6, 1.2, 0.45); 
 		   var bodyTexture = [
@@ -122,9 +123,9 @@ export class CharacterFactory {
 		this.leftLeg.name = "Left Leg";
 		if(this.typeFlag == 'player') this.leftLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
 		if(this.typeFlag == 'giant'){
-			this.leftLegMesh = this.generateBoxMesh(0.28*5, 1.0*5, 0.3*5, 0, -0.45*5, 0);
-			this.leftLeg.position.y = -1.5*5;
-			this.leftLeg.position.x = -0.155*5;
+			this.leftLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
+			this.leftLeg.position.y = -1.5;
+			this.leftLeg.position.x = -0.155;
 		}
 		if(this.typeFlag == 'enemy'){
 		   var boxGeometry = new THREE.BoxGeometry(0.28, 1.0, 0.3);
@@ -147,9 +148,9 @@ export class CharacterFactory {
 		this.rightLeg.name = "Right Leg"
 		if(this.typeFlag == 'player') this.rightLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
 		if(this.typeFlag == 'giant'){
-			this.rightLegMesh = this.generateBoxMesh(0.28*5, 1.0*5, 0.3*5, 0, -0.45*5, 0);
-			this.rightLeg.position.y = -1.5*5;
-			this.rightLeg.position.x = 0.155*5;
+			this.rightLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
+			this.rightLeg.position.y = -1.5;
+			this.rightLeg.position.x = 0.155;
 		}
 		if(this.typeFlag == 'enemy'){
 		   var boxGeometry = new THREE.BoxGeometry(0.28, 1.0, 0.3);
@@ -177,9 +178,9 @@ export class CharacterFactory {
 		this.leftArm.name = "Left Arm"
 		if(this.typeFlag == 'player') this.leftArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
 		if(this.typeFlag == 'giant'){
-			this.leftArmMesh = this.generateBoxMesh(0.2775*5, 0.9*5, 0.3*5, 0, -0.3*5, 0);
-			this.leftArm.position.x = -0.45*5;
-			this.leftArm.position.y = -0.45*5;
+			this.leftArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+			this.leftArm.position.x = -0.45;
+			this.leftArm.position.y = -0.45;
 		}
 		if(this.typeFlag == 'enemy'){
 			var leftGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);
@@ -195,9 +196,9 @@ export class CharacterFactory {
 		this.rightArm.name = "Right Arm"
 		if(this.typeFlag == 'player') this.rightArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
 		if(this.typeFlag == 'giant'){
-			this.rightArmMesh = this.generateBoxMesh(0.2775*5, 0.9*5, 0.3*5, 0, -0.3*5, 0);
-			this.rightArm.position.x = 0.45*5;
-			this.rightArm.position.y = -0.45*5;
+			this.rightArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+			this.rightArm.position.x = 0.45;
+			this.rightArm.position.y = -0.45;
 		}
 		if(this.typeFlag == 'enemy'){
 			var rightGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);

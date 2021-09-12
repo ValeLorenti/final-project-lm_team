@@ -96,7 +96,7 @@ export class EntityManager{
                 var body = new CANNON.Body({ mass: 30, shape: new CANNON.Sphere(2), });
                 break;
             case EntityManager.ENTITY_GIANT_ENEMY:
-                var body = new CANNON.Body({ mass: 80, shape: new CANNON.Sphere(8), });
+                var body = new CANNON.Body({ mass: 80, shape: new CANNON.Sphere(10.5), });
                 break;
             case EntityManager.ENTITY_PLAYER:
                 var body = new CANNON.Body({ mass: 50, shape: new CANNON.Sphere(1), });

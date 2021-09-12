@@ -268,7 +268,7 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 					var boxBody = new CANNON.Body({ mass: 0 });
 					boxBody.addShape(boxShape);
 					var randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
-					var material2 = new THREE.MeshLambertMaterial( { map: new THREE.TextureLoader().load('resources\\images\\wallBrick.png'), side: THREE.DoubleSide } );
+					var material2 = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\wallBrick.png'), side: THREE.DoubleSide } );
 					var boxMesh = new THREE.Mesh( boxGeometry, material2 );
 					world.add(boxBody);
 					scene.add(boxMesh);
@@ -581,6 +581,7 @@ class gameEnvironment {
 		this.controls.update( Date.now() - this.time );
 		if(this.activeCamera==0)
 			this.renderer.render( this.scene, this.camera );
+			
 		else
 			this.renderer.render( this.scene, this.camera2 );
 		this.time = Date.now();
@@ -602,8 +603,8 @@ class gameEnvironment {
 		this.camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.15, 1000 );
 		
 		this.camera2 = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 1000 );
-		this.camera2.translateY(4)
-		this.camera2.rotation.x = -Math.PI/10;
+		//this.camera2.translateY(4)
+		//this.camera2.rotation.x = -Math.PI/10;
 		
 		this.activeCamera = 0;
 
@@ -642,7 +643,7 @@ class gameEnvironment {
 		if(true){
 			this.torch.castShadow = true;
 
-			this.torch.shadow.camera.near = 3.5;
+			this.torch.shadow.camera.near = 2.5;
 			this.torch.shadow.camera.far = 50;//camera.far;
 			this.torch.shadow.camera.fov = 40;
 
@@ -940,7 +941,7 @@ class gameEnvironment {
 		this.entityManager.setPlayer(this.playerEntity);
 		//this.person = new CharacterFactory({manager : MANAGER, guns : [CharacterFactory.GUN_PISTOL, "ak47", "sniper", "rpg"]});
 
-		this.controls = new CharacterController({manager: MANAGER, entity: this.playerEntity, camera: this.camera, bulletManager: this.bulletManager, scoreManager: this.scoreManager});
+		this.controls = new CharacterController({manager: MANAGER, entity: this.playerEntity, camera: this.camera, camera2: this.camera2, bulletManager: this.bulletManager, scoreManager: this.scoreManager});
 		
 		this.controls.addTorch(this.torch);
 

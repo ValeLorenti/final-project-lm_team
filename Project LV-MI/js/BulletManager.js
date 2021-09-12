@@ -10,6 +10,7 @@ export class BulletManager {
 		this.scene = params.scene;
 		this.bullets = [];
 		this.deletedBullets = [];
+		this.bullet;
 	}
 	
 	spawnNewBullet(entity, direction) {

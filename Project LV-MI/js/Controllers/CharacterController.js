@@ -7,6 +7,7 @@ export class CharacterController {
 		this.MANAGER = params.manager;
 		this.entity = params.entity;
 		this.camera = params.camera;
+		this.camera2 = params.camera2;
 		this.bulletManager = params.bulletManager;
 		this.scoreManager = params.scoreManager;
 		
@@ -44,6 +45,7 @@ export class CharacterController {
 		
 		this.shootDirection = new THREE.Vector3();
 		window.addEventListener("click",this.shot.bind(this));
+		
 	}
 	
 	onCollision(e) {
@@ -62,8 +64,12 @@ export class CharacterController {
 	}
 	
 	setUpObject() {
-		this.pitchObject.add(this.camera);
+		
 		this.pitchObject.position.set(0.0,2,-0.2)
+		this.pitchObject.add(this.camera);
+		this.pitchObject.add(this.camera2);
+		this.camera2.translateZ(-3);
+		this.camera2.translateY(-0.3);
 		this.yawObject.add(this.character.getMesh());
 		this.yawObject.add(this.pitchObject);
 		//this.yawObject.position.y = 5;
