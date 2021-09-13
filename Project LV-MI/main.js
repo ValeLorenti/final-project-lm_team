@@ -37,7 +37,7 @@ class gameManager {
 	getVelocityFactor() {return this.velocityFactor;}
 	
 	setOptions(options) {this.options = options;}
-	
+	addLifes(quantity) {this.options.lifes += quantity;}
 	resetVelocityFactor(){this.velocityFactor = this.options.velocityFactorDefault;}
 	multiplyVelocityFactor(val = 2) {this.velocityFactor = this.options.velocityFactorDefault*val;}
 	
@@ -51,7 +51,6 @@ class gameManager {
 	}
 	
 }
-
 
 
 class MenuEnvironment {
@@ -100,6 +99,7 @@ class MenuEnvironment {
             document.activeElement.blur();		
         }, false);
 	}
+	
 	setUpSettingButton() {
 		this.exitSettings.addEventListener("click", this.exitSetting.bind(this), false);
 		this.confirmSettings.addEventListener("click", () => {
@@ -120,6 +120,7 @@ class MenuEnvironment {
 		this.difficultyNormal.addEventListener("click", this.setDifficulty.bind(this,1), false);
 		this.difficultyHard.addEventListener("click", this.setDifficulty.bind(this,2), false);
 	}
+	
 	giveValueFromCookie() {
 		var cookieSettings = this.getCookie("options");
         if(cookieSettings != null){
@@ -142,10 +143,12 @@ class MenuEnvironment {
             return null;
         return elem.split('=')[1];
     }
+	
 	exitSetting() {
 		this.setting.style.display = "none";
 		document.activeElement.blur();
 	}
+	
 	updateAllSlider() {
 		var curOptions = MANAGER.getOptions();
 		this.sliderMouseSens.value = curOptions.mouseSensibility;
@@ -154,6 +157,7 @@ class MenuEnvironment {
 		this.sliderTime.value = curOptions.time;
 		this.wiewfinderCkBox.checked = curOptions.viewfinder;
 	}
+	
 	updateAllOptions() {
 		MANAGER.setOptions({
 			mouseSensibility: parseFloat(this.sliderMouseSens.value),
@@ -164,6 +168,7 @@ class MenuEnvironment {
 			velocityFactorDefault: 0.2,
 		});
 	}
+	
 	setDifficulty(difficulty) {
 		switch(difficulty){
 			case 0:		//easy
@@ -202,6 +207,7 @@ class MenuEnvironment {
 	}
 }
 
+
 function searchInChild(root, name) {
 	if(root.name == name) return root;
 	if(root.children == null) return null;
@@ -219,6 +225,7 @@ function getRandomIntInclusive(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
 
+
 function checkPositions(forbiddens, newPosition){
 	var around = 0.5;
 	var result = false;
@@ -234,6 +241,7 @@ function checkPositions(forbiddens, newPosition){
 	}
 	return result;
 }
+
 
 function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, models){
 	
@@ -254,7 +262,6 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 	var forbiddenPositions = [spawn];
 	var currentPos;
 	var stadiumLs = [];
-	console.log( models["stadiumLight"]);
 	
 	for(var i=0; i<4; i++){
 		stadiumLs[i] = models["stadiumLight"].model.clone();
@@ -391,7 +398,7 @@ class gameEnvironment {
             this.getModel('mp5/scene.gltf', 2.5),
             this.getModel('minigun/scene.gltf', 0.009),
 			this.getModel('stadiumLight/scene.gltf', 6, "Standing_Lamp"),
-			this.getModel('alberi/scene.gltf'),
+			this.getModel('aidBox/scene.gltf',10),
 			this.getModel('alberi/scene.gltf', 2, "_1_tree"),
 			this.getModel('alberi/scene.gltf', 1, "_2_tree"),
 			this.getModel('alberi/scene.gltf', 1, "_3_tree"),
@@ -407,7 +414,7 @@ class gameEnvironment {
 				"mp5",
 				"minigun",
 				"stadiumLight",
-				"alberi",
+				"aidBox",
 				"albero1",
 				"albero2",
 				"albero3",
@@ -490,28 +497,21 @@ class gameEnvironment {
 		if ( havePointerLock ) {
 
 			var element = document.body;
-
 			var pointerlockchange = function ( event ) {
 				if ( document.pointerLockElement === element || document.mozPointerLockElement === element || document.webkitPointerLockElement === element ) {
+					
 					MANAGER.gameEnable = true;
-					
-					if(this.pauseTime){
-						this.scoreManager.addPauseTime(Date.now()-this.pauseTime);
-					}
-					
+					if(this.pauseTime) this.scoreManager.addPauseTime(Date.now()-this.pauseTime);
 					blocker.style.display = 'none';
 					pauseCanvas.style.display = 'none';
-
 				} else {
+					
 					this.pauseTime = Date.now();
 					MANAGER.gameEnable = false;
-
 					pauseCanvas.style.display = '-webkit-flex';
 					pauseCanvas.style.display = '-moz-flex';
 					pauseCanvas.style.display = 'flex';
-
 				}
-
 			}
 
 			var pointerlockerror = function ( event ) {
@@ -524,41 +524,31 @@ class gameEnvironment {
 			document.addEventListener( 'pointerlockchange', pointerlockchange.bind(this), false );
 			document.addEventListener( 'mozpointerlockchange', pointerlockchange.bind(this), false );
 			document.addEventListener( 'webkitpointerlockchange', pointerlockchange.bind(this), false );
-
 			document.addEventListener( 'pointerlockerror', pointerlockerror, false );
 			document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
 			document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
-
-				instructions.style.display = 'none';
-
-				// Ask the browser to lock the pointer
-				element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
-
+			instructions.style.display = 'none';
+			// Ask the browser to lock the pointer
+			element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
 				if ( /Firefox/i.test( navigator.userAgent ) ) {
 
 					var fullscreenchange = function ( event ) {
-
 						if ( document.fullscreenElement === element || document.mozFullscreenElement === element || document.mozFullScreenElement === element ) {
 
 							document.removeEventListener( 'fullscreenchange', fullscreenchange );
 							document.removeEventListener( 'mozfullscreenchange', fullscreenchange );
-
 							element.requestPointerLock();
 						}
-
 					}
-
+					
 					document.addEventListener( 'fullscreenchange', fullscreenchange, false );
 					document.addEventListener( 'mozfullscreenchange', fullscreenchange, false );
-
 					element.requestFullscreen = element.requestFullscreen || element.mozRequestFullscreen || element.mozRequestFullScreen || element.webkitRequestFullscreen;
-
 					element.requestFullscreen();
 
 				} else {
 
 					element.requestPointerLock();
-
 				}
 				
 		} else {
@@ -575,11 +565,10 @@ class gameEnvironment {
 	update() {
 		var dt = 1/60;
 		this.world.step(dt);
-		
 		var time = Date.now() - this.time;
-		
 		this.scoreManager.updateCurrTime(Date.now());
         if(this.scoreManager.isGameOver()){
+			
 			cancelAnimationFrame(this.animationFrameID);
             document.exitPointerLock();
             MANAGER.endGame({
@@ -612,88 +601,69 @@ class gameEnvironment {
 			this.sphereMeshes[i].position.copy(this.spheres[i].position);
 			this.sphereMeshes[i].quaternion.copy(this.spheres[i].quaternion);
 		}
+		
+		if((this.playerEntity.body.position.x > 118 || this.playerEntity.body.position.x < 122) && (this.playerEntity.body.position.z > 98 || this.playerEntity.body.position.z < 102) && (this.playerEntity.body.position.y > 7.5)){
+			this.scoreManager.recoverLife();
+		}
 		TWEEN.update()
 	}
 
 	//Draw Scene
 	render() {
 		this.controls.update( Date.now() - this.time );
-		if(this.activeCamera==0)
-			this.renderer.render( this.scene, this.camera );
+		if(this.activeCamera==0) this.renderer.render( this.scene, this.camera );
 			
-		else
-			this.renderer.render( this.scene, this.camera2 );
+		else this.renderer.render( this.scene, this.camera2 );
 		this.time = Date.now();
 	}
 
-	//Run game loop (update, render, repet)
+	//Run game loop (update, render, repet) var x = 120; var y = 7.5; var z = 100;
+		
 	GameLoop() {
 		this.animationFrameID = requestAnimationFrame(this.GameLoop.bind(this));
 		if(MANAGER.gameEnable){
+			
 			this.update();
-			this.render();
+			this.render();	
         }
 	}
 //---------------------------------------------------------------------
 	
 	init() {
-		this.world = this.initCannon();
-			
+		
+		this.world = this.initCannon();	
 		this.camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.15, 1200 );
-		
 		this.camera2 = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 1200 );
-		
 		this.activeCamera = 0;
-
 		this.scene = new THREE.Scene();
-		//this.scene.fog = new THREE.Fog( 0x000000, 0, 500 );
-		
+		//this.scene.fog = new THREE.Fog( 0x000000, 0, 500 );	
 		this.bulletManager = new BulletManager({manager: MANAGER, world: this.world, scene: this.scene});
-		this.entityManager = new EntityManager({scene: this.scene, world: this.world, manager: MANAGER,scoreManager: this.scoreManager ,bulletManager: this.bulletManager})
-
+		this.entityManager = new EntityManager({scene: this.scene, world: this.world, manager: MANAGER,scoreManager: this.scoreManager ,bulletManager: this.bulletManager});
+		
 		var ambient = new THREE.AmbientLight( 0x666666 );
 		this.scene.add( ambient );
-		/* //Old light
-		this.light = new THREE.SpotLight( 0x666666 );
-		this.light.position.set( 10, 30, 20 );
-		this.light.target.position.set( 0, 0, 0 );
-		if(true){
-			this.light.castShadow = true;
-
-			this.light.shadow.camera.near = 20;
-			this.light.shadow.camera.far = 50;//camera.far;
-			this.light.shadow.camera.fov = 40;
-
-			this.light.shadowMapBias = 0.1;
-			this.light.shadowMapDarkness = 0.7;
-			this.light.shadow.mapSize.width = 2*512;
-			this.light.shadow.mapSize.height = 2*512;
-
-			//light.shadowCameraVisible = true;
-		}*/
-		
 		this.torch = new THREE.SpotLight(0xffffff);
 		this.torch.angle = Math.PI/4;
 		this.torch.distance = 100;
 		this.torch.penumbra = 0.3;
 		this.torch.intensity = 1.5;
-		if(true){
-			this.torch.castShadow = true;
-
-			this.torch.shadow.camera.near = 3.0;
-			this.torch.shadow.camera.far = 50;//camera.far;
-			this.torch.shadow.camera.fov = 40;
-
-			this.torch.shadowMapBias = 0.1;
-			this.torch.shadowMapDarkness = 0.7;
-			this.torch.shadow.mapSize.width = 2*512;
-			this.torch.shadow.mapSize.height = 2*512;
-
-			this.torch.shadowCameraVisible = true;
-		}
-		  this.torch.position.set(0, 1.5, 0);
-		  this.torch.target.position.set(0, 1.5, -1);
+		const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3);
+		directionalLight.position.set( 0, 100, 0 ); //default; light shining from top
+		//light.castShadow = false; // default false
+		this.scene.add(directionalLight);
+		this.torch.castShadow = true;
+		this.torch.shadow.camera.near = 3.0;
+		this.torch.shadow.camera.far = 50;//camera.far;
+		this.torch.shadow.camera.fov = 40;
+		this.torch.shadowMapBias = 0.1;
+		this.torch.shadowMapDarkness = 0.7;
+		this.torch.shadow.mapSize.width = 2*512;
+		this.torch.shadow.mapSize.height = 2*512;
+		this.torch.shadowCameraVisible = true;
+	
 		
+		this.torch.position.set(0, 1.5, 0);
+		this.torch.target.position.set(0, 1.5, -1);
 		var i;
 		this.lights = [];
 		for(var i = 0; i<4; i++){
@@ -705,13 +675,12 @@ class gameEnvironment {
 			this.lights[i].intensity = 3;
 			this.scene.add(this.lights[i]);
 		}
+		
 		this.lights[0].position.set(-150, 30, -150);
 		this.lights[1].position.set(+150, 30, -150);
 		this.lights[2].position.set(+140, 30, +150);
 		this.lights[3].position.set(-145, 30, +145);
 			
-		  
-		
 		this.renderer = new THREE.WebGLRenderer({canvas: document.getElementById( 'canvas' ), antialias: true});
 		this.renderer.shadowMap.enabled = true;
 		this.renderer.shadowMapSoft = true;
@@ -732,7 +701,7 @@ class gameEnvironment {
 			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-left.png'), side: THREE.DoubleSide, dithering: true}),
 		];
 
-		//var skyBoxMaterial = new THREE.MeshFaceMaterial(skyBoxMaterials);
+
 		var skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterials);
 		skyBox.position.set(0, 300, 0);
 		this.scene.add(skyBox);
@@ -892,6 +861,17 @@ class gameEnvironment {
 		boxMesh.receiveShadow = true;
 		this.boxes.push(boxBody);
 		this.boxMeshes.push(boxMesh);
+		var aidBox = this.models["aidBox"].model.clone();
+		aidBox.position.set(120, 8.5, 100);
+		this.scene.add(aidBox);
+		var halfExtents = new CANNON.Vec3(2, 1, 1);
+		var boxShape = new CANNON.Box(halfExtents);
+		var boxBody = new CANNON.Body({ mass: 0 });
+		boxBody.addShape(boxShape);
+		boxBody.position.set(120, 8.5, 100);
+		this.world.add(boxBody);
+		
+		
 
 		var halfExtents = new CANNON.Vec3(9,1,1);
 		var boxShape = new CANNON.Box(halfExtents);
