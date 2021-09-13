@@ -1083,8 +1083,6 @@ class gameEnvironment {
 		
 	}
 
-
-
 	setUpButtons() {
 		 this.playGameButton.addEventListener("click", () => {
             this.game.style.bottom = "0px";
