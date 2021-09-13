@@ -249,6 +249,7 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 	var y = 0;
 	var z = 0;
 	var genFactor = 0;
+	var genFactorWall = 0;
 	var spawn = new CANNON.Vec3(0, 1.6, 0);
 	var forbiddenPositions = [spawn];
 	var currentPos;
@@ -259,12 +260,17 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 		stadiumLs[i] = models["stadiumLight"].model.clone();
 		scene.add(stadiumLs[i]);
 	}
-	stadiumLs[0].position.set(14, -1, 14);
-	stadiumLs[0].rotation.x = Math.PI/4;
-	stadiumLs[1].position.set(-14, -1, -14);
-	stadiumLs[2].position.set(-14, -1, 14);
-	stadiumLs[3].position.set(14, -1, -14);
-	
+	stadiumLs[0].position.set(122, -1, 120);
+	stadiumLs[0].rotation.y = -(Math.PI/2 + 1);
+
+	stadiumLs[1].position.set(-132, -1, -115);
+	stadiumLs[1].rotation.y = (Math.PI/4);
+
+	stadiumLs[2].position.set(-100, -1, 122);
+	stadiumLs[2].rotation.y = -(Math.PI + 0.7);
+
+	stadiumLs[3].position.set(120, -1, -136);
+	stadiumLs[3].rotation.y = -(Math.PI/4);
 	
 	
 	for(var i=0; i<500; i++){
@@ -274,6 +280,7 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 		currentPos = [x,z];
 		if(checkPositions(forbiddenPositions, currentPos)){
 			genFactor = getRandomIntInclusive(1, 3);
+
 			
 			switch(genFactor){
 								
@@ -281,8 +288,23 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 					y = 1;
 					var boxBody = new CANNON.Body({ mass: 0 });
 					boxBody.addShape(boxShape);
-					var randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
-					var material2 = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\wallBrick.png'), side: THREE.DoubleSide } );
+					genFactorWall = getRandomIntInclusive(1, 4);
+
+					switch(genFactorWall){
+							case 1:
+								var material2 = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\paintWall.png'), side: THREE.DoubleSide } );
+								break;
+							case 2:
+								var material2 = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\paintWall1.png'), side: THREE.DoubleSide } );
+								break;
+							case 3:
+								var material2 = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\paintWall2.png'), side: THREE.DoubleSide } );
+								break;
+							case 4:
+								var material2 = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\paintWall3.png'), side: THREE.DoubleSide } );
+								break;
+						}
+
 					var boxMesh = new THREE.Mesh( boxGeometry, material2 );
 					world.add(boxBody);
 					scene.add(boxMesh);
@@ -617,9 +639,9 @@ class gameEnvironment {
 	init() {
 		this.world = this.initCannon();
 			
-		this.camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.15, 1000 );
+		this.camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.15, 1200 );
 		
-		this.camera2 = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 1000 );
+		this.camera2 = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 1200 );
 		
 		this.activeCamera = 0;
 
@@ -676,6 +698,7 @@ class gameEnvironment {
 		this.lights = [];
 		for(var i = 0; i<4; i++){
 			this.lights[i] = new THREE.SpotLight(0xffffff);
+			//this.lights[i].castShadow = true;
 			this.lights[i].angle = this.torch.angle = Math.PI/8;
 			this.lights[i].distance = 200;
 			this.lights[i].penumbra = 0.2;
@@ -684,8 +707,8 @@ class gameEnvironment {
 		}
 		this.lights[0].position.set(-150, 30, -150);
 		this.lights[1].position.set(+150, 30, -150);
-		this.lights[2].position.set(+150, 30, +150);
-		this.lights[3].position.set(-150, 30, +150);
+		this.lights[2].position.set(+140, 30, +150);
+		this.lights[3].position.set(-145, 30, +145);
 			
 		  
 		
@@ -726,7 +749,7 @@ class gameEnvironment {
 		groundTexture.wrapT = THREE.RepeatWrapping;
 		groundTexture.repeat = new THREE.Vector2(10,10);
 		
-		var material = new THREE.MeshPhongMaterial( { map: groundTexture , dithering: true } );
+		var material = new THREE.MeshStandardMaterial( { map: groundTexture , dithering: true } );
 
 		var mesh = new THREE.Mesh( geometry, material );
 		mesh.castShadow = true;
@@ -993,7 +1016,7 @@ class gameEnvironment {
 			var gun = CharacterFactory.GUN_ALL[Math.floor(Math.random()*CharacterFactory.GUN_ALL.length)];
 			var minDistanceSquared = 625;
 
-			var position = [0,2.5,0];
+			var position = [0,0,0];
 			position[0] = Math.random()*2-1;
 			position[2] = Math.random()*2-1;
 			var distanceSquared = position[0]*position[0]+position[2]*position[2];
@@ -1001,20 +1024,17 @@ class gameEnvironment {
 			position[0] *= (factor+Math.random()*100);
 			position[2] *= (factor+Math.random()*100);
 
-			var positionG = [0,2.5*5,0];
-			positionG[0] = Math.random()*2-1;
-			positionG[2] = Math.random()*2-1;
-			var distanceSquared = positionG[0]*positionG[0]+positionG[2]*positionG[2];
-			var factor = Math.sqrt(minDistanceSquared/distanceSquared);
-			positionG[0] *= (factor+Math.random()*100);
-			positionG[2] *= (factor+Math.random()*100);
-
-
-			this.entityManager.addEntity({name: EntityManager.ENTITY_SIMPLE_ENEMY, guns: [gun], position: position, maxDistance: 25});
-			this.entityManager.addEntity({name: EntityManager.ENTITY_GIANT_ENEMY, guns: [gun], position: positionG, maxDistance: 25});
+			if(i%2 == 0){
+				position[1] = 2.5;
+				this.entityManager.addEntity({name: EntityManager.ENTITY_SIMPLE_ENEMY, guns: [gun], position: position, maxDistance: 25});
+			}
+			if(i%2 != 0){
+				position[1] = 2.5*5;
+				this.entityManager.addEntity({name: EntityManager.ENTITY_GIANT_ENEMY, guns: [gun], position: position, maxDistance: 25});
+			}
 		}
 	}
-	
+
 	initCannon() {
 		var world = new CANNON.World();
 		world.quatNormalizeSkip = 0;

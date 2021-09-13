@@ -222,39 +222,14 @@ class SimpleEnemyEntity extends Entity{
 	}
 }
 
-class GiantEnemyEntity extends Entity{
+class GiantEnemyEntity extends SimpleEnemyEntity{
     constructor(params){
         super(params);
-        
-        this.scoreManager = params.scoreManager;
-        this.maxDistance = params.maxDistance;
-        this.character = params.character;
-        this.hit = 0;
-
-        this.controls = new BasicAIController({
-            manager: this.MANAGER,
-            character: this.character,
-            entity: this,
-            target: this.target,
-            body: this.body,
-            player: this.player,
-            maxDistance: this.maxDistance,
-            bulletManager: this.entityManager.bulletManager,
-        });
     }
 
     hitted(){
         this.hit ++;
         if(this.hit == 10){
-            this.scoreManager.enemyKilled();
-            this.entityManager.eliminateThisEntity(this);
-        }
-    }
-
-    update(timeInSeconds){
-        this.controls.update(timeInSeconds);
-
-        if(this.body.position.y < -20){
             this.scoreManager.enemyKilled();
             this.entityManager.eliminateThisEntity(this);
         }
