@@ -69,14 +69,27 @@ export class CharacterFactory {
 		this.prepareGuns();
 		
 		this.initializeAnimation();
-		if(this.typeFlag == 'giant') this.character.scale.set(5,5,5);
+		if(this.typeFlag == 'giant') this.character.scale.set(3,3,3);
 	}
 	
 	buildCharacter() {
 
 		//Generate character
 		if(this.typeFlag == 'player') this.headMesh = this.generateBoxMesh(0.6,0.6,0.6, 0, 0, 0);
-		if(this.typeFlag == 'giant') this.headMesh = this.generateBoxMesh(0.6,0.6,0.6, 0, 0, 0);
+		if(this.typeFlag == 'giant') {
+		   var boxGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
+		   var headTexture = [
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantHeadFront.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantHeadBack.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantHeadUp.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantHeadDown.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantHeadRight.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantHeadLeft.png'), side: THREE.DoubleSide, dithering: true}),
+		  ];
+		   //var boxMaterial = new THREE.MeshPhongMaterial( { map: headTexture } );
+		   this.headMesh = new THREE.Mesh(boxGeometry, headTexture);
+		   this.headMesh.rotation.y  = Math.PI/2;
+		 }
 
   		if(this.typeFlag == 'enemy'){
 		   var boxGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
@@ -90,7 +103,7 @@ export class CharacterFactory {
 		  ];
 		   //var boxMaterial = new THREE.MeshPhongMaterial( { map: headTexture } );
 		   this.headMesh = new THREE.Mesh(boxGeometry, headTexture);
-		  }
+		 }
 
 		this.headMesh.name = "skull";
 
@@ -100,7 +113,19 @@ export class CharacterFactory {
 		
 		// Body mesh models and groups
 		if(this.typeFlag == 'player') this.bodyMesh = this.generateBoxMesh(0.6, 1.2, 0.45, 0, -0.9, 0);
-		if(this.typeFlag == 'giant') this.bodyMesh = this.generateBoxMesh(0.6, 1.2, 0.45, 0, -0.9, 0);
+		if(this.typeFlag == 'giant'){
+		   var boxGeometry = new THREE.BoxGeometry(0.6, 1.2, 0.45); 
+		   var bodyTexture = [
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantBodyBack.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantBodyUp.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantBodyDown.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantBodyRight.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantBodyLeft.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantBodyFront.png'), side: THREE.DoubleSide, dithering: true}),
+		  ];
+		   this.bodyMesh = new THREE.Mesh(boxGeometry, bodyTexture);
+		   this.bodyMesh.position.set(0, -0.9, 0);
+		  }
 		if(this.typeFlag == 'enemy'){
 		   var boxGeometry = new THREE.BoxGeometry(0.6, 1.2, 0.45); 
 		   var bodyTexture = [
@@ -123,20 +148,15 @@ export class CharacterFactory {
 		this.leftLeg.name = "Left Leg";
 		if(this.typeFlag == 'player') this.leftLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
 		if(this.typeFlag == 'giant'){
-			this.leftLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
-			this.leftLeg.position.y = -1.5;
-			this.leftLeg.position.x = -0.155;
+		   var boxGeometry = new THREE.BoxGeometry(0.28, 1.0, 0.3);
+		   var legTexture =  new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantLeg.png'), side: THREE.DoubleSide, dithering: true});
+		   this.leftLegMesh = new THREE.Mesh(boxGeometry, legTexture);
+		   this.leftLegMesh.position.set(0, -0.45, 0);
+
 		}
 		if(this.typeFlag == 'enemy'){
 		   var boxGeometry = new THREE.BoxGeometry(0.28, 1.0, 0.3);
-		   var legTexture = [
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegFront.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegBack.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegUp.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegDown.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegRight.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegLeft.png'), side: THREE.DoubleSide, dithering: true}),
-		  ];
+		   var legTexture =  new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegFront.png'), side: THREE.DoubleSide, dithering: true});
 		   this.leftLegMesh = new THREE.Mesh(boxGeometry, legTexture);
 		   this.leftLegMesh.position.set(0, -0.45, 0);
 		  }
@@ -148,21 +168,14 @@ export class CharacterFactory {
 		this.rightLeg.name = "Right Leg"
 		if(this.typeFlag == 'player') this.rightLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
 		if(this.typeFlag == 'giant'){
-			this.rightLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
-			this.rightLeg.position.y = -1.5;
-			this.rightLeg.position.x = 0.155;
+		   var boxGeometry = new THREE.BoxGeometry(0.28, 1.0, 0.3);
+		   var legTexture =  new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantLeg.png'), side: THREE.DoubleSide, dithering: true});
+		   this.rightLegMesh = new THREE.Mesh(boxGeometry, legTexture);
+		   this.rightLegMesh.position.set(0, -0.45, 0);
 		}
 		if(this.typeFlag == 'enemy'){
 		   var boxGeometry = new THREE.BoxGeometry(0.28, 1.0, 0.3);
-		   var legTexture = [
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegFront.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegBack.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegUp.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegDown.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegLeft.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegRight.png'), side: THREE.DoubleSide, dithering: true}),
-		  ];
-		   //var boxMaterial = new THREE.MeshPhongMaterial( { map: headTexture } );
+		   var legTexture =  new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegFront.png'), side: THREE.DoubleSide, dithering: true});
 		   this.rightLegMesh = new THREE.Mesh(boxGeometry, legTexture);
 		   this.rightLegMesh.position.set(0, -0.45, 0);
 		  }
@@ -178,9 +191,10 @@ export class CharacterFactory {
 		this.leftArm.name = "Left Arm"
 		if(this.typeFlag == 'player') this.leftArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
 		if(this.typeFlag == 'giant'){
-			this.leftArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
-			this.leftArm.position.x = -0.45;
-			this.leftArm.position.y = -0.45;
+			var leftGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);
+			var leftTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantArm.png'), side: THREE.DoubleSide, dithering: true})
+			this.leftArmMesh= new THREE.Mesh(leftGeometry, leftTexture);
+			this.leftArmMesh.position.set(0, -0.3, 0);
 		}
 		if(this.typeFlag == 'enemy'){
 			var leftGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);
@@ -196,9 +210,10 @@ export class CharacterFactory {
 		this.rightArm.name = "Right Arm"
 		if(this.typeFlag == 'player') this.rightArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
 		if(this.typeFlag == 'giant'){
-			this.rightArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
-			this.rightArm.position.x = 0.45;
-			this.rightArm.position.y = -0.45;
+			var rightGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);
+			var rightTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantArm.png'), side: THREE.DoubleSide, dithering: true})
+			this.rightArmMesh= new THREE.Mesh(rightGeometry, rightTexture);
+			this.rightArmMesh.position.set(0, -0.3, 0);
 		}
 		if(this.typeFlag == 'enemy'){
 			var rightGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);

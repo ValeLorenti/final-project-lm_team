@@ -252,6 +252,20 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 	var spawn = new CANNON.Vec3(0, 1.6, 0);
 	var forbiddenPositions = [spawn];
 	var currentPos;
+	var stadiumLs = [];
+	console.log( models["stadiumLight"]);
+	
+	for(var i=0; i<4; i++){
+		stadiumLs[i] = models["stadiumLight"].model.clone();
+		scene.add(stadiumLs[i]);
+	}
+	stadiumLs[0].position.set(14, -1, 14);
+	stadiumLs[0].rotation.x = Math.PI/4;
+	stadiumLs[1].position.set(-14, -1, -14);
+	stadiumLs[2].position.set(-14, -1, 14);
+	stadiumLs[3].position.set(14, -1, -14);
+	
+	
 	
 	for(var i=0; i<500; i++){
 		x = (Math.random()-0.5)*280;
@@ -354,6 +368,8 @@ class gameEnvironment {
             this.getModel('pistol/scene.gltf', 1.25),
             this.getModel('mp5/scene.gltf', 2.5),
             this.getModel('minigun/scene.gltf', 0.009),
+			this.getModel('stadiumLight/scene.gltf', 6, "Standing_Lamp"),
+			this.getModel('alberi/scene.gltf'),
 			this.getModel('alberi/scene.gltf', 2, "_1_tree"),
 			this.getModel('alberi/scene.gltf', 1, "_2_tree"),
 			this.getModel('alberi/scene.gltf', 1, "_3_tree"),
@@ -362,12 +378,14 @@ class gameEnvironment {
 			this.getModel('alberi/scene.gltf', 1, "_6_tree"),
 			this.getModel('alberi/scene.gltf', 1, "_7_tree"),
 		];
-
+		
 		Promise.all(promise).then(data => {
             var nameModels = [
 				"pistol",
 				"mp5",
 				"minigun",
+				"stadiumLight",
+				"alberi",
 				"albero1",
 				"albero2",
 				"albero3",
@@ -419,7 +437,6 @@ class gameEnvironment {
         });
         return myPromise;
     }
-	
 	
 	changeVisual() {
 		this.activeCamera = (this.activeCamera+1)%2;
@@ -603,8 +620,6 @@ class gameEnvironment {
 		this.camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.15, 1000 );
 		
 		this.camera2 = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 1000 );
-		//this.camera2.translateY(4)
-		//this.camera2.rotation.x = -Math.PI/10;
 		
 		this.activeCamera = 0;
 
@@ -636,14 +651,14 @@ class gameEnvironment {
 		}*/
 		
 		this.torch = new THREE.SpotLight(0xffffff);
-		this.torch.angle = Math.PI/4
+		this.torch.angle = Math.PI/4;
 		this.torch.distance = 100;
 		this.torch.penumbra = 0.3;
 		this.torch.intensity = 1.5;
 		if(true){
 			this.torch.castShadow = true;
 
-			this.torch.shadow.camera.near = 2.5;
+			this.torch.shadow.camera.near = 3.0;
 			this.torch.shadow.camera.far = 50;//camera.far;
 			this.torch.shadow.camera.fov = 40;
 
@@ -656,6 +671,22 @@ class gameEnvironment {
 		}
 		  this.torch.position.set(0, 1.5, 0);
 		  this.torch.target.position.set(0, 1.5, -1);
+		
+		var i;
+		this.lights = [];
+		for(var i = 0; i<4; i++){
+			this.lights[i] = new THREE.SpotLight(0xffffff);
+			this.lights[i].angle = this.torch.angle = Math.PI/8;
+			this.lights[i].distance = 200;
+			this.lights[i].penumbra = 0.2;
+			this.lights[i].intensity = 3;
+			this.scene.add(this.lights[i]);
+		}
+		this.lights[0].position.set(-150, 30, -150);
+		this.lights[1].position.set(+150, 30, -150);
+		this.lights[2].position.set(+150, 30, +150);
+		this.lights[3].position.set(-150, 30, +150);
+			
 		  
 		
 		this.renderer = new THREE.WebGLRenderer({canvas: document.getElementById( 'canvas' ), antialias: true});

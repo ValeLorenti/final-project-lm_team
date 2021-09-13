@@ -33,6 +33,7 @@ export class EntityManager{
                     body: this.buildBody(params),
                     player: this.player,
 					character : character, 
+					entityId: 2,
                 });
                 this.entities.push(entity);
                 break;
@@ -49,8 +50,10 @@ export class EntityManager{
                     body: this.buildBody(params),
                     player: this.player,
                     character : character, 
+					entityId: 2,
                 });
                 this.entities.push(entity);
+				
                 break;
 
             case EntityManager.ENTITY_PLAYER:
@@ -63,6 +66,7 @@ export class EntityManager{
                     target: character.getMesh(),
 					body: this.buildBody(params),
 					character : character,
+					entityId: 1,
                 });
                 this.entities.push(entity);
                 break;
@@ -96,7 +100,7 @@ export class EntityManager{
                 var body = new CANNON.Body({ mass: 30, shape: new CANNON.Sphere(2), });
                 break;
             case EntityManager.ENTITY_GIANT_ENEMY:
-                var body = new CANNON.Body({ mass: 80, shape: new CANNON.Sphere(10.5), });
+                var body = new CANNON.Body({ mass: 80, shape: new CANNON.Sphere(7), });
                 break;
             case EntityManager.ENTITY_PLAYER:
                 var body = new CANNON.Body({ mass: 50, shape: new CANNON.Sphere(1), });
@@ -144,7 +148,7 @@ class Entity{
         this.target = params.target;
         this.body = params.body;
         this.pos = params.pos;
-
+		this.entityId = params.entityId;
         this.player = params.player;
         if(this.body){
             this.contactNormal = new CANNON.Vec3();
@@ -152,7 +156,7 @@ class Entity{
             
             this.body.addEventListener("collide", function (e){
 				
-                if ( !(e.contact.bi.isBullet || e.contact.bj.isBullet) )
+                if ( !((e.contact.bi.isBullet &&(e.contact.bi.isBullet != this.entityId )) || (e.contact.bj.isBullet &&(e.contact.bj.isBullet != this.entityId ))))
                     return;
 				
                 if (e.contact.bi.id == this.body.id)

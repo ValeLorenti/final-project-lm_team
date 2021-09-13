@@ -27,18 +27,21 @@ export class BulletManager {
 			var x = position.x;
 			var y = position.y+1.8;
 			var z = position.z;
+			bullet.body.isBullet = 1;
 		}
 
 		if(entity.character.typeFlag == 'giant'){
 			var x = position.x;
-			var y = position.y+1.8*5;
+			var y = position.y+2;
 			var z = position.z;
+			bullet.body.isBullet = 2;
 		}
 
 		if(entity.character.typeFlag == 'enemy'){
 			var x = position.x;
 			var y = position.y+0.5;
 			var z = position.z;
+			bullet.body.isBullet = 2;
 		}
 		
 		this.bullets.push(bullet);
@@ -67,7 +70,6 @@ export class BulletManager {
 		var shootVelocity = bullet.shootVelocity;
 		var bulletMesh = new THREE.Mesh( ballGeometry, material2 );
 		bulletBody.addShape(bulletShape);
-		bulletBody.isBullet = 1;
 		bulletMesh.castShadow = true;
 		bulletMesh.receiveShadow = true;
 		return {body: bulletBody, mesh: bulletMesh, shape: bulletShape, velocity: shootVelocity, pos: this.bullets.length}

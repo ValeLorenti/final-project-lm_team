@@ -96,6 +96,7 @@ export class BasicAIController {
 	computeDirection() {
 		var objective = (new THREE.Vector3()).copy(this.player.body.position);
 		var from = this.target.position.clone();
+		if(this.entity.character.typeFlag == 'giant') from.y+=2;
 		var direction = objective.sub(from).normalize();
 		return (new THREE.Ray(this.body.position, direction)).direction;
 	}
