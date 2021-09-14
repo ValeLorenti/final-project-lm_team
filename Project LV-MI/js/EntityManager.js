@@ -120,7 +120,7 @@ export class EntityManager{
     }
 	
 	eliminateThisEntity(elem){
-		elem.body.position.y = -100;
+		elem.body.position.y = +1000;
 		elem.body.sleep();
 		elem.target.parent.remove(elem.target);
         var pos = elem.pos;

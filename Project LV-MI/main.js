@@ -16,7 +16,7 @@ class gameManager {
 		this.setOptionsDefault = function() {
 			this.options = {
 				mouseSensibility : 1,
-				lifes: 100,
+				lifes: 10,
 				enemyQuantity: 10,
 				time: 180,
 				viewfinder: true,
@@ -267,7 +267,7 @@ function checkPositions(forbiddens, newPosition){
 	for (let forbidden of forbiddens){
 		var forbiddenX = forbidden.x;
 		var forbiddenZ = forbidden.z;
-		if(((newPosition[0] < (forbiddenX-around))||(newPosition[0] > (forbiddenX+around))) && ((newPosition[1] < (forbiddenZ-around))||(newPosition[1] > (forbiddenZ+around))) &&(newPosition[0]<115 ) && (newPosition[1]<95)){
+		if(((newPosition[0] < (forbiddenX-around))||(newPosition[0] > (forbiddenX+around))) && ((newPosition[1] < (forbiddenZ-around))||(newPosition[1] > (forbiddenZ+around))) && ((newPosition[0]<101 || newPosition[1]<95)) ){
 			result = true;
 		}
 		else{
@@ -304,16 +304,43 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 	}
 	stadiumLs[0].position.set(122, -1, 120);
 	stadiumLs[0].rotation.y = -(Math.PI/2 + 1);
+	var dimSL0 = new CANNON.Vec3(0.5, 15, 0.5);
+	var sLShape0 = new CANNON.Box(dimSL0);
+	var sLBody0 = new CANNON.Body({ mass: 0 });
+	sLBody0.addShape(sLShape0);
+	sLBody0.position.set(106, 2.5, 130);
+	world.add(sLBody0);
+
 
 	stadiumLs[1].position.set(-132, -1, -115);
 	stadiumLs[1].rotation.y = (Math.PI/4);
+	var dimSL1 = new CANNON.Vec3(0.5, 15, 0.5);
+	var sLShape1 = new CANNON.Box(dimSL1);
+	var sLBody1 = new CANNON.Body({ mass: 0 });
+	sLBody1.addShape(sLShape1);
+	sLBody1.position.set(-119, 2.5, -128);
+	world.add(sLBody1);
+
 
 	stadiumLs[2].position.set(-100, -1, 122);
 	stadiumLs[2].rotation.y = -(Math.PI + 0.7);
+	var dimSL2 = new CANNON.Vec3(0.5, 15, 0.5);
+	var sLShape2 = new CANNON.Box(dimSL2);
+	var sLBody2 = new CANNON.Body({ mass: 0 });
+	sLBody2.addShape(sLShape2);
+	sLBody2.position.set(-114, 2.5, 110);
+	world.add(sLBody2);
+
 
 	stadiumLs[3].position.set(120, -1, -136);
 	stadiumLs[3].rotation.y = -(Math.PI/4);
-	
+	var dimSL3 = new CANNON.Vec3(0.5, 15, 0.5);
+	var sLShape3 = new CANNON.Box(dimSL3);
+	var sLBody3 = new CANNON.Body({ mass: 0 });
+	sLBody3.addShape(sLShape3);
+	sLBody3.position.set(133, 2.5, -123);
+	world.add(sLBody3);
+
 	
 	for(var i=0; i<500; i++){
 		x = (Math.random()-0.5)*280;
@@ -396,6 +423,7 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 					}
 					scene.add(tree);
 					tree.position.set(x, y, z);
+
 					var halfExtents2 = new CANNON.Vec3(1.5, 4, 1.5);
 					var treeShape = new CANNON.Box(halfExtents2);
 					var treeBody = new CANNON.Body({ mass: 0 });
@@ -868,10 +896,14 @@ class gameEnvironment {
 		var boxShape = new CANNON.Box(halfExtents);
 		var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
 		var material2 = new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('resources\\images\\qg.png'), side: THREE.DoubleSide, dithering: true});
-		for(var i=0; i<5; i++){
+		for(var i=0; i<6; i++){
 			var x;
 			var y;
 			var z = 100;
+			if(i==5){
+				x = 100;
+				y = 1;
+			}
 			if(i==0){
 				x = 102;
 				y = 2;
@@ -936,6 +968,36 @@ class gameEnvironment {
 		boxBody.position.set(120, 8.5, 100);
 		this.world.add(boxBody);
 		
+
+		//physics of shelter legs
+
+		var dimLeg0 = new CANNON.Vec3(1, 11.5, 1);
+		var legShape0 = new CANNON.Box(dimLeg0);
+		var legBody0 = new CANNON.Body({ mass: 0 });
+		legBody0.addShape(legShape0);
+		legBody0.position.set(127.5, 2.5, 107.5);
+		this.world.add(legBody0);
+
+		var dimLeg1 = new CANNON.Vec3(1, 11.5, 1);
+		var legShape1 = new CANNON.Box(dimLeg1);
+		var legBody1 = new CANNON.Body({ mass: 0 });
+		legBody1.addShape(legShape1);
+		legBody1.position.set(112.5, 2.5, 92.5);
+		this.world.add(legBody1);
+
+		var dimLeg2 = new CANNON.Vec3(1, 11.5, 1);
+		var legShape2 = new CANNON.Box(dimLeg2);
+		var legBody2 = new CANNON.Body({ mass: 0 });
+		legBody2.addShape(legShape2);
+		legBody2.position.set(112.5, 2.5, 107.5);
+		this.world.add(legBody2);
+
+		var dimLeg3 = new CANNON.Vec3(1, 11.5, 1);
+		var legShape3 = new CANNON.Box(dimLeg3);
+		var legBody3 = new CANNON.Body({ mass: 0 });
+		legBody3.addShape(legShape3);
+		legBody3.position.set(127.5, 2.5, 92.5);
+		this.world.add(legBody3);
 		
 
 		var halfExtents = new CANNON.Vec3(9,1,1);

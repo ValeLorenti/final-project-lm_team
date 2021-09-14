@@ -30,7 +30,7 @@ export class CharacterFactory {
 		ammo: 200,
 		timeBetweenAmmo: 0.009,
 		bullet: {
-			mass: 10,
+			mass: 20,
 			radius: 0.2,
 			shootVelocity: 60,
 		}
