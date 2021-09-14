@@ -83,9 +83,11 @@ export class ScoreManager{
 		
 		if(this.recoverFlag == 0 && this.currLifes < this.totalLifes){
 			this.currLifes += 5;
+			console.log("ho recuperato");
+			this.recoverFlag = 1;
 			this.updateSpansGame();
 			this.updateGameOver();
-			this.recoverFlag = 1;
+			
 		}
 		
     }

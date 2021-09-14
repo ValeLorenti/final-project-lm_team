@@ -26,6 +26,8 @@ class gameManager {
 		this.setOptionsDefault();
 		
 		this.velocityFactor = this.options.velocityFactorDefault;
+		
+		this.location = 0;
 	}
 	
 	getOptions() {return this.options;}
@@ -59,6 +61,10 @@ class MenuEnvironment {
 		
 		this.playGameButton = document.getElementById("playGameButton");
 		this.settingButton = document.getElementById("settingsButton");
+		
+		this.locationButtonD =  document.getElementById("locationButtonD");
+		this.locationButtonE =  document.getElementById("locationButtonE");
+		this.locationButtonN =  document.getElementById("locationButtonN");
 		
 		this.setting = document.getElementById("settings");
 		this.exitSettings = document.getElementById("exitSettings");
@@ -98,6 +104,11 @@ class MenuEnvironment {
             this.setting.style.animation = "1s newPage normal";
             document.activeElement.blur();		
         }, false);
+		this.setting.style.display = "none";
+		
+		this.locationButtonD.addEventListener("click", this.setLocation.bind(this,0), false);
+		this.locationButtonE.addEventListener("click", this.setLocation.bind(this,1), false);
+		this.locationButtonN.addEventListener("click", this.setLocation.bind(this,2), false);
 	}
 	
 	setUpSettingButton() {
@@ -179,8 +190,10 @@ class MenuEnvironment {
 					time: 180,
 					viewfinder: true,
 					velocityFactorDefault : 0.2,
+					location: 0
+					
 				}
-				break
+				break;
 			case 1:		//normal
 				var options = {
 					mouseSensibility : 1,
@@ -189,6 +202,7 @@ class MenuEnvironment {
 					time: 150,
 					viewfinder: true,
 					velocityFactorDefault : 0.2,
+					location: 0
 				}
 				break;
 			case 2:		//hard
@@ -199,10 +213,31 @@ class MenuEnvironment {
 					time: 120,
 					viewfinder: false,
 					velocityFactorDefault : 0.2,
+					location: 0
 				}
-				break
+				break;
 		}
 		MANAGER.setOptions(options);
+		this.updateAllSlider();
+	}
+	
+	setLocation(ambientation){
+		console.log(MANAGER.location);
+		switch(ambientation){
+			case 0:		//easy
+				MANAGER.location = ambientation;
+				console.log(MANAGER.location);
+				break;
+			case 1:		//normal
+				MANAGER.location = ambientation;
+				console.log(MANAGER.location);
+				break;
+			case 2:		//hard
+				MANAGER.location = ambientation;
+				console.log(MANAGER.location);
+				break;
+		};
+		
 		this.updateAllSlider();
 	}
 }
@@ -232,7 +267,7 @@ function checkPositions(forbiddens, newPosition){
 	for (let forbidden of forbiddens){
 		var forbiddenX = forbidden.x;
 		var forbiddenZ = forbidden.z;
-		if(((newPosition[0] < (forbiddenX-around))||(newPosition[0] > (forbiddenX+around))) && ((newPosition[1] < (forbiddenZ-around))||(newPosition[1] > (forbiddenZ+around)))){
+		if(((newPosition[0] < (forbiddenX-around))||(newPosition[0] > (forbiddenX+around))) && ((newPosition[1] < (forbiddenZ-around))||(newPosition[1] > (forbiddenZ+around))) &&(newPosition[0]<115 ) && (newPosition[1]<95)){
 			result = true;
 		}
 		else{
@@ -288,7 +323,6 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 		if(checkPositions(forbiddenPositions, currentPos)){
 			genFactor = getRandomIntInclusive(1, 3);
 
-			
 			switch(genFactor){
 								
 				case 1:
@@ -399,6 +433,7 @@ class gameEnvironment {
             this.getModel('minigun/scene.gltf', 0.009),
 			this.getModel('stadiumLight/scene.gltf', 6, "Standing_Lamp"),
 			this.getModel('aidBox/scene.gltf',10),
+			this.getModel('shelter/scene.gltf',5.5),
 			this.getModel('alberi/scene.gltf', 2, "_1_tree"),
 			this.getModel('alberi/scene.gltf', 1, "_2_tree"),
 			this.getModel('alberi/scene.gltf', 1, "_3_tree"),
@@ -415,6 +450,7 @@ class gameEnvironment {
 				"minigun",
 				"stadiumLight",
 				"aidBox",
+				"shelter",
 				"albero1",
 				"albero2",
 				"albero3",
@@ -602,7 +638,9 @@ class gameEnvironment {
 			this.sphereMeshes[i].quaternion.copy(this.spheres[i].quaternion);
 		}
 		
-		if((this.playerEntity.body.position.x > 118 || this.playerEntity.body.position.x < 122) && (this.playerEntity.body.position.z > 98 || this.playerEntity.body.position.z < 102) && (this.playerEntity.body.position.y > 7.5)){
+		if((this.playerEntity.body.position.x > 118 && this.playerEntity.body.position.x < 122) && (this.playerEntity.body.position.z > 98 && this.playerEntity.body.position.z < 102) && (this.playerEntity.body.position.y > 7.5)){
+			console.log("zona recupero");
+			
 			this.scoreManager.recoverLife();
 		}
 		TWEEN.update()
@@ -692,16 +730,42 @@ class gameEnvironment {
 
 		//skybox
 		var skyBoxGeometry = new THREE.BoxGeometry(900,900,900);
-		var skyBoxMaterials = [
-			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-front.png'), side: THREE.DoubleSide, dithering: true}),
-			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-back.png'), side: THREE.DoubleSide, dithering: true}),
-			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-up.png'), side: THREE.DoubleSide, dithering: true}),
-			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-down.png'), side: THREE.DoubleSide, dithering: true}),
-			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-right.png'), side: THREE.DoubleSide, dithering: true}),
-			new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-left.png'), side: THREE.DoubleSide, dithering: true}),
-		];
-
-
+		
+		console.log(MANAGER.location);
+		switch(MANAGER.location){
+			case 0:
+				var skyBoxMaterials = [
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-front.png'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-back.png'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-up.png'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-down.png'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-right.png'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-left.png'), side: THREE.DoubleSide, dithering: true}),
+				];
+				break;
+			case 1:
+				var skyBoxMaterials = [
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB1-front.jpg'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB1-back.jpg'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB1-up.jpg'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB1-down.jpg'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB1-right.jpg'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB1-left.jpg'), side: THREE.DoubleSide, dithering: true}),
+				];
+				break;
+			case 2:
+				var skyBoxMaterials = [
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB2-front.jpg'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB2-back.jpg'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB2-up.jpg'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB2-down.jpg'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB2-right.jpg'), side: THREE.DoubleSide, dithering: true}),
+					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB2-left.jpg'), side: THREE.DoubleSide, dithering: true}),
+				];
+				break;	
+			
+		}
+		
 		var skyBox = new THREE.Mesh(skyBoxGeometry, skyBoxMaterials);
 		skyBox.position.set(0, 300, 0);
 		this.scene.add(skyBox);
@@ -803,6 +867,7 @@ class gameEnvironment {
 		var halfExtents = new CANNON.Vec3(1,1,3);
 		var boxShape = new CANNON.Box(halfExtents);
 		var boxGeometry = new THREE.BoxGeometry(halfExtents.x*2,halfExtents.y*2,halfExtents.z*2);
+		var material2 = new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader().load('resources\\images\\qg.png'), side: THREE.DoubleSide, dithering: true});
 		for(var i=0; i<5; i++){
 			var x;
 			var y;
@@ -829,8 +894,6 @@ class gameEnvironment {
 			}
 			var boxBody = new CANNON.Body({ mass: 0 });
 			boxBody.addShape(boxShape);
-			var color = '#CAA472'
-			var material2 = new THREE.MeshLambertMaterial( { color: color } );
 			var boxMesh = new THREE.Mesh( boxGeometry, material2 );
 			this.world.add(boxBody);
 			this.scene.add(boxMesh);
@@ -850,8 +913,6 @@ class gameEnvironment {
 		var y = 7.5;
 		var z = 100;
 		boxBody.addShape(boxShape);
-		var color = '#CAA472'
-		var material2 = new THREE.MeshLambertMaterial( { color: color } );
 		var boxMesh = new THREE.Mesh( boxGeometry, material2 );
 		this.world.add(boxBody);
 		this.scene.add(boxMesh);
@@ -864,6 +925,10 @@ class gameEnvironment {
 		var aidBox = this.models["aidBox"].model.clone();
 		aidBox.position.set(120, 8.5, 100);
 		this.scene.add(aidBox);
+		var shelter = this.models["shelter"].model.clone();
+		shelter.position.set(120, 9.71, 100);
+		shelter.rotation.y = Math.PI;
+		this.scene.add(shelter);
 		var halfExtents = new CANNON.Vec3(2, 1, 1);
 		var boxShape = new CANNON.Box(halfExtents);
 		var boxBody = new CANNON.Body({ mass: 0 });
@@ -894,8 +959,6 @@ class gameEnvironment {
 
 			var boxBody = new CANNON.Body({ mass: 0 });
 			boxBody.addShape(boxShape);
-			var color = '#CAA472'
-			var material2 = new THREE.MeshLambertMaterial( { color: color } );
 			var boxMesh = new THREE.Mesh( boxGeometry, material2 );
 			this.world.add(boxBody);
 			this.scene.add(boxMesh);
@@ -915,8 +978,6 @@ class gameEnvironment {
 		var z = 100;
 		var boxBody = new CANNON.Body({ mass: 0 });
 		boxBody.addShape(boxShape);
-		var color = '#CAA472'
-		var material2 = new THREE.MeshLambertMaterial( { color: color } );
 		var boxMesh = new THREE.Mesh( boxGeometry, material2 );
 		this.world.add(boxBody);
 		this.scene.add(boxMesh);
@@ -950,8 +1011,6 @@ class gameEnvironment {
 			var boxBody = new CANNON.Body({ mass: 0 });
 			var boxBody = new CANNON.Body({ mass: 0 });
 			boxBody.addShape(boxShape);
-			var color = '#CAA472'
-			var material2 = new THREE.MeshLambertMaterial( { color: color } );
 			var boxMesh = new THREE.Mesh( boxGeometry, material2 );
 			this.world.add(boxBody);
 			this.scene.add(boxMesh);
