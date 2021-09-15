@@ -253,5 +253,7 @@ class PlayerEntity extends Entity{
 	}
 	hitted(){
 		this.scoreManager.lose1life();
+        var audio = new Audio('resources/audios/Hitted.wav');
+        audio.play();
 	}
 }

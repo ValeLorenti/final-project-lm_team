@@ -105,6 +105,8 @@ export class CharacterController {
 		document.getElementById("reloading").style.visibility = "visible";
 		this.shotTime = this.timeReload;
 		this.isReloading = true;
+		var audio = new Audio('resources/audios/Charging.wav');
+		audio.play();
 	}
 
 	addTorch(torch) {
@@ -123,6 +125,8 @@ export class CharacterController {
 		if(this.shotTime<=0) {
 			this.createBulletFromPlayer();
 			this.setAmmo()
+			var audio = new Audio('resources/audios/PaintballShooting.wav');
+			audio.play();
 			if(this.currAmmo<=0)
 				this.reload();
 			else
@@ -144,14 +148,13 @@ export class CharacterController {
 		this.ammo = this.currentGun.ammo;
 		this.timeBetweenAmmo = this.currentGun.timeBetweenAmmo*350;
 		this.scoreManager.setUpGun({name: this.currentGun.name, ammo: this.ammo});
-		if(this.currentGun.currAmmo <= 0) this.reload();
-		
 	}
 	
 	changeGun() {
 		this.character.changeGun();
 		this.setUpGun();
 		this.setAmmo(0);
+		this.reload();
 	}
 	
 	updateReloading(time) {

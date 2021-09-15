@@ -333,13 +333,15 @@ export class CharacterFactory {
 	
 	startDeath() {
 		this.deathTween.start();
+		var audio = new Audio('resources/audios/ZombieDeath.wav');
+		audio.play();
 	}
 	
 	stopMove() {
 		this.legTween1.stop();
 		const legTween4 = new TWEEN.Tween(this.leftLeg.rotation.clone()).to({x: 0, y: 0, z: 0}, 50/this.MANAGER.getVelocityFactor());
 		legTween4.onUpdate(this.updateLeg1.bind(this));
-		legTween4.start();
+		legTween4.start();;
 	}
 	
 	sphereMesh(radius, x, y, z, color='#' + (Math.random() * 0xFFFFFF << 0).toString(16)) {

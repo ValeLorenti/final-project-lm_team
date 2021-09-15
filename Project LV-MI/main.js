@@ -267,7 +267,7 @@ function checkPositions(forbiddens, newPosition){
 	for (let forbidden of forbiddens){
 		var forbiddenX = forbidden.x;
 		var forbiddenZ = forbidden.z;
-		if(((newPosition[0] < (forbiddenX-around))||(newPosition[0] > (forbiddenX+around))) && ((newPosition[1] < (forbiddenZ-around))||(newPosition[1] > (forbiddenZ+around))) && ((newPosition[0]<101 || newPosition[1]<95)) ){
+		if(((newPosition[0] < (forbiddenX-around))||(newPosition[0] > (forbiddenX+around))) && ((newPosition[1] < (forbiddenZ-around))||(newPosition[1] > (forbiddenZ+around))) && ((newPosition[0]<101 || newPosition[1]<93)) ){
 			result = true;
 		}
 		else{
