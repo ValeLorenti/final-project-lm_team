@@ -81,7 +81,7 @@ export class ScoreManager{
 	
 	recoverLife(time){
 		var startRecover = Date.now()
-		if(this.recoverFlag == 0 && this.currLifes < this.totalLifes){
+		if(this.recoverFlag == 0){
 			this.currLifes += 5;
             document.getElementById("recover").style.visibility = "visible";
 			setTimeout(function(){
@@ -90,6 +90,8 @@ export class ScoreManager{
 			this.recoverFlag = 1;
 			this.updateSpansGame();
 			this.updateGameOver();
+			var audio = new Audio('resources/audios/PokemonRecovery.wav');
+			audio.play();
 		}
 				
     }
