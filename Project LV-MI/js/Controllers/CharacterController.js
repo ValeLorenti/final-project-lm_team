@@ -8,6 +8,7 @@ export class CharacterController {
 		this.entity = params.entity;
 		this.camera = params.camera;
 		this.camera2 = params.camera2;
+		this.camera3 =  params.camera3;
 		this.bulletManager = params.bulletManager;
 		this.scoreManager = params.scoreManager;
 		
@@ -68,8 +69,11 @@ export class CharacterController {
 		this.pitchObject.position.set(0.0,2,-0.2)
 		this.pitchObject.add(this.camera);
 		this.pitchObject.add(this.camera2);
+		this.pitchObject.add(this.camera3);
 		this.camera2.translateZ(-3);
 		this.camera2.translateY(-0.3);
+		this.camera3.translateZ(+5);
+		this.camera3.translateY(+0.3);
 		this.yawObject.add(this.character.getMesh());
 		this.yawObject.add(this.pitchObject);
 		//this.yawObject.position.y = 5;

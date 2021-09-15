@@ -532,7 +532,9 @@ class gameEnvironment {
     }
 	
 	changeVisual() {
-		this.activeCamera = (this.activeCamera+1)%2;
+		if (this.activeCamera >=2) this.activeCamera = 0;
+		else this.activeCamera = this.activeCamera+1;
+		console.log(this.activeCamera);
 	}
 	
 	onWindowResize() {
@@ -679,7 +681,12 @@ class gameEnvironment {
 		this.controls.update( Date.now() - this.time );
 		if(this.activeCamera==0) this.renderer.render( this.scene, this.camera );
 			
-		else this.renderer.render( this.scene, this.camera2 );
+		if(this.activeCamera==1) this.renderer.render( this.scene, this.camera2 );
+		
+		if(this.activeCamera==2){
+			this.renderer.render( this.scene, this.camera3 );
+			console.log("camera3");
+		}
 		this.time = Date.now();
 	}
 
@@ -700,6 +707,7 @@ class gameEnvironment {
 		this.world = this.initCannon();	
 		this.camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.15, 1200 );
 		this.camera2 = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 1200 );
+		this.camera3 = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.05, 1200 );
 		this.activeCamera = 0;
 		this.scene = new THREE.Scene();	
 		this.bulletManager = new BulletManager({manager: MANAGER, world: this.world, scene: this.scene});
@@ -1105,7 +1113,7 @@ class gameEnvironment {
 		this.entityManager.setPlayer(this.playerEntity);
 		//this.person = new CharacterFactory({manager : MANAGER, guns : [CharacterFactory.GUN_PISTOL, "ak47", "sniper", "rpg"]});
 
-		this.controls = new CharacterController({manager: MANAGER, entity: this.playerEntity, camera: this.camera, camera2: this.camera2, bulletManager: this.bulletManager, scoreManager: this.scoreManager});
+		this.controls = new CharacterController({manager: MANAGER, entity: this.playerEntity, camera: this.camera, camera2: this.camera2, camera3: this.camera3, bulletManager: this.bulletManager, scoreManager: this.scoreManager});
 		
 		this.controls.addTorch(this.torch);
 
