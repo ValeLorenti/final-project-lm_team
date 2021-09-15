@@ -118,6 +118,8 @@ export class CharacterController {
 	}
 	turnTorch() {
 		this.torch.visible = !this.torch.visible;
+		var audio = new Audio('resources/audios/ClickTorch.wav');
+		audio.play();
 	}
 
 	shot() {

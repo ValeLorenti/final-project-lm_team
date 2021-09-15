@@ -701,22 +701,16 @@ class gameEnvironment {
 		this.camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.15, 1200 );
 		this.camera2 = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.1, 1200 );
 		this.activeCamera = 0;
-		this.scene = new THREE.Scene();
-		//this.scene.fog = new THREE.Fog( 0x000000, 0, 500 );	
+		this.scene = new THREE.Scene();	
 		this.bulletManager = new BulletManager({manager: MANAGER, world: this.world, scene: this.scene});
 		this.entityManager = new EntityManager({scene: this.scene, world: this.world, manager: MANAGER,scoreManager: this.scoreManager ,bulletManager: this.bulletManager});
 		
-		var ambient = new THREE.AmbientLight( 0x666666 );
-		this.scene.add( ambient );
+
 		this.torch = new THREE.SpotLight(0xffffff);
 		this.torch.angle = Math.PI/4;
 		this.torch.distance = 100;
 		this.torch.penumbra = 0.3;
-		this.torch.intensity = 1.5;
-		const directionalLight = new THREE.DirectionalLight(0xffffff, 0.3);
-		directionalLight.position.set( 0, 100, 0 ); //default; light shining from top
-		//light.castShadow = false; // default false
-		this.scene.add(directionalLight);
+		this.torch.intensity = 2.5;
 		this.torch.castShadow = true;
 		this.torch.shadow.camera.near = 3.0;
 		this.torch.shadow.camera.far = 50;//camera.far;
@@ -738,7 +732,7 @@ class gameEnvironment {
 			this.lights[i].angle = this.torch.angle = Math.PI/8;
 			this.lights[i].distance = 200;
 			this.lights[i].penumbra = 0.2;
-			this.lights[i].intensity = 3;
+			this.lights[i].intensity = 4;
 			this.scene.add(this.lights[i]);
 		}
 		
@@ -770,6 +764,11 @@ class gameEnvironment {
 					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-right.png'), side: THREE.DoubleSide, dithering: true}),
 					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-left.png'), side: THREE.DoubleSide, dithering: true}),
 				];
+				const directionalLightDay = new THREE.DirectionalLight(0xffffff, 1);
+				directionalLightDay.position.set( 0, 100, 0 );
+				var ambientDay = new THREE.AmbientLight( 0x777777 );
+				this.scene.add( ambientDay );
+				this.scene.add(directionalLightDay);
 				break;
 			case 1:
 				var skyBoxMaterials = [
@@ -780,6 +779,11 @@ class gameEnvironment {
 					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB1-right.jpg'), side: THREE.DoubleSide, dithering: true}),
 					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB1-left.jpg'), side: THREE.DoubleSide, dithering: true}),
 				];
+				const directionalLightEvening = new THREE.DirectionalLight(0xff0000, 0.2);
+				directionalLightEvening.position.set( 150, 100, 150);
+				var ambientEvening = new THREE.AmbientLight( 0x555555 );
+				this.scene.add( ambientEvening );
+				this.scene.add(directionalLightEvening);
 				break;
 			case 2:
 				var skyBoxMaterials = [
@@ -790,6 +794,11 @@ class gameEnvironment {
 					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB2-right.jpg'), side: THREE.DoubleSide, dithering: true}),
 					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB2-left.jpg'), side: THREE.DoubleSide, dithering: true}),
 				];
+				const directionalLightNight = new THREE.DirectionalLight(0x10d8f, 0.1);
+				directionalLightNight.position.set( 150, 85, -150 );
+				var ambientNight = new THREE.AmbientLight( 0x333333 );
+				this.scene.add( ambientNight );
+				this.scene.add(directionalLightNight);
 				break;	
 			
 		}
