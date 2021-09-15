@@ -666,11 +666,11 @@ class gameEnvironment {
 			this.sphereMeshes[i].quaternion.copy(this.spheres[i].quaternion);
 		}
 		
-		if((this.playerEntity.body.position.x > 118 && this.playerEntity.body.position.x < 122) && (this.playerEntity.body.position.z > 98 && this.playerEntity.body.position.z < 102) && (this.playerEntity.body.position.y > 7.5)){
-			console.log("zona recupero");
-			
-			this.scoreManager.recoverLife();
-		}
+		if((this.playerEntity.body.position.x > 118 && this.playerEntity.body.position.x < 122) 
+			&& (this.playerEntity.body.position.z > 98 && this.playerEntity.body.position.z < 102) 
+			&& (this.playerEntity.body.position.y > 7.5))
+			this.scoreManager.recoverLife(time);
+		
 		TWEEN.update()
 	}
 

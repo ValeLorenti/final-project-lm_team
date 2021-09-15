@@ -205,35 +205,43 @@ class SimpleEnemyEntity extends Entity{
 	}
 
 	hitted(){
-        this.hit ++;
-        if(this.hit == 2){
-    		this.scoreManager.enemyKilled();
-    		this.entityManager.eliminateThisEntity(this);
-        }
-	}
-
-	update(timeInSeconds){
-		this.controls.update(timeInSeconds);
-
-		if(this.body.position.y < -20){
+		this.hit ++;
+		if(this.hit == 2){
 			this.scoreManager.enemyKilled();
-			this.entityManager.eliminateThisEntity(this);
+			this.character.startDeath();
+			this.deathCount = true;
+			this.death = Date.now();
 		}
 	}
+	update(timeInSeconds){
+			this.controls.update(timeInSeconds);
+
+			if(this.body.position.y < -20){
+				this.scoreManager.enemyKilled();
+				this.entityManager.eliminateThisEntity(this);
+			}
+			
+			var now = Date.now();
+			if(this.deathCount && ((now - this.death)>this.character.deathSpeed))this.entityManager.eliminateThisEntity(this);
+				
+		}
 }
 
 class GiantEnemyEntity extends SimpleEnemyEntity{
     constructor(params){
         super(params);
     }
+	
+	hitted(){
+			this.hit ++;
+			if(this.hit == 10){
+				this.scoreManager.enemyKilled();
+				this.character.startDeath();
+				this.deathCount = true;
+				this.death = Date.now();
+			}
+		}
 
-    hitted(){
-        this.hit ++;
-        if(this.hit == 10){
-            this.scoreManager.enemyKilled();
-            this.entityManager.eliminateThisEntity(this);
-        }
-    }
 }
 
 class PlayerEntity extends Entity{

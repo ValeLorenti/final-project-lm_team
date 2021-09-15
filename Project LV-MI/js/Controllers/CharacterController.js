@@ -96,11 +96,13 @@ export class CharacterController {
 		this.bulletManager.spawnNewBullet(this.entity, this.shootDirection)
 	}
 	reloadComplete() {
+		document.getElementById("reloading").style.visibility = "hidden";
 		this.setAmmo(this.ammo);
 		this.shotTime = -1;
 		this.isReloading = false;
 	}
 	reload() {
+		document.getElementById("reloading").style.visibility = "visible";
 		this.shotTime = this.timeReload;
 		this.isReloading = true;
 	}
@@ -118,7 +120,6 @@ export class CharacterController {
 
 	shot() {
 		if(this.MANAGER.gameEnable==false) return;
-		
 		if(this.shotTime<=0) {
 			this.createBulletFromPlayer();
 			this.setAmmo()
@@ -128,6 +129,7 @@ export class CharacterController {
 				this.shotTime = this.timeBetweenAmmo;
 		}
 	}
+	
 	setAmmo(quantity=null) {
 		if(quantity!=null)
 			this.currAmmo = quantity;
@@ -142,21 +144,24 @@ export class CharacterController {
 		this.ammo = this.currentGun.ammo;
 		this.timeBetweenAmmo = this.currentGun.timeBetweenAmmo*350;
 		this.scoreManager.setUpGun({name: this.currentGun.name, ammo: this.ammo});
-		this.reload();
+		if(this.currentGun.currAmmo <= 0) this.reload();
+		
 	}
 	
 	changeGun() {
 		this.character.changeGun();
 		this.setUpGun();
-		this.setAmmo(0)
+		this.setAmmo(0);
 	}
 	
 	updateReloading(time) {
-		if(this.shotTime>0)
+		if(this.shotTime>0){
+			
 			this.shotTime -= time;
-		if(this.shotTime<=0 && this.isReloading)
+		}
+		if(this.shotTime<=0 && this.isReloading){
 			this.reloadComplete();
-		
+		}
 	}
 
     // Moves the camera to the Cannon.js object position and adds velocity to the object if the run key is down

@@ -30,7 +30,7 @@ export class CharacterFactory {
 		ammo: 200,
 		timeBetweenAmmo: 0.009,
 		bullet: {
-			mass: 20,
+			mass: 10,
 			radius: 0.2,
 			shootVelocity: 60,
 		}
@@ -51,7 +51,8 @@ export class CharacterFactory {
 		this.gunsQuantity = 0;
 		this.actualGun = 0;
 		this.typeFlag = params.type;
-		
+		this.high = 2.5;
+		this.deathSpeed = 650;
 		this.buildCharacter();
 		
 		if(params.rotation){
@@ -69,6 +70,7 @@ export class CharacterFactory {
 		this.prepareGuns();
 		
 		this.initializeAnimation();
+		this.deathAnimation();
 		if(this.typeFlag == 'giant') this.character.scale.set(3,3,3);
 	}
 	
@@ -89,6 +91,8 @@ export class CharacterFactory {
 		   //var boxMaterial = new THREE.MeshPhongMaterial( { map: headTexture } );
 		   this.headMesh = new THREE.Mesh(boxGeometry, headTexture);
 		   this.headMesh.rotation.y  = Math.PI/2;
+		   this.high = 3*3;
+		   this.deathSpeed = 1500;
 		 }
 
   		if(this.typeFlag == 'enemy'){
@@ -299,6 +303,18 @@ export class CharacterFactory {
 		this.legTween3.onUpdate(this.updateLeg1.bind(this))		
 	}
 	
+	deathAnimation() {
+		
+		this.deathTween = new TWEEN.Tween( {x: 0, y: this.high , z: 0}).to({x: -Math.PI/2, y: 0 , z: 0}, this.deathSpeed)
+			.easing(TWEEN.Easing.Quadratic.InOut);
+		this.updateDeath = function(object){
+			this.character.rotation.x = object.x;
+			this.character.position.y = object.y;
+		}			
+		this.deathTween.onUpdate(this.updateDeath.bind(this));	
+	}
+	
+	
 	getMesh() {
 		return this.character;
 	}
@@ -313,6 +329,10 @@ export class CharacterFactory {
 	
 	startMove() {
 		this.legTween1.start();
+	}
+	
+	startDeath() {
+		this.deathTween.start();
 	}
 	
 	stopMove() {

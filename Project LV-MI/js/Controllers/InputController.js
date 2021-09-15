@@ -66,7 +66,7 @@ export class InputController {
                 this.keys.shift = true;
                 break;
 			
-			case 86: //v
+			case 90: //z
 				this.MANAGER.APP.changeVisual();
 				break;
 				

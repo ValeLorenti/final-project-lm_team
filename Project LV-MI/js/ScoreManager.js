@@ -79,18 +79,22 @@ export class ScoreManager{
 		this.updateGameOver();
     }
 	
-	recoverLife(){
-		
+	recoverLife(time){
+		var startRecover = Date.now()
 		if(this.recoverFlag == 0 && this.currLifes < this.totalLifes){
 			this.currLifes += 5;
-			console.log("ho recuperato");
+            document.getElementById("recover").style.visibility = "visible";
+			setTimeout(function(){
+            document.getElementById("recover").style.visibility = "hidden";
+				}, 4000);
 			this.recoverFlag = 1;
 			this.updateSpansGame();
 			this.updateGameOver();
-			
 		}
-		
+				
     }
+	
+	  
 	
     updateCurrTime(time){
         this.currTime = time;
