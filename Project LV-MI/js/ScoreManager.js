@@ -74,7 +74,7 @@ export class ScoreManager{
     lose1life(){
 		console.log("Colpito")
         var hitTime = Date.now();
-		if(this.lastHit && hitTime-this.lastHit < 500)	//After being hit, we have half a second of immunity
+		if(this.lastHit && hitTime-this.lastHit < 750)	//After being hit, we have half a second of immunity
 			return;
 		console.log("Eseguo")
 		this.lastHit = hitTime;

@@ -265,12 +265,12 @@ export class CharacterFactory {
 			switch(this.gunsName[i]) {
 				case CharacterFactory.GUN_PISTOL:
 					this.guns.push(this.MANAGER.APP.models[CharacterFactory.GUN_PISTOL].model.clone())
-					this.guns[this.gunsQuantity].position.set(-0.05,-0.9,-0.3);
+					this.guns[this.gunsQuantity].position.set(-0.05,-0.65,-0.3);
 					this.guns[this.gunsQuantity].rotation.x = -Math.PI/2;
 					break;
 				case CharacterFactory.GUN_MP5:
 					this.guns.push(this.MANAGER.APP.models[CharacterFactory.GUN_MP5].model.clone())
-					this.guns[this.gunsQuantity].position.set(-0.12,-0.6,-0.1);
+					this.guns[this.gunsQuantity].position.set(-0.12,-0.95,-0.1);
 					this.guns[this.gunsQuantity].rotation.y = -Math.PI/2;
 					this.guns[this.gunsQuantity].rotation.x = -Math.PI/2;
 					break;
