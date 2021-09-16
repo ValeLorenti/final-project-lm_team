@@ -77,9 +77,18 @@ export class CharacterFactory {
 	buildCharacter() {
 
 		//Generate character
-		if(this.typeFlag == 'player') this.headMesh = this.generateBoxMesh(0.6,0.6,0.6, 0, 0, 0);
+		if(this.typeFlag == 'player'){
+		   var headTexture = [
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveLeft.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveRight.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveUp.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveDown.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveBack.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveFront.png'), side: THREE.DoubleSide, dithering: true}),
+		  ];
+		  this.headMesh = this.generateBoxMesh(0.6, 0.6, 0.6, 0, 0, 0, headTexture);
+		 }
 		if(this.typeFlag == 'giant') {
-		   var boxGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
 		   var headTexture = [
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantHeadFront.png'), side: THREE.DoubleSide, dithering: true}),
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantHeadBack.png'), side: THREE.DoubleSide, dithering: true}),
@@ -89,14 +98,13 @@ export class CharacterFactory {
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantHeadLeft.png'), side: THREE.DoubleSide, dithering: true}),
 		  ];
 		   //var boxMaterial = new THREE.MeshPhongMaterial( { map: headTexture } );
-		   this.headMesh = new THREE.Mesh(boxGeometry, headTexture);
+		   this.headMesh = this.generateBoxMesh(0.6, 0.6, 0.6, 0, 0, 0, headTexture);
 		   this.headMesh.rotation.y  = Math.PI/2;
 		   this.high = 3*3;
 		   this.deathSpeed = 1500;
 		 }
 
   		if(this.typeFlag == 'enemy'){
-		   var boxGeometry = new THREE.BoxGeometry(0.6, 0.6, 0.6);
 		   var headTexture = [
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieHeadSlide.png'), side: THREE.DoubleSide, dithering: true}),
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieHeadSlide.png'), side: THREE.DoubleSide, dithering: true}),
@@ -106,7 +114,7 @@ export class CharacterFactory {
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieFace.png'), side: THREE.DoubleSide, dithering: true}),
 		  ];
 		   //var boxMaterial = new THREE.MeshPhongMaterial( { map: headTexture } );
-		   this.headMesh = new THREE.Mesh(boxGeometry, headTexture);
+		  this.headMesh = this.generateBoxMesh(0.6, 0.6, 0.6, 0, 0, 0, headTexture);
 		 }
 
 		this.headMesh.name = "skull";
@@ -116,7 +124,19 @@ export class CharacterFactory {
 		this.headGroup.add(this.headMesh);
 		
 		// Body mesh models and groups
-		if(this.typeFlag == 'player') this.bodyMesh = this.generateBoxMesh(0.6, 1.2, 0.45, 0, -0.9, 0);
+		if(this.typeFlag == 'player'){
+		   var boxGeometry = new THREE.BoxGeometry(0.6, 1.2, 0.45); 
+		   var bodyTexture = [
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveBodyLeft.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveBodyRight.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveBodyUp.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveBodyDown.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveBodyBack.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveBodyFront.png'), side: THREE.DoubleSide, dithering: true}),
+		  ];
+		   this.bodyMesh = this.generateBoxMesh(0.6, 1.2, 0.45, 0, -0.9, 0, bodyTexture);
+		  }
+		  
 		if(this.typeFlag == 'giant'){
 		   var boxGeometry = new THREE.BoxGeometry(0.6, 1.2, 0.45); 
 		   var bodyTexture = [
@@ -127,11 +147,10 @@ export class CharacterFactory {
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantBodyLeft.png'), side: THREE.DoubleSide, dithering: true}),
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantBodyFront.png'), side: THREE.DoubleSide, dithering: true}),
 		  ];
-		   this.bodyMesh = new THREE.Mesh(boxGeometry, bodyTexture);
-		   this.bodyMesh.position.set(0, -0.9, 0);
+		   this.bodyMesh = this.generateBoxMesh(0.6, 1.2, 0.45, 0, -0.9, 0, bodyTexture);
 		  }
+		  
 		if(this.typeFlag == 'enemy'){
-		   var boxGeometry = new THREE.BoxGeometry(0.6, 1.2, 0.45); 
 		   var bodyTexture = [
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieBodyFront.png'), side: THREE.DoubleSide, dithering: true}),
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieBodyBack.png'), side: THREE.DoubleSide, dithering: true}),
@@ -140,8 +159,7 @@ export class CharacterFactory {
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieBodyLeft.png'), side: THREE.DoubleSide, dithering: true}),
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieBodyRight.png'), side: THREE.DoubleSide, dithering: true}),
 		  ];
-		   this.bodyMesh = new THREE.Mesh(boxGeometry, bodyTexture);
-		   this.bodyMesh.position.set(0, -0.9, 0);
+			this.bodyMesh = this.generateBoxMesh(0.6, 1.2, 0.45, 0, -0.9, 0, bodyTexture);
 		  }
 		
 		
@@ -150,19 +168,18 @@ export class CharacterFactory {
 		this.leftLeg.position.y = -1.5;
 		this.leftLeg.position.x = -0.155;
 		this.leftLeg.name = "Left Leg";
-		if(this.typeFlag == 'player') this.leftLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
+		if(this.typeFlag == 'player') {
+		   var legTexture =  new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveLeg.png'), side: THREE.DoubleSide, dithering: true});
+		   this.leftLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0, legTexture);
+		}
+			
 		if(this.typeFlag == 'giant'){
-		   var boxGeometry = new THREE.BoxGeometry(0.28, 1.0, 0.3);
 		   var legTexture =  new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantLeg.png'), side: THREE.DoubleSide, dithering: true});
-		   this.leftLegMesh = new THREE.Mesh(boxGeometry, legTexture);
-		   this.leftLegMesh.position.set(0, -0.45, 0);
-
+		   this.leftLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0, legTexture);
 		}
 		if(this.typeFlag == 'enemy'){
-		   var boxGeometry = new THREE.BoxGeometry(0.28, 1.0, 0.3);
 		   var legTexture =  new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegFront.png'), side: THREE.DoubleSide, dithering: true});
-		   this.leftLegMesh = new THREE.Mesh(boxGeometry, legTexture);
-		   this.leftLegMesh.position.set(0, -0.45, 0);
+		   this.leftLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0, legTexture);
 		  }
 		  this.leftLeg.add(this.leftLegMesh)
 		
@@ -170,18 +187,17 @@ export class CharacterFactory {
 		this.rightLeg.position.y = -1.5;
 		this.rightLeg.position.x = 0.155;
 		this.rightLeg.name = "Right Leg"
-		if(this.typeFlag == 'player') this.rightLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0);
+		if(this.typeFlag == 'player') {
+		   var legTexture =  new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveLeg.png'), side: THREE.DoubleSide, dithering: true});
+		   this.rightLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0, legTexture);
+		}
 		if(this.typeFlag == 'giant'){
-		   var boxGeometry = new THREE.BoxGeometry(0.28, 1.0, 0.3);
 		   var legTexture =  new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantLeg.png'), side: THREE.DoubleSide, dithering: true});
-		   this.rightLegMesh = new THREE.Mesh(boxGeometry, legTexture);
-		   this.rightLegMesh.position.set(0, -0.45, 0);
+		    this.rightLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0, legTexture);
 		}
 		if(this.typeFlag == 'enemy'){
-		   var boxGeometry = new THREE.BoxGeometry(0.28, 1.0, 0.3);
 		   var legTexture =  new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieLegFront.png'), side: THREE.DoubleSide, dithering: true});
-		   this.rightLegMesh = new THREE.Mesh(boxGeometry, legTexture);
-		   this.rightLegMesh.position.set(0, -0.45, 0);
+		   this.rightLegMesh = this.generateBoxMesh(0.28, 1.0, 0.3, 0, -0.45, 0, legTexture);
 		  }
 		this.rightLeg.add(this.rightLegMesh)
 		this.legGroup = new THREE.Group();
@@ -193,18 +209,17 @@ export class CharacterFactory {
 		this.leftArm.position.x = -0.45;
 		this.leftArm.position.y = -0.45;
 		this.leftArm.name = "Left Arm"
-		if(this.typeFlag == 'player') this.leftArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+		if(this.typeFlag == 'player'){
+			var armTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveArm.png'), side: THREE.DoubleSide, dithering: true});
+			this.leftArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0, armTexture);
+		}
 		if(this.typeFlag == 'giant'){
-			var leftGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);
-			var leftTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantArm.png'), side: THREE.DoubleSide, dithering: true})
-			this.leftArmMesh= new THREE.Mesh(leftGeometry, leftTexture);
-			this.leftArmMesh.position.set(0, -0.3, 0);
+			var armTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantArm.png'), side: THREE.DoubleSide, dithering: true});
+			this.leftArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0, armTexture);
 		}
 		if(this.typeFlag == 'enemy'){
-			var leftGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);
-			var leftTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieArm.png'), side: THREE.DoubleSide, dithering: true})
-			this.leftArmMesh= new THREE.Mesh(leftGeometry, leftTexture);
-			this.leftArmMesh.position.set(0, -0.3, 0);
+			var armTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieArm.png'), side: THREE.DoubleSide, dithering: true})
+			this.leftArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0, armTexture);
 		}
 		this.leftArm.add(this.leftArmMesh)
 
@@ -212,18 +227,17 @@ export class CharacterFactory {
 		this.rightArm.position.x = 0.45;
 		this.rightArm.position.y = -0.45;
 		this.rightArm.name = "Right Arm"
-		if(this.typeFlag == 'player') this.rightArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0);
+		if(this.typeFlag == 'player') {
+			var armTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveArm.png'), side: THREE.DoubleSide, dithering: true});
+			this.rightArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0, armTexture);
+		}
 		if(this.typeFlag == 'giant'){
-			var rightGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);
-			var rightTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantArm.png'), side: THREE.DoubleSide, dithering: true})
-			this.rightArmMesh= new THREE.Mesh(rightGeometry, rightTexture);
-			this.rightArmMesh.position.set(0, -0.3, 0);
+			var armTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantArm.png'), side: THREE.DoubleSide, dithering: true});
+			this.rightArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0, armTexture);
 		}
 		if(this.typeFlag == 'enemy'){
-			var rightGeometry = new THREE.BoxGeometry(0.2775, 0.9, 0.3);
-			var rightTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieArm.png'), side: THREE.DoubleSide, dithering: true})
-			this.rightArmMesh= new THREE.Mesh(rightGeometry, rightTexture);
-			this.rightArmMesh.position.set(0, -0.3, 0);
+			var armTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieArm.png'), side: THREE.DoubleSide, dithering: true});
+			this.rightArmMesh = this.generateBoxMesh(0.2775, 0.9, 0.3, 0, -0.3, 0, armTexture);
 		}
 		this.rightArm.add(this.rightArmMesh)
 		this.rightArm.rotation.x = Math.PI / 2;
@@ -242,7 +256,7 @@ export class CharacterFactory {
 		this.character.add(this.headGroup, this.bodyGroup);
 
 
-		}
+	}
 	
 
 	
@@ -343,30 +357,13 @@ export class CharacterFactory {
 		legTween4.onUpdate(this.updateLeg1.bind(this));
 		legTween4.start();;
 	}
-	
-	sphereMesh(radius, x, y, z, color='#' + (Math.random() * 0xFFFFFF << 0).toString(16)) {
-		var sphereGeometry = new THREE.SphereGeometry(radius, 32, 32);
-		var sphereMaterial = new THREE.MeshPhongMaterial( { color: color } );
-		var mesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
-		mesh.position.set(x,y,z);
-		return mesh;
-	}
-	generateBoxMesh(width, height, depth, x, y, z) {
+
+	generateBoxMesh(width, height, depth, x, y, z, material) {
 		var boxGeometry = new THREE.BoxGeometry(width, height, depth);
-		var randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
-		var boxMaterial = new THREE.MeshPhongMaterial( { color: randomColor } );
-		var mesh = new THREE.Mesh(boxGeometry, boxMaterial);
+		var mesh = new THREE.Mesh(boxGeometry, material);
 		mesh.castShadow = true;
 		mesh.position.set(x,y,z);
 		return mesh;
 	}
 
-	cylinderMesh(radius, height, x, y, z) {
-		var cylinderGeometry = new THREE.CylinderGeometry(radius,radius, height, 32, 32);
-		var randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
-		var cylinderMaterial = new THREE.MeshPhongMaterial( { color: randomColor } );
-		var mesh = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-		mesh.position.set(x,y,z);
-		return mesh;
-	}
 }
