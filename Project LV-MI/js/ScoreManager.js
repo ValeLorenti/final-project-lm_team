@@ -46,10 +46,14 @@ export class ScoreManager{
     updateGameOver(){
         if(this.currLifes <= 0 || this.currPassedTime < 0){
             this.gameOver = true;
+			var audio = new Audio('resources/audios/GameOver.wav');
+			audio.play();
         }
         if(this.killedEnemy >= this.quantityEnemy){
             this.win = true;
             this.gameOver = true;
+			var audio = new Audio('resources/audios/Victory.wav');
+			audio.play();
         }
     }
 	

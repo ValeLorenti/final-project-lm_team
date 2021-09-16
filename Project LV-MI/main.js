@@ -56,6 +56,7 @@ class gameManager {
 
 
 class MenuEnvironment {
+
 	constructor() {
 		this.game = document.getElementById("game");
 		
@@ -760,8 +761,7 @@ class gameEnvironment {
 
 		//skybox
 		var skyBoxGeometry = new THREE.BoxGeometry(900,900,900);
-		
-		console.log(MANAGER.location);
+
 		switch(MANAGER.location){
 			case 0:
 				var skyBoxMaterials = [
@@ -1222,7 +1222,7 @@ class gameOverEnvironment {
         this.statsTime = document.getElementById("statsTime");
 
         if(params.win){
-            this.gameOverResoult.innerHTML ="You WIN";
+            this.gameOverResoult.innerHTML ="You WON";
         } else {
             this.gameOverResoult.innerHTML ="You LOSE";
         }
@@ -1241,4 +1241,6 @@ var MANAGER = new gameManager();
 
 window.addEventListener('DOMContentLoaded', () => {
     MANAGER.APP = new MenuEnvironment();
+    //var audio = new Audio('resources/audios/MenuSoundTrack.wav');
+	//audio.play()
 });
