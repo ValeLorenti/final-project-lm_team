@@ -471,7 +471,7 @@ class gameEnvironment {
 		var promise = [
 
             this.getModel('pistol/scene.gltf', 1.25),
-            this.getModel('mp5/scene.gltf', 2.5),
+            this.getModel('mp5/scene.gltf', 0.8),
             this.getModel('minigun/scene.gltf', 0.009),
 			this.getModel('stadiumLight/scene.gltf', 6, "Standing_Lamp"),
 			this.getModel('aidBox/scene.gltf',10),

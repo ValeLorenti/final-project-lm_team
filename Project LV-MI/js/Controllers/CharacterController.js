@@ -77,7 +77,6 @@ export class CharacterController {
 		this.camera3.translateY(+0.3);
 		this.yawObject.add(this.character.getMesh());
 		this.yawObject.add(this.pitchObject);
-		//this.yawObject.position.y = 5;
 	}
 	
     getObject() {
