@@ -69,7 +69,7 @@ export class CharacterController {
 		this.pitchObject.position.set(0.0,2,-0.2)
 		this.pitchObject.add(this.camera);
 		this.pitchObject.add(this.camera2);
-		//this.pitchObject.add(this.camera3);
+		this.pitchObject.add(this.camera3);
 		this.camera.translateY(+0.15);
 		this.camera2.translateZ(-3);
 		this.camera2.translateY(-0.3);
