@@ -12,6 +12,8 @@ class gameManager {
 		this.gameEnable = false;
 		
 		this.APP = null;
+
+		this.audio = new Audio('resources/audios/MenuSoundTrack.wav');
 		
 		this.setOptionsDefault = function() {
 			this.options = {
@@ -46,6 +48,7 @@ class gameManager {
 	startGame() {
 		this.gameStarted = true;
 		this.APP = new gameEnvironment();
+		this.audio.pause();
 	}
 	
 	endGame(params) {
@@ -66,6 +69,8 @@ class MenuEnvironment {
 		this.locationButtonD =  document.getElementById("locationButtonD");
 		this.locationButtonE =  document.getElementById("locationButtonE");
 		this.locationButtonN =  document.getElementById("locationButtonN");
+
+		this.soundButton =  document.getElementById("soundsButton");
 		
 		this.setting = document.getElementById("settings");
 		this.exitSettings = document.getElementById("exitSettings");
@@ -82,6 +87,9 @@ class MenuEnvironment {
 		this.sliderTime = document.getElementById("sliderTime");
 		
 		this.wiewfinderCkBox = document.getElementById("wiewfinderCkBox");
+
+		this.cont = 0;
+		this.audio = new Audio('resources/audios/MenuSoundTrack.wav');
 
 		this.setUpMainButtons();
 		this.setUpSettingButton();
@@ -110,6 +118,12 @@ class MenuEnvironment {
 		this.locationButtonD.addEventListener("click", this.setLocation.bind(this,0), false);
 		this.locationButtonE.addEventListener("click", this.setLocation.bind(this,1), false);
 		this.locationButtonN.addEventListener("click", this.setLocation.bind(this,2), false);
+
+		this.soundButton.addEventListener("click", () => {
+			this.cont ++;
+			if(this.cont%2 != 0) this.audio.play();
+			if(this.cont%2 == 0) this.audio.pause();
+		}, false);
 	}
 	
 	setUpSettingButton() {
@@ -242,7 +256,6 @@ class MenuEnvironment {
 		this.updateAllSlider();
 	}
 }
-
 
 function searchInChild(root, name) {
 	if(root.name == name) return root;
@@ -1241,6 +1254,4 @@ var MANAGER = new gameManager();
 
 window.addEventListener('DOMContentLoaded', () => {
     MANAGER.APP = new MenuEnvironment();
-    //var audio = new Audio('resources/audios/MenuSoundTrack.wav');
-	//audio.play()
 });
