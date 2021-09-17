@@ -1239,16 +1239,16 @@ class gameOverEnvironment {
     constructor(params){
         this.gameOver = document.getElementById("gameOver");
 
-        this.gameOverResoult = document.getElementById("gameOverResoult");
+        this.gameOverResult = document.getElementById("gameOverResult");
 
         this.statsEnemy = document.getElementById("statsEnemy");
         //this._statsScore = document.getElementById("statsScore");
         this.statsTime = document.getElementById("statsTime");
 
         if(params.win){
-            this.gameOverResoult.innerHTML ="You WON";
+            this.gameOverResult.innerHTML ="You WON 🏆";
         } else {
-            this.gameOverResoult.innerHTML ="You LOSE";
+            this.gameOverResult.innerHTML ="  You LOSE ❌";
         }
 
         this.statsEnemy.innerHTML = params.enemyKilled+"/"+params.numEnemy;

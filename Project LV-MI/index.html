@@ -2,26 +2,35 @@
 	<head>
 		<meta charset="UTF-8"/>
 		<link rel="stylesheet" href="./style.css"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="icon" type="image/png" href="./resources/images/forest.png"/>
 	</head>
 	<body>
-		
 		<div id="menu">
 			<div id="blocker">
-				<div id="instructions">
-					<input id="playGameButton" class="menuBotton" type="button" value="START">
+				<style>
+				img {
+  					width: 100%;
+ 				 	height: auto;
+				}
+				</style>
+				<div style="height: 1vh;">
+					<img id="logo" src="./resources/images/forest.png"/>
+				</div>
+
+				<div style = "position:relative; top:320px;" id="instructions">
+					<input id="playGameButton" class="menuBottonStart" type="button" value="START">
 					<br />
-					(W,A,S,D = Move, SPACE = Jump, SHIFT = Run, TAB = Change Gun, MOUSE = Look, CLICK = Shoot, R = Recharge, T = Turn torch)
-					<br/>
-					<br/>
-					<input id="settingsButton" class="menuBotton" type="button" value="SETTINGS">
-					<input id="locationButtonD" class="menuBotton" type="button" value="DAY" >
-					<input id="locationButtonE" class="menuBotton" type="button" value="EVENING" >
-					<input id="locationButtonN" class="menuBotton" type="button" value="NIGHT" >
-					<input id="soundsButton" class="menuBottonSound" type="button" value="SOUND ON/OFF" >
+					<div style = "position:relative; top:30px;" class="icon-bar">
+	  					<a id="settingsButton"><i class="fa fa-cog"></i></a>
+						<a id="locationButtonD"><i class="fa fa-certificate"></i></a>
+						<a id="locationButtonE"><i class="fa fa-sun-o"></i></a>
+						<a id="locationButtonN"><i class="fa fa-moon-o"></i></a>
+						<a id="soundsButton"><i class="fa fa-volume-down"></i></a>
+					</div>
 				</div>
 			</div>
 		</div>
-		
 		<div id="game">
 			<div id="loading">
 				<img id="LoadingGif" src="resources/images/Spinner.gif">
@@ -109,9 +118,8 @@
 		
 		<div id="gameOver">
 			<div id="winGame">
-				<span id="gameOverTitle" class="spanValue">Game Over</span>
-				<span id="gameOverResoult" class="spanName"></span>
-
+				<span id="gameOverResult" class="spanName"></span>
+				<span id="gameOverTitle" class="spanValue"> Continue?</span>
 				<div id="gameOverStats">
 					<div class="divStats">
 						<span class="spanName">Enemy killed: </span>
