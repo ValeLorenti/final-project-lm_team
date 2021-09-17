@@ -22,7 +22,7 @@ export class EntityAdministrator{
 	addEntity(params) {
 		switch(params.name){
             case EntityAdministrator.ENTITY_SMALL_ZOMBIE:
-				var person = new PersonFactory({administrator: this.ADMINISTRATOR, guns: params.guns, position: params.position, type: 'enemy'})
+				var person = new PersonFactory({administrator: this.ADMINISTRATOR, weapons: params.weapons, position: params.position, type: 'small'})
                 var entity = new SmallZombieEntity({
                     administrator: this.ADMINISTRATOR,
 					entityAdministrator: this,
@@ -39,7 +39,7 @@ export class EntityAdministrator{
                 break;
 
             case EntityAdministrator.ENTITY_GIANT_ZOMBIE:
-                var person = new PersonFactory({administrator: this.ADMINISTRATOR, guns: params.guns, position: params.position, type: 'giant'})
+                var person = new PersonFactory({administrator: this.ADMINISTRATOR, weapons: params.weapons, position: params.position, type: 'giant'})
                 var entity = new GiantZombieEnity({
                     administrator: this.ADMINISTRATOR,
                     entityAdministrator: this,
@@ -57,7 +57,7 @@ export class EntityAdministrator{
                 break;
 
             case EntityAdministrator.ENTITY_PLAYER:
-				var person = new PersonFactory({administrator: this.ADMINISTRATOR, guns: params.guns, position: params.position, type: 'player'})
+				var person = new PersonFactory({administrator: this.ADMINISTRATOR, weapons: params.weapons, position: params.position, type: 'player'})
                 var entity = new PlayerEntity({
                     administrator: this.ADMINISTRATOR,
 					entityAdministrator: this,

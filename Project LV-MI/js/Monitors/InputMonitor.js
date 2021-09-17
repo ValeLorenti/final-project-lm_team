@@ -14,13 +14,13 @@ export class InputMonitor {
         };
 
         this.ADMINISTRATOR = params.administrator;
-        this.mouseVelocity = 0.002 * this.ADMINISTRATOR.getMouseSensibility();
+        this.mouseSpeed = 0.002 * this.ADMINISTRATOR.getMouseSensibility();
         this.rotationX = 0;
         this.rotationY = 0;
 
         this.scopeEnabled = true;
 
-        document.addEventListener( 'mousemove', (e) => this.onMouseMove(e), false );
+        document.addEventListener('mousemove', (e) => this.onMouseMove(e), false );
         document.addEventListener('keydown', (e) => this.onKeyDown(e), false);
         document.addEventListener('keyup', (e) => this.onKeyUp(e), false);
     }

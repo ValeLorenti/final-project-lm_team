@@ -27,7 +27,7 @@ export class BasicAIMonitor {
 			this.target.rotation.y = Math.atan2(-direction.x,-direction.z);
 			if(distance<this.maxDistance) {				//From maxDistance start to shot
 				if(this.timeToShot<0) {
-					this.bulletAdministrator.spawnNewBullet(this.entity,direction)
+					this.bulletAdministrator.buildNewBullet(this.entity,direction)
 					this.currAmmo -= 1;
 					this.timeToShot = this.computeNewTimeToShot();
 				}
@@ -85,7 +85,7 @@ export class BasicAIMonitor {
 	}
 	
 	setTimeToShot() {
-		var gun = this.entity.person.getActualGun()
+		var gun = this.entity.person.getActualWeapon()
 		this.timeReloading = gun.timeReloading *1000;
 		this.ammo = gun.ammo;
 		this.timeBetweenAmmo = gun.timeBetweenAmmo *1000;
@@ -100,10 +100,5 @@ export class BasicAIMonitor {
 		var direction = objective.sub(from).normalize();
 		return (new THREE.Ray(this.body.position, direction)).direction;
 	}
-	
-	/*
-	selectBullet() {
-		switch()
-	}
-	*/
+
 }

@@ -13,11 +13,11 @@ export class BulletAdministrator {
 		this.bullet;
 	}
 	
-	spawnNewBullet(entity, direction) {
+	buildNewBullet(entity, direction) {
 		var position = entity.body.position;
 		if(this.ADMINISTRATOR.gameEnable==false) return;
-		var bullet = this.createNewBullet(entity.person.getActualGun().bullet);
-		bullet.body.addEventListener("collide", function (e){		//se il proiettile colpisce il pavimento
+		var bullet = this.createNewBullet(entity.person.getActualWeapon().bullet);
+		bullet.body.addEventListener("collide", function (e){
                 if ( !(e.contact.bi.isGround || e.contact.bj.isGround) )
                     return;
                 bullet.body.isBullet = undefined;
@@ -37,7 +37,7 @@ export class BulletAdministrator {
 			bullet.body.isBullet = 2;
 		}
 
-		if(entity.person.typeFlag == 'enemy'){
+		if(entity.person.typeFlag == 'small'){
 			var x = position.x;
 			var y = position.y+0.5;
 			var z = position.z;
@@ -67,12 +67,12 @@ export class BulletAdministrator {
 		var ballGeometry = new THREE.SphereGeometry(bullet.radius, 32, 32);
 		var randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
 		var material2 = new THREE.MeshPhongMaterial( { color: randomColor } );
-		var shootVelocity = bullet.shootVelocity;
+		var shootSpeed = bullet.shootSpeed;
 		var bulletMesh = new THREE.Mesh( ballGeometry, material2 );
 		bulletBody.addShape(bulletShape);
 		bulletMesh.castShadow = true;
 		bulletMesh.receiveShadow = true;
-		return {body: bulletBody, mesh: bulletMesh, shape: bulletShape, velocity: shootVelocity, pos: this.bullets.length}
+		return {body: bulletBody, mesh: bulletMesh, shape: bulletShape, velocity: shootSpeed, pos: this.bullets.length}
 	}
 	
 	update(timeInMilliSecond) {

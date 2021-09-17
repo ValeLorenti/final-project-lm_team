@@ -15,16 +15,16 @@ export class PersonMonitor {
 		this.personBody = this.entity.body;
 		this.person = this.entity.person;
 		
-		this.currentGun = this.person.getActualGun();
-		this.setUpGun();
+		this.currWeapon = this.person.getActualWeapon();
+		this.setUpWeapon();
 		this.setAmmo(this.ammo);
 		this.shotTime = -1;
 		
 		this.input = new InputMonitor({administrator : this.ADMINISTRATOR});
-		this.jumpVelocity = 16;
+		this.jumpSpeed = 16;
 
-		this.yawObject = new THREE.Object3D();
-		this.pitchObject = new THREE.Object3D();	
+		this.ObjYaw = new THREE.Object3D();
+		this.ObjPitch = new THREE.Object3D();	
 		
 		this.setUpObject();		
 		
@@ -35,7 +35,7 @@ export class PersonMonitor {
 		this.upAxis = new CANNON.Vec3(0,1,0);
 		
 		this.quat = new THREE.Quaternion();
-		this.inputVelocity = new THREE.Vector3();
+		this.inputSpeed = new THREE.Vector3();
 		this.euler = new THREE.Euler();
 	
 		this.velocity = this.personBody.velocity;
@@ -66,21 +66,21 @@ export class PersonMonitor {
 	
 	setUpObject() {
 		
-		this.pitchObject.position.set(0.0,2,-0.2)
-		this.pitchObject.add(this.camera);
-		this.pitchObject.add(this.camera2);
-		this.pitchObject.add(this.camera3);
+		this.ObjPitch.position.set(0.0,2,-0.2)
+		this.ObjPitch.add(this.camera);
+		this.ObjPitch.add(this.camera2);
+		this.ObjPitch.add(this.camera3);
 		this.camera.translateY(+0.15);
 		this.camera2.translateZ(-3);
 		this.camera2.translateY(-0.3);
 		this.camera3.translateZ(+5);
 		this.camera3.translateY(+0.3);
-		this.yawObject.add(this.person.getMesh());
-		this.yawObject.add(this.pitchObject);
+		this.ObjYaw.add(this.person.getMesh());
+		this.ObjYaw.add(this.ObjPitch);
 	}
 	
     getObject() {
-        return this.yawObject;
+        return this.ObjYaw;
     };
 
     getDirection(targetVec) {
@@ -97,7 +97,7 @@ export class PersonMonitor {
 	
 	createBulletFromPlayer() {
 		this.getShootDir(this.shootDirection);
-		this.bulletAdministrator.spawnNewBullet(this.entity, this.shootDirection)
+		this.bulletAdministrator.buildNewBullet(this.entity, this.shootDirection)
 	}
 	reloadComplete() {
 		document.getElementById("reloading").style.visibility = "hidden";
@@ -148,17 +148,17 @@ export class PersonMonitor {
 		this.scoreAdministrator.setCurrAmmo(this.currAmmo);
 	}
 	
-	setUpGun() {
-		this.currentGun = this.person.getActualGun();
-		this.timeReload = this.currentGun.timeReloading*500;
-		this.ammo = this.currentGun.ammo;
-		this.timeBetweenAmmo = this.currentGun.timeBetweenAmmo*350;
-		this.scoreAdministrator.setUpGun({name: this.currentGun.name, ammo: this.ammo});
+	setUpWeapon() {
+		this.currWeapon = this.person.getActualWeapon();
+		this.timeReload = this.currWeapon.timeReloading*500;
+		this.ammo = this.currWeapon.ammo;
+		this.timeBetweenAmmo = this.currWeapon.timeBetweenAmmo*350;
+		this.scoreAdministrator.setUpWeapon({name: this.currWeapon.name, ammo: this.ammo});
 	}
 	
-	changeGun() {
-		this.person.changeGun();
-		this.setUpGun();
+	changeWeapon() {
+		this.person.changeWeapon();
+		this.setUpWeapon();
 		this.setAmmo(0);
 		this.reload();
 	}
@@ -179,32 +179,32 @@ export class PersonMonitor {
 		
 		this.updateReloading(time);
 		
-		this.yawObject.rotation.y = this.input.rotationY;
-		this.pitchObject.rotation.x = this.input.rotationX;
+		this.ObjYaw.rotation.y = this.input.rotationY;
+		this.ObjPitch.rotation.x = this.input.rotationX;
 		this.person.rightArm.rotation.x = this.input.rotationX+PI_2
 
         time *= 0.1;
 
-        this.inputVelocity.set(0,0,0);
+        this.inputSpeed.set(0,0,0);
         if (this.input.keys.forward){
-            this.inputVelocity.z = -this.ADMINISTRATOR.getVelocityFactor() * time*4;
+            this.inputSpeed.z = -this.ADMINISTRATOR.getSpeedFactor() * time*4;
         }
         if (this.input.keys.backward){
-            this.inputVelocity.z = this.ADMINISTRATOR.getVelocityFactor() * time*4;
+            this.inputSpeed.z = this.ADMINISTRATOR.getSpeedFactor() * time*4;
         }
         if (this.input.keys.left){
-            this.inputVelocity.x = -this.ADMINISTRATOR.getVelocityFactor() * time*4;
+            this.inputSpeed.x = -this.ADMINISTRATOR.getSpeedFactor() * time*4;
         }
         if (this.input.keys.right){
-            this.inputVelocity.x = this.ADMINISTRATOR.getVelocityFactor() * time*4;
+            this.inputSpeed.x = this.ADMINISTRATOR.getSpeedFactor() * time*4;
         }
 		if (this.input.keys.space && this.canJump){
-			this.velocity.y = this.jumpVelocity;
+			this.velocity.y = this.jumpSpeed;
 			this.canJump = false;
 			this.input.keys.space = false;
 		}
 		if (this.input.keys.shift && !this.shiftHelded){
-			this.ADMINISTRATOR.multiplyVelocityFactor();
+			this.ADMINISTRATOR.multiplySpeedFactor();
 			this.shiftHelded = true;
 		}
 		if (this.input.keys.reload && !this.rHelded){
@@ -224,39 +224,39 @@ export class PersonMonitor {
 		}
 
 		if (this.shiftHelded && !this.input.keys.shift){
-			this.ADMINISTRATOR.resetVelocityFactor();
+			this.ADMINISTRATOR.resetSpeedFactor();
 			this.shiftHelded = false;
 		}
 		if (this.input.keys.tab && !this.tabHelded){
-			this.changeGun();
+			this.changeWeapon();
 			this.tabHelded = true;
 		}
 		if (this.tabHelded && !this.input.keys.tab){
 			this.tabHelded = false;
 		}
-		if(!this.isMoving && !this.inputVelocity.equals(new THREE.Vector3())){
+		if(!this.isMoving && !this.inputSpeed.equals(new THREE.Vector3())){
 			this.person.startMove();
 			this.isMoving = true;
 		}
-		else if(this.isMoving && this.inputVelocity.equals(new THREE.Vector3())){
+		else if(this.isMoving && this.inputSpeed.equals(new THREE.Vector3())){
 			this.person.stopMove();
 			this.isMoving = false;
 		} 
 		
         // Convert velocity to world coordinates
-        this.euler.x = this.pitchObject.rotation.x;
-        this.euler.y = this.yawObject.rotation.y;
+        this.euler.x = this.ObjPitch.rotation.x;
+        this.euler.y = this.ObjYaw.rotation.y;
         this.euler.order = "XYZ";
         this.quat.setFromEuler(this.euler);
-        this.inputVelocity.applyQuaternion(this.quat);
-        //this.quat.multiplyVector3(this.inputVelocity);
+        this.inputSpeed.applyQuaternion(this.quat);
+        //this.quat.multiplyVector3(this.inputSpeed);
 		if(!this.isMoving) {		//to avoid too much slippage
 			this.velocity.x *= 0.93;
 			this.velocity.z *= 0.93;
 		}
         // Add to the object
-        this.velocity.x += this.inputVelocity.x;
-        this.velocity.z += this.inputVelocity.z;
-        this.yawObject.position.copy(this.personBody.position);
+        this.velocity.x += this.inputSpeed.x;
+        this.velocity.z += this.inputSpeed.z;
+        this.ObjYaw.position.copy(this.personBody.position);
     };
 };

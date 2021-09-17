@@ -57,7 +57,7 @@ export class ScoreAdministrator{
         }
     }
 	
-	setUpGun(params) {
+	setUpWeapon(params) {
 		this.gun = {
 			name: params.name,
 			ammo: params.ammo,

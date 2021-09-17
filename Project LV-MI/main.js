@@ -40,12 +40,12 @@ class gameAdministrator {
 	getLifes() {return this.options.lifes;}
 	getTime() {return this.options.time;}
 	getViewfinder() {return this.options.viewfinder;}
-	getVelocityFactor() {return this.velocityFactor;}
+	getSpeedFactor() {return this.velocityFactor;}
 	
 	setOptions(options) {this.options = options;}
 	addLifes(quantity) {this.options.lifes += quantity;}
-	resetVelocityFactor(){this.velocityFactor = this.options.velocityFactorDefault;}
-	multiplyVelocityFactor(val = 2) {this.velocityFactor = this.options.velocityFactorDefault*val;}
+	resetSpeedFactor(){this.velocityFactor = this.options.velocityFactorDefault;}
+	multiplySpeedFactor(val = 2) {this.velocityFactor = this.options.velocityFactorDefault*val;}
 	
 	startGame() {
 		this.gameStarted = true;
@@ -1129,13 +1129,13 @@ class gameEnvironment {
 		mapGenerator(this.world, this.scene, this.boxes, this.boxMeshes, this.spheres, this.sphereMeshes, this.models);
 		
 		//Add personaggio
-		var gunsPlayer = [PersonFactory.GUN_PISTOL, "mp5", "minigun"];
+		var weaponsPlayer = [PersonFactory.GUN_PISTOL, "mp5", "minigun"];
 		var playerStartPosition = [0, 1.6, 0];
-		this.playerEntity = this.entityAdministrator.addEntityAndReturn({name: EntityAdministrator.ENTITY_PLAYER, guns : gunsPlayer, position: playerStartPosition})
+		this.playerEntity = this.entityAdministrator.addEntityAndReturn({name: EntityAdministrator.ENTITY_PLAYER, weapons : weaponsPlayer, position: playerStartPosition})
 		this.playerEntity.person.getMesh().add(this.torch);
 		this.playerEntity.person.getMesh().add(this.torch.target);
 		this.entityAdministrator.setPlayer(this.playerEntity);
-		//this.person = new PersonFactory({administrator : ADMINISTRATOR, guns : [PersonFactory.GUN_PISTOL, "ak47", "sniper", "rpg"]});
+		//this.person = new PersonFactory({administrator : ADMINISTRATOR, weapons : [PersonFactory.GUN_PISTOL, "ak47", "sniper", "rpg"]});
 
 		this.controls = new PersonMonitor({administrator: ADMINISTRATOR, entity: this.playerEntity, camera: this.camera, camera2: this.camera2, camera3: this.camera3, bulletAdministrator: this.bulletAdministrator, scoreAdministrator: this.scoreAdministrator});
 		
@@ -1168,11 +1168,11 @@ class gameEnvironment {
 
 			if(i%2 == 0){
 				position[1] = 2.5;
-				this.entityAdministrator.addEntity({name: EntityAdministrator.ENTITY_SMALL_ZOMBIE, guns: [gun], position: position, maxDistance: 25});
+				this.entityAdministrator.addEntity({name: EntityAdministrator.ENTITY_SMALL_ZOMBIE, weapons: [gun], position: position, maxDistance: 25});
 			}
 			if(i%2 != 0){
 				position[1] = 2.5*5;
-				this.entityAdministrator.addEntity({name: EntityAdministrator.ENTITY_GIANT_ZOMBIE, guns: [gun], position: position, maxDistance: 25});
+				this.entityAdministrator.addEntity({name: EntityAdministrator.ENTITY_GIANT_ZOMBIE, weapons: [gun], position: position, maxDistance: 25});
 			}
 		}
 	}
