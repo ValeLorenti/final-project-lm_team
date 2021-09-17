@@ -30,6 +30,8 @@ class gameManager {
 		this.velocityFactor = this.options.velocityFactorDefault;
 		
 		this.location = 0;
+		
+		this.lightFlag = 0;
 	}
 	
 	getOptions() {return this.options;}
@@ -69,6 +71,7 @@ class MenuEnvironment {
 		this.locationButtonD =  document.getElementById("locationButtonD");
 		this.locationButtonE =  document.getElementById("locationButtonE");
 		this.locationButtonN =  document.getElementById("locationButtonN");
+		this.turnStadiumLights = document.getElementById("stadiumLights");
 
 		this.soundButton =  document.getElementById("soundsButton");
 		
@@ -145,6 +148,8 @@ class MenuEnvironment {
 		this.difficultyEasy.addEventListener("click", this.setDifficulty.bind(this,0), false);
 		this.difficultyNormal.addEventListener("click", this.setDifficulty.bind(this,1), false);
 		this.difficultyHard.addEventListener("click", this.setDifficulty.bind(this,2), false);
+		
+		this.turnStadiumLights.addEventListener("click", this.setStadiumLights.bind(this),false);
 	}
 	
 	giveValueFromCookie() {
@@ -237,7 +242,6 @@ class MenuEnvironment {
 	}
 	
 	setLocation(ambientation){
-		console.log(MANAGER.location);
 		switch(ambientation){
 			case 0:		//easy
 				MANAGER.location = ambientation;
@@ -254,6 +258,11 @@ class MenuEnvironment {
 		};
 		
 		this.updateAllSlider();
+	}
+	
+	setStadiumLights(){
+		MANAGER.lightFlag += 1;
+		console.log(MANAGER.lightFlag);
 	}
 }
 
@@ -311,11 +320,12 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 	var forbiddenPositions = [spawn];
 	var currentPos;
 	var stadiumLs = [];
-	
+
 	for(var i=0; i<4; i++){
 		stadiumLs[i] = models["stadiumLight"].model.clone();
 		scene.add(stadiumLs[i]);
 	}
+	
 	stadiumLs[0].position.set(122, -1, 120);
 	stadiumLs[0].rotation.y = -(Math.PI/2 + 1);
 	var dimSL0 = new CANNON.Vec3(0.5, 15, 0.5);
@@ -354,6 +364,7 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 	sLBody3.addShape(sLShape3);
 	sLBody3.position.set(133, 2.5, -123);
 	world.add(sLBody3);
+
 
 	
 	for(var i=0; i<500; i++){
@@ -746,22 +757,24 @@ class gameEnvironment {
 		
 		this.torch.position.set(0, 1.5, 0);
 		this.torch.target.position.set(0, 1.5, -1);
-		var i;
-		this.lights = [];
-		for(var i = 0; i<4; i++){
-			this.lights[i] = new THREE.SpotLight(0xffffff);
-			//this.lights[i].castShadow = true;
-			this.lights[i].angle = this.torch.angle = Math.PI/8;
-			this.lights[i].distance = 200;
-			this.lights[i].penumbra = 0.2;
-			this.lights[i].intensity = 4;
-			this.scene.add(this.lights[i]);
+		if(MANAGER.lightFlag%2 == 0){
+			var i;
+			this.lights = [];
+			for(var i = 0; i<4; i++){
+				this.lights[i] = new THREE.SpotLight(0xffffff);
+				//this.lights[i].castShadow = true;
+				this.lights[i].angle = this.torch.angle = Math.PI/8;
+				this.lights[i].distance = 200;
+				this.lights[i].penumbra = 0.2;
+				this.lights[i].intensity = 4;
+				this.scene.add(this.lights[i]);
+			}
+			
+			this.lights[0].position.set(-150, 30, -150);
+			this.lights[1].position.set(+150, 30, -150);
+			this.lights[2].position.set(+140, 30, +150);
+			this.lights[3].position.set(-145, 30, +145);
 		}
-		
-		this.lights[0].position.set(-150, 30, -150);
-		this.lights[1].position.set(+150, 30, -150);
-		this.lights[2].position.set(+140, 30, +150);
-		this.lights[3].position.set(-145, 30, +145);
 			
 		this.renderer = new THREE.WebGLRenderer({canvas: document.getElementById( 'canvas' ), antialias: true});
 		this.renderer.shadowMap.enabled = true;
