@@ -1,14 +1,14 @@
-import {CharacterFactory} from './../CharacterFactory.js';
+import {PersonFactory} from './../PersonFactory.js';
 
-export class BasicAIController {
+export class BasicAIMonitor {
 	constructor(params) {
-		this.MANAGER = params.manager
+		this.ADMINISTRATOR = params.administrator
 		this.target = params.target;
 		this.body = params.body;
 		this.player = params.player;
 		this.maxDistance = params.maxDistance;
 		this.entity = params.entity;
-		this.bulletManager = params.bulletManager;
+		this.bulletAdministrator = params.bulletAdministrator;
 		this.setTimeToShot();
 		this.timeToShot = Math.random()*500;
 		this.timeToMove = Math.random()*1000;
@@ -27,7 +27,7 @@ export class BasicAIController {
 			this.target.rotation.y = Math.atan2(-direction.x,-direction.z);
 			if(distance<this.maxDistance) {				//From maxDistance start to shot
 				if(this.timeToShot<0) {
-					this.bulletManager.spawnNewBullet(this.entity,direction)
+					this.bulletAdministrator.spawnNewBullet(this.entity,direction)
 					this.currAmmo -= 1;
 					this.timeToShot = this.computeNewTimeToShot();
 				}
@@ -38,7 +38,7 @@ export class BasicAIController {
 				this.timeToMove = 0;
 				this.directionMove = new THREE.Vector3(0,0,-1);
 				if(!this.move) {
-					this.entity.character.startMove();
+					this.entity.person.startMove();
 					this.move = true;
 				}
 			}
@@ -49,9 +49,9 @@ export class BasicAIController {
 					var plusOrMinus = Math.random() < 0.5 ? -1 : 1;
 					this.directionMove = new THREE.Vector3(plusOrMinus,0,0);
 					if(this.move)
-						this.entity.character.startMove();
+						this.entity.person.startMove();
 					else
-						this.entity.character.stopMove();
+						this.entity.person.stopMove();
 				}
 				else
 					this.timeToMove -= time;
@@ -68,7 +68,7 @@ export class BasicAIController {
 		else {
 			if(this.move) {
 				this.move = false;
-				this.entity.character.stopMove();
+				this.entity.person.stopMove();
 			}
 		}
 	}
@@ -85,7 +85,7 @@ export class BasicAIController {
 	}
 	
 	setTimeToShot() {
-		var gun = this.entity.character.getActualGun()
+		var gun = this.entity.person.getActualGun()
 		this.timeReloading = gun.timeReloading *1000;
 		this.ammo = gun.ammo;
 		this.timeBetweenAmmo = gun.timeBetweenAmmo *1000;
@@ -96,7 +96,7 @@ export class BasicAIController {
 	computeDirection() {
 		var objective = (new THREE.Vector3()).copy(this.player.body.position);
 		var from = this.target.position.clone();
-		if(this.entity.character.typeFlag == 'giant') from.y+=2;
+		if(this.entity.person.typeFlag == 'giant') from.y+=2;
 		var direction = objective.sub(from).normalize();
 		return (new THREE.Ray(this.body.position, direction)).direction;
 	}

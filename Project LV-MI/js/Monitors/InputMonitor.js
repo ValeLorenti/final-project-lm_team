@@ -1,6 +1,6 @@
 var PI_2 = Math.PI / 2;
 
-export class InputController {
+export class InputMonitor {
     constructor(params) {
         this.keys = {
             forward: false,
@@ -13,8 +13,8 @@ export class InputController {
             torch:false,
         };
 
-        this.MANAGER = params.manager;
-        this.mouseVelocity = 0.002 * this.MANAGER.getMouseSensibility();
+        this.ADMINISTRATOR = params.administrator;
+        this.mouseVelocity = 0.002 * this.ADMINISTRATOR.getMouseSensibility();
         this.rotationX = 0;
         this.rotationY = 0;
 
@@ -26,12 +26,12 @@ export class InputController {
     }
 
     onMouseMove(event) {
-		if ( this.MANAGER.gameEnable === false ) return;
+		if ( this.ADMINISTRATOR.gameEnable === false ) return;
         var movementX = event.movementX || event.mozMovementX || event.webkitMovementX || 0;
         var movementY = event.movementY || event.mozMovementY || event.webkitMovementY || 0;
 
-        this.rotationY -= movementX * this.MANAGER.getMouseSensibility() * 0.002;
-        this.rotationX -= movementY * this.MANAGER.getMouseSensibility()* 0.002;
+        this.rotationY -= movementX * this.ADMINISTRATOR.getMouseSensibility() * 0.002;
+        this.rotationX -= movementY * this.ADMINISTRATOR.getMouseSensibility()* 0.002;
 		
         this.rotationX = Math.max( - PI_2, Math.min( PI_2, this.rotationX ) );
     }
@@ -67,7 +67,7 @@ export class InputController {
                 break;
 			
 			case 90: //z
-				this.MANAGER.APP.changeVisual();
+				this.ADMINISTRATOR.SYSTEM.changeVisual();
 				break;
 				
 			case 9:		//Tab

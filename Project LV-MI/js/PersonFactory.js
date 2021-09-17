@@ -1,7 +1,7 @@
-export class CharacterFactory {
+export class PersonFactory {
 	static GUN_PISTOL = "pistol";
 	static GUN_PISTOL_STATISTIC = {
-		name: CharacterFactory.GUN_PISTOL,
+		name: PersonFactory.GUN_PISTOL,
 		timeReloading: 1.8,
 		ammo: 14,
 		timeBetweenAmmo: 0.45,
@@ -13,7 +13,7 @@ export class CharacterFactory {
 	};
     static GUN_MP5 = "mp5";
 	static GUN_MP5_STATISTIC = {
-		name: CharacterFactory.GUN_MP5,
+		name: PersonFactory.GUN_MP5,
 		timeReloading: 3.2,
 		ammo: 50,
 		timeBetweenAmmo: 0.2,
@@ -25,7 +25,7 @@ export class CharacterFactory {
 	};
     static GUN_MINIGUN = "minigun";
 	static GUN_MINIGUN_STATISTIC = {
-		name: CharacterFactory.GUN_MINIGUN,
+		name: PersonFactory.GUN_MINIGUN,
 		timeReloading: 5,
 		ammo: 200,
 		timeBetweenAmmo: 0.009,
@@ -36,16 +36,16 @@ export class CharacterFactory {
 		}
 	};
 	
-	static GUN_ALL = [CharacterFactory.GUN_PISTOL,
-						CharacterFactory.GUN_MP5,
-						CharacterFactory.GUN_MINIGUN]
-	static GUN_ALL_STATISTIC = [CharacterFactory.GUN_PISTOL_STATISTIC,
-						CharacterFactory.GUN_MP5_STATISTIC,
-						CharacterFactory.GUN_MINIGUN_STATISTIC]
-	static GUN_RANDOM = CharacterFactory.GUN_ALL[Math.floor(Math.random() * CharacterFactory.GUN_ALL.length)]
+	static GUN_ALL = [PersonFactory.GUN_PISTOL,
+						PersonFactory.GUN_MP5,
+						PersonFactory.GUN_MINIGUN]
+	static GUN_ALL_STATISTIC = [PersonFactory.GUN_PISTOL_STATISTIC,
+						PersonFactory.GUN_MP5_STATISTIC,
+						PersonFactory.GUN_MINIGUN_STATISTIC]
+	static GUN_RANDOM = PersonFactory.GUN_ALL[Math.floor(Math.random() * PersonFactory.GUN_ALL.length)]
 	
 	constructor(params){
-		this.MANAGER = params.manager;
+		this.ADMINISTRATOR = params.administrator;
 		this.gunsName = params.guns;
 		this.guns = [];
 		this.gunsQuantity = 0;
@@ -63,20 +63,20 @@ export class CharacterFactory {
             if(params.rotation[2] != 0)
                 body.quaternion.setFromAxisAngle(new CANNON.Vec3(0, 0, 1), params.rotation[2]);
         }
-		this.character.position.set(...params.position);
+		this.person.position.set(...params.position);
         if(params.rotation)
-            this.character.rotation.set(...params.rotation);
+            this.person.rotation.set(...params.rotation);
 		
 		this.prepareGuns();
 		
 		this.initializeAnimation();
 		this.deathAnimation();
-		if(this.typeFlag == 'giant') this.character.scale.set(3,3,3);
+		if(this.typeFlag == 'giant') this.person.scale.set(3,3,3);
 	}
 	
 	buildCharacter() {
 
-		//Generate character
+		//Generate person
 		if(this.typeFlag == 'player'){
 		   var headTexture = [
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveLeft.png'), side: THREE.DoubleSide, dithering: true}),
@@ -251,9 +251,9 @@ export class CharacterFactory {
 		this.bodyGroup.add(this.bodyMesh, this.legGroup, this.armGroup);
 		
 		// Character Group
-		this.character = new THREE.Group();
-		this.character.name = "robot";
-		this.character.add(this.headGroup, this.bodyGroup);
+		this.person = new THREE.Group();
+		this.person.name = "robot";
+		this.person.add(this.headGroup, this.bodyGroup);
 
 
 	}
@@ -263,19 +263,19 @@ export class CharacterFactory {
 	prepareGuns() {
 		for(let i in this.gunsName) {
 			switch(this.gunsName[i]) {
-				case CharacterFactory.GUN_PISTOL:
-					this.guns.push(this.MANAGER.APP.models[CharacterFactory.GUN_PISTOL].model.clone())
+				case PersonFactory.GUN_PISTOL:
+					this.guns.push(this.ADMINISTRATOR.SYSTEM.models[PersonFactory.GUN_PISTOL].model.clone())
 					this.guns[this.gunsQuantity].position.set(-0.05,-0.65,-0.3);
 					this.guns[this.gunsQuantity].rotation.x = -Math.PI/2;
 					break;
-				case CharacterFactory.GUN_MP5:
-					this.guns.push(this.MANAGER.APP.models[CharacterFactory.GUN_MP5].model.clone())
+				case PersonFactory.GUN_MP5:
+					this.guns.push(this.ADMINISTRATOR.SYSTEM.models[PersonFactory.GUN_MP5].model.clone())
 					this.guns[this.gunsQuantity].position.set(-0.12,-0.7,-0.1);
 					this.guns[this.gunsQuantity].rotation.y = +Math.PI/2;
 					this.guns[this.gunsQuantity].rotation.x = -Math.PI/2;
 					break;
-				case CharacterFactory.GUN_MINIGUN:
-					this.guns.push(this.MANAGER.APP.models[CharacterFactory.GUN_MINIGUN].model.clone())
+				case PersonFactory.GUN_MINIGUN:
+					this.guns.push(this.ADMINISTRATOR.SYSTEM.models[PersonFactory.GUN_MINIGUN].model.clone())
 					this.guns[this.gunsQuantity].position.set(0.0,-1.0,0);
 					this.guns[this.gunsQuantity].rotation.y = Math.PI/2;
 					this.guns[this.gunsQuantity].rotation.z = -Math.PI/2;
@@ -297,11 +297,11 @@ export class CharacterFactory {
 	
 	initializeAnimation() {
 		//Generate Animations
-		this.legTween1 = new TWEEN.Tween({x: 0, y: 0, z: 0}).to( {x: Math.PI/6, y: 0, z: 0}, 50/this.MANAGER.getVelocityFactor() )
+		this.legTween1 = new TWEEN.Tween({x: 0, y: 0, z: 0}).to( {x: Math.PI/6, y: 0, z: 0}, 50/this.ADMINISTRATOR.getVelocityFactor() )
 			.easing(TWEEN.Easing.Quadratic.InOut)
-		this.legTween2 = new TWEEN.Tween({x: Math.PI/6, y: 0, z: 0}).to( {x:-Math.PI/6, y: 0, z: 0}, 100/this.MANAGER.getVelocityFactor() )
+		this.legTween2 = new TWEEN.Tween({x: Math.PI/6, y: 0, z: 0}).to( {x:-Math.PI/6, y: 0, z: 0}, 100/this.ADMINISTRATOR.getVelocityFactor() )
 			.easing(TWEEN.Easing.Quadratic.InOut)
-		this.legTween3 = new TWEEN.Tween({x:-Math.PI/6, y: 0, z: 0}).to( {x: Math.PI/6, y: 0, z: 0}, 100/this.MANAGER.getVelocityFactor() )
+		this.legTween3 = new TWEEN.Tween({x:-Math.PI/6, y: 0, z: 0}).to( {x: Math.PI/6, y: 0, z: 0}, 100/this.ADMINISTRATOR.getVelocityFactor() )
 			.easing(TWEEN.Easing.Quadratic.InOut)
 		this.legTween1.chain(this.legTween2)
 		this.legTween2.chain(this.legTween3)
@@ -322,19 +322,19 @@ export class CharacterFactory {
 		this.deathTween = new TWEEN.Tween( {x: 0, y: this.high , z: 0}).to({x: -Math.PI/2, y: 0 , z: 0}, this.deathSpeed)
 			.easing(TWEEN.Easing.Quadratic.InOut);
 		this.updateDeath = function(object){
-			this.character.rotation.x = object.x;
-			this.character.position.y = object.y;
+			this.person.rotation.x = object.x;
+			this.person.position.y = object.y;
 		}			
 		this.deathTween.onUpdate(this.updateDeath.bind(this));	
 	}
 	
 	
 	getMesh() {
-		return this.character;
+		return this.person;
 	}
 	
 	getActualGun() {
-		return CharacterFactory.GUN_ALL_STATISTIC.find(gun => gun.name==this.gunsName[this.actualGun]);
+		return PersonFactory.GUN_ALL_STATISTIC.find(gun => gun.name==this.gunsName[this.actualGun]);
 	}
 	
 	changeRotation(rotX) {
@@ -353,7 +353,7 @@ export class CharacterFactory {
 	
 	stopMove() {
 		this.legTween1.stop();
-		const legTween4 = new TWEEN.Tween(this.leftLeg.rotation.clone()).to({x: 0, y: 0, z: 0}, 50/this.MANAGER.getVelocityFactor());
+		const legTween4 = new TWEEN.Tween(this.leftLeg.rotation.clone()).to({x: 0, y: 0, z: 0}, 50/this.ADMINISTRATOR.getVelocityFactor());
 		legTween4.onUpdate(this.updateLeg1.bind(this));
 		legTween4.start();;
 	}

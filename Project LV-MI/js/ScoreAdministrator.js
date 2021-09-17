@@ -1,4 +1,4 @@
-export class ScoreManager{
+export class ScoreAdministrator{
     constructor(params){
         this.lifesSpanGame = params.lifesTarget;
         this.timeSpanGame = params.timeTarget;

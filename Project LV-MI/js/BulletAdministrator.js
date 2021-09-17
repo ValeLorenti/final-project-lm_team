@@ -1,11 +1,11 @@
-import {CharacterFactory} from './CharacterFactory.js';
+import {PersonFactory} from './PersonFactory.js';
 
-export class BulletManager {
+export class BulletAdministrator {
 	static BULLET_PISTOL = "bulletPistol";
 	static BULLET_RPG = "bulletRpg";
 	
 	constructor(params) {
-		this.MANAGER = params.manager;
+		this.ADMINISTRATOR = params.administrator;
 		this.world = params.world;
 		this.scene = params.scene;
 		this.bullets = [];
@@ -15,29 +15,29 @@ export class BulletManager {
 	
 	spawnNewBullet(entity, direction) {
 		var position = entity.body.position;
-		if(this.MANAGER.gameEnable==false) return;
-		var bullet = this.createNewBullet(entity.character.getActualGun().bullet);
+		if(this.ADMINISTRATOR.gameEnable==false) return;
+		var bullet = this.createNewBullet(entity.person.getActualGun().bullet);
 		bullet.body.addEventListener("collide", function (e){		//se il proiettile colpisce il pavimento
                 if ( !(e.contact.bi.isGround || e.contact.bj.isGround) )
                     return;
                 bullet.body.isBullet = undefined;
 				this.deletedBullets.push(bullet)
             }.bind(this));
-		if(entity.character.typeFlag == 'player'){
+		if(entity.person.typeFlag == 'player'){
 			var x = position.x;
 			var y = position.y+1.8;
 			var z = position.z;
 			bullet.body.isBullet = 1;
 		}
 
-		if(entity.character.typeFlag == 'giant'){
+		if(entity.person.typeFlag == 'giant'){
 			var x = position.x;
 			var y = position.y+2;
 			var z = position.z;
 			bullet.body.isBullet = 2;
 		}
 
-		if(entity.character.typeFlag == 'enemy'){
+		if(entity.person.typeFlag == 'enemy'){
 			var x = position.x;
 			var y = position.y+0.5;
 			var z = position.z;

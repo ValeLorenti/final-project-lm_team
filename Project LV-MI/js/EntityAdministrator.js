@@ -1,10 +1,10 @@
-import {CharacterController} from './Controllers/CharacterController.js';
-import {BasicAIController} from './Controllers/BasicAIController.js';
-import {CharacterFactory} from './CharacterFactory.js';
+import {PersonMonitor} from './Monitors/PersonMonitor.js';
+import {BasicAIMonitor} from './Monitors/BasicAIMonitor.js';
+import {PersonFactory} from './PersonFactory.js';
 
-export class EntityManager{
-	static ENTITY_SIMPLE_ENEMY = "SimpleEnemy";
-    static ENTITY_GIANT_ENEMY = "GiantEnemy";
+export class EntityAdministrator{
+	static ENTITY_SMALL_ZOMBIE = "smallEnemy";
+    static ENTITY_GIANT_ZOMBIE = "giantEnemy";
 	static ENTITY_PLAYER = "Player";
 
 	constructor(params){
@@ -13,59 +13,59 @@ export class EntityManager{
 
         this.scene = params.scene;
         this.world = params.world;
-        this.MANAGER = params.manager;
-		this.bulletManager = params.bulletManager;
-        this.scoreManager = params.scoreManager;
+        this.ADMINISTRATOR = params.administrator;
+		this.bulletAdministrator = params.bulletAdministrator;
+        this.scoreAdministrator = params.scoreAdministrator;
 
     }
 
 	addEntity(params) {
 		switch(params.name){
-            case EntityManager.ENTITY_SIMPLE_ENEMY:
-				var character = new CharacterFactory({manager: this.MANAGER, guns: params.guns, position: params.position, type: 'enemy'})
-                var entity = new SimpleEnemyEntity({
-                    manager: this.MANAGER,
-					entityManager: this,
+            case EntityAdministrator.ENTITY_SMALL_ZOMBIE:
+				var person = new PersonFactory({administrator: this.ADMINISTRATOR, guns: params.guns, position: params.position, type: 'enemy'})
+                var entity = new SmallZombieEntity({
+                    administrator: this.ADMINISTRATOR,
+					entityAdministrator: this,
 					maxDistance: params.maxDistance,
-                    scoreManager: this.scoreManager,
+                    scoreAdministrator: this.scoreAdministrator,
 					pos: this.entities.length,
-                    target: character.getMesh(),
+                    target: person.getMesh(),
                     body: this.buildBody(params),
                     player: this.player,
-					character : character, 
+					person : person, 
 					entityId: 2,
                 });
                 this.entities.push(entity);
                 break;
 
-            case EntityManager.ENTITY_GIANT_ENEMY:
-                var character = new CharacterFactory({manager: this.MANAGER, guns: params.guns, position: params.position, type: 'giant'})
-                var entity = new GiantEnemyEntity({
-                    manager: this.MANAGER,
-                    entityManager: this,
+            case EntityAdministrator.ENTITY_GIANT_ZOMBIE:
+                var person = new PersonFactory({administrator: this.ADMINISTRATOR, guns: params.guns, position: params.position, type: 'giant'})
+                var entity = new GiantZombieEnity({
+                    administrator: this.ADMINISTRATOR,
+                    entityAdministrator: this,
                     maxDistance: params.maxDistance,
-                    scoreManager: this.scoreManager,
+                    scoreAdministrator: this.scoreAdministrator,
                     pos: this.entities.length,
-                    target: character.getMesh(),
+                    target: person.getMesh(),
                     body: this.buildBody(params),
                     player: this.player,
-                    character : character, 
+                    person : person, 
 					entityId: 2,
                 });
                 this.entities.push(entity);
 				
                 break;
 
-            case EntityManager.ENTITY_PLAYER:
-				var character = new CharacterFactory({manager: this.MANAGER, guns: params.guns, position: params.position, type: 'player'})
+            case EntityAdministrator.ENTITY_PLAYER:
+				var person = new PersonFactory({administrator: this.ADMINISTRATOR, guns: params.guns, position: params.position, type: 'player'})
                 var entity = new PlayerEntity({
-                    manager: this.MANAGER,
-					entityManager: this,
+                    administrator: this.ADMINISTRATOR,
+					entityAdministrator: this,
 					pos: this.entities.length,
-                    scoreManager: this.scoreManager,
-                    target: character.getMesh(),
+                    scoreAdministrator: this.scoreAdministrator,
+                    target: person.getMesh(),
 					body: this.buildBody(params),
-					character : character,
+					person : person,
 					entityId: 1,
                 });
                 this.entities.push(entity);
@@ -96,13 +96,13 @@ export class EntityManager{
 
 	buildBody(params){
         switch(params.name){ 
-            case EntityManager.ENTITY_SIMPLE_ENEMY:
+            case EntityAdministrator.ENTITY_SMALL_ZOMBIE:
                 var body = new CANNON.Body({ mass: 30, shape: new CANNON.Sphere(2), });
                 break;
-            case EntityManager.ENTITY_GIANT_ENEMY:
+            case EntityAdministrator.ENTITY_GIANT_ZOMBIE:
                 var body = new CANNON.Body({ mass: 80, shape: new CANNON.Sphere(7), });
                 break;
-            case EntityManager.ENTITY_PLAYER:
+            case EntityAdministrator.ENTITY_PLAYER:
                 var body = new CANNON.Body({ mass: 50, shape: new CANNON.Sphere(1), });
                 body.linearDamping = 0.9;
                 break;
@@ -119,7 +119,7 @@ export class EntityManager{
         return body;
     }
 	
-	eliminateThisEntity(elem){
+	deleteOneEntity(elem){
 		elem.body.position.y = +1000;
 		elem.body.sleep();
 		elem.target.parent.remove(elem.target);
@@ -143,8 +143,8 @@ export class EntityManager{
 
 class Entity{
     constructor(params){
-        this.MANAGER = params.manager;
-        this.entityManager = params.entityManager;
+        this.ADMINISTRATOR = params.administrator;
+        this.entityAdministrator = params.entityAdministrator;
         this.target = params.target;
         this.body = params.body;
         this.pos = params.pos;
@@ -183,32 +183,32 @@ class Entity{
     update(timeInSeconds){}
 }
 	
-class SimpleEnemyEntity extends Entity{
+class SmallZombieEntity extends Entity{
 	constructor(params){
 		super(params);
 		
-		this.scoreManager = params.scoreManager;
+		this.scoreAdministrator = params.scoreAdministrator;
 		this.maxDistance = params.maxDistance;
-		this.character = params.character;
+		this.person = params.person;
         this.hit = 0;
 
-		this.controls = new BasicAIController({
-			manager: this.MANAGER,
-			character: this.character,
+		this.controls = new BasicAIMonitor({
+			administrator: this.ADMINISTRATOR,
+			person: this.person,
 			entity: this,
 			target: this.target,
 			body: this.body,
 			player: this.player,
 			maxDistance: this.maxDistance,
-			bulletManager: this.entityManager.bulletManager,
+			bulletAdministrator: this.entityAdministrator.bulletAdministrator,
 		});
 	}
 
 	hitted(){
 		this.hit ++;
 		if(this.hit == 2){
-			this.scoreManager.enemyKilled();
-			this.character.startDeath();
+			this.scoreAdministrator.enemyKilled();
+			this.person.startDeath();
 			this.deathCount = true;
 			this.death = Date.now();
 		}
@@ -217,17 +217,17 @@ class SimpleEnemyEntity extends Entity{
 			this.controls.update(timeInSeconds);
 
 			if(this.body.position.y < -20){
-				this.scoreManager.enemyKilled();
-				this.entityManager.eliminateThisEntity(this);
+				this.scoreAdministrator.enemyKilled();
+				this.entityAdministrator.deleteOneEntity(this);
 			}
 			
 			var now = Date.now();
-			if(this.deathCount && ((now - this.death)>this.character.deathSpeed))this.entityManager.eliminateThisEntity(this);
+			if(this.deathCount && ((now - this.death)>this.person.deathSpeed))this.entityAdministrator.deleteOneEntity(this);
 				
 		}
 }
 
-class GiantEnemyEntity extends SimpleEnemyEntity{
+class GiantZombieEnity extends SmallZombieEntity{
     constructor(params){
         super(params);
     }
@@ -235,8 +235,8 @@ class GiantEnemyEntity extends SimpleEnemyEntity{
 	hitted(){
 			this.hit ++;
 			if(this.hit == 10){
-				this.scoreManager.enemyKilled();
-				this.character.startDeath();
+				this.scoreAdministrator.enemyKilled();
+				this.person.startDeath();
 				this.deathCount = true;
 				this.death = Date.now();
 			}
@@ -248,11 +248,11 @@ class PlayerEntity extends Entity{
 	constructor(params){
 		super(params);
 		
-		this.scoreManager = params.scoreManager;
-		this.character = params.character;
+		this.scoreAdministrator = params.scoreAdministrator;
+		this.person = params.person;
 	}
 	hitted(){
-		this.scoreManager.lose1life();
+		this.scoreAdministrator.lose1life();
         var audio = new Audio('resources/audios/Hitted.wav');
         audio.play();
 	}
