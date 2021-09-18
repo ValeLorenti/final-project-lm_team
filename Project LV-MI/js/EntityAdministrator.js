@@ -205,14 +205,25 @@ class SmallZombieEntity extends Entity{
 	}
 
 	hitted(){
-		this.hit ++;
-		if(this.hit == 2){
-			this.scoreAdministrator.enemyKilled();
-			this.person.startDeath();
-			this.deathCount = true;
-			this.death = Date.now();
+			if(this.ADMINISTRATOR.godMode == false){
+				this.hit ++;
+				if(this.hit == 2){
+					this.scoreAdministrator.enemyKilled();
+					this.person.startDeath();
+					this.deathCount = true;
+					this.death = Date.now();
+				}
+			}
+			else{
+				this.hit ++;
+				if(this.hit == 1){
+					this.scoreAdministrator.enemyKilled();
+					this.person.startDeath();
+					this.deathCount = true;
+					this.death = Date.now();
+				}
+			}
 		}
-	}
 	update(timeInSeconds){
 			this.controls.update(timeInSeconds);
 
@@ -233,12 +244,23 @@ class GiantZombieEnity extends SmallZombieEntity{
     }
 	
 	hitted(){
-			this.hit ++;
-			if(this.hit == 10){
-				this.scoreAdministrator.enemyKilled();
-				this.person.startDeath();
-				this.deathCount = true;
-				this.death = Date.now();
+			if(this.ADMINISTRATOR.godMode == false){
+				this.hit ++;
+				if(this.hit == 10){
+					this.scoreAdministrator.enemyKilled();
+					this.person.startDeath();
+					this.deathCount = true;
+					this.death = Date.now();
+				}
+			}
+			else{
+				this.hit ++;
+				if(this.hit == 1){
+					this.scoreAdministrator.enemyKilled();
+					this.person.startDeath();
+					this.deathCount = true;
+					this.death = Date.now();
+				}
 			}
 		}
 
@@ -252,7 +274,9 @@ class PlayerEntity extends Entity{
 		this.person = params.person;
 	}
 	hitted(){
-		this.scoreAdministrator.lose1life();
+		if(this.ADMINISTRATOR.godMode == false) this.scoreAdministrator.lose1life();
+		else return;
+		
         var audio = new Audio('resources/audios/Hitted.wav');
         audio.play();
 	}

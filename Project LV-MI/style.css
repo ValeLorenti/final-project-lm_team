@@ -5,12 +5,11 @@
     --yellow: #ffd900;
     --blue: #00035b;
     --royalblue: #0504aa;
-    --lightgreen: #a2cffe;
     --electricblue: #65fff7;
     --violet: #c747fe;
     --purple: #9370DB;
-    --green:  #086225;
-    --darkgreen:  #064B1C;
+    --green:  #0B5422;
+    --darkgreen:  #093918;
     --lightgreen:  #6AE190;
     --orange: #ff8300;
   }
@@ -245,14 +244,20 @@ body {
     box-shadow: 0px 6px 15px #1bff0061;
 }
 #normalMode:hover{
-    border: 1px solid #fffb00;
-    background: #f5f38b;
-    box-shadow: 0px 6px 15px #fbff0061;
+    border: 1px solid lightcoral;
+    background: #FF9377;
+    box-shadow: 0px 6px 15px #FF9377;
 }
 #hardMode:hover{
     border: 1px solid red;
-    background: #f58b8b;
-    box-shadow: 0px 6px 15px #ff000061;
+    background: #EB1111;
+    box-shadow: 0px 6px 15px #DC0D0D;
+}
+
+#stadiumLights:hover{
+    border: 1px solid lightgoldenrodyellow;
+    background: #f5f38b;
+    box-shadow: 0px 6px 15px #fbff0061;
 }
 
 

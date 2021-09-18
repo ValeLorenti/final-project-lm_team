@@ -32,6 +32,8 @@ class gameAdministrator {
 		this.location = 0;
 		
 		this.lightFlag = 0;
+
+		this.godMode = false;
 	}
 	
 	getOptions() {return this.options;}
@@ -86,10 +88,11 @@ class MenuEnvironment {
 		
 		this.sliderMouseSens = document.getElementById("sliderMouseSens");
 		this.sliderLifes = document.getElementById("sliderLifes");
-		this.sliderEnemys = document.getElementById("sliderEnemys");
+		this.sliderEnemy = document.getElementById("sliderEnemy");
 		this.sliderTime = document.getElementById("sliderTime");
 		
-		this.wiewfinderCkBox = document.getElementById("wiewfinderCkBox");
+		this.viewfinderCkBox = document.getElementById("viewfinderCkBox");
+		this.godModeCkBox = document.getElementById("godModeCkBox");
 
 		this.cont = 0;
 		this.setUpMainButtons();
@@ -148,6 +151,7 @@ class MenuEnvironment {
 		this.difficultyHard.addEventListener("click", this.setDifficulty.bind(this,2), false);
 		
 		this.turnStadiumLights.addEventListener("click", this.setStadiumLights.bind(this),false);
+		this.godModeCkBox.addEventListener("click", this.setGodMode.bind(this),false);
 	}
 	
 	giveValueFromCookie() {
@@ -182,18 +186,18 @@ class MenuEnvironment {
 		var curOptions = ADMINISTRATOR.getOptions();
 		this.sliderMouseSens.value = curOptions.mouseSensibility;
 		this.sliderLifes.value = curOptions.lifes;
-		this.sliderEnemys.value = curOptions.enemyQuantity;
+		this.sliderEnemy.value = curOptions.enemyQuantity;
 		this.sliderTime.value = curOptions.time;
-		this.wiewfinderCkBox.checked = curOptions.viewfinder;
+		this.viewfinderCkBox.checked = curOptions.viewfinder;
 	}
 	
 	updateAllOptions() {
 		ADMINISTRATOR.setOptions({
 			mouseSensibility: parseFloat(this.sliderMouseSens.value),
 			lifes: parseFloat(this.sliderLifes.value),
-			enemyQuantity: parseFloat(this.sliderEnemys.value),
+			enemyQuantity: parseFloat(this.sliderEnemy.value),
 			time: parseFloat(this.sliderTime.value),
-			viewfinder: this.wiewfinderCkBox.checked,
+			viewfinder: this.viewfinderCkBox.checked,
 			velocityFactorDefault: 0.2,
 		});
 	}
@@ -260,7 +264,11 @@ class MenuEnvironment {
 	
 	setStadiumLights(){
 		ADMINISTRATOR.lightFlag += 1;
-		console.log(ADMINISTRATOR.lightFlag);
+	}
+
+	setGodMode(){
+		if(ADMINISTRATOR.godMode == false) ADMINISTRATOR.godMode = true;
+		else ADMINISTRATOR.godMode = false;
 	}
 }
 
@@ -760,7 +768,6 @@ class gameEnvironment {
 			this.lights = [];
 			for(var i = 0; i<4; i++){
 				this.lights[i] = new THREE.SpotLight(0xffffff);
-				//this.lights[i].castShadow = true;
 				this.lights[i].angle = this.torch.angle = Math.PI/8;
 				this.lights[i].distance = 200;
 				this.lights[i].penumbra = 0.2;
@@ -778,7 +785,6 @@ class gameEnvironment {
 		this.renderer.shadowMap.enabled = true;
 		this.renderer.shadowMapSoft = true;
 		this.renderer.setSize( window.innerWidth, window.innerHeight );
-		//this.renderer.setClearColor( this.scene.fog.color, 1 );
 		this.renderer.setClearColor( 0xffffff, 0);
 
 		window.addEventListener( 'resize', this.onWindowResize.bind(this), false );

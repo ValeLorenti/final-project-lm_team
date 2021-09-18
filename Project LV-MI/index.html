@@ -75,7 +75,7 @@
                     <span id="easyMode" class="difficulty">Easy</span>
                     <span id="normalMode" class="difficulty">Normal</span>
                     <span id="hardMode" class="difficulty">Hard</span>
-					<input id="stadiumLights" class="difficulty" type="button" value="Turn off stadiumLights"></span>
+					<span id="stadiumLights" class="difficulty">Turn off lights</span>
                 </div>
                 <table id="otherSettingsTable">
                         <td><span>Mouse sensibility:</span></td>
@@ -92,22 +92,29 @@
                     <tr>
                         <td><span>Enemy Quantity:</span></td>
                         <td><span> 5 </span></td>
-                        <td><input id="sliderEnemys" class="sliderSetting" type="range" min="5" max="50" value="25" step="5"></td>
+                        <td><input id="sliderEnemy" class="sliderSetting" type="range" min="5" max="50" value="25" step="5"></td>
                         <td><span> 50</span></td>
                     </tr>
                     <tr>
                         <td><span>Time:</span></td>
                         <td><span> 0:30 </span></td>
-                        <td><input id="sliderTime" class="sliderSetting" type="range" min="30" max="300" value="180" step="30"></td>
-                        <td><span> 5:00</span></td>
+                        <td><input id="sliderTime" class="sliderSetting" type="range" min="30" max="360" value="240" step="30"></td>
+                        <td><span> 6:00</span></td>
                     </tr>
 					<tr>
                         <td colspan="2">
-                            <span>Show wiewfinder:</span>
-                            <input id="wiewfinderCkBox" type="checkbox" checked></span>
+                            <span>Viewfinder:</span>
+                            <input id="viewfinderCkBox" type="checkbox" checked></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <span>GodMode:</span>
+                            <input id="godModeCkBox" type="checkbox" unchecked></span>
                         </td>
                     </tr>
                 </table>
+                (W,A,S,D = Move, SHIFT = Run, SPACE = Jump, MOUSE = Visual, R = Reload, T = Torch, Z = Change Camera, TAB = Change Weapon)
                 <div id="divBtnSettings">
                     <span id="confirmSettings" class="btnSettings">Save changes</span>
                     <span id="resetSettings" class="btnSettings">Reset settings</span>
