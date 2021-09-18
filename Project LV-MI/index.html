@@ -67,7 +67,26 @@
 		</div>
 		
 		<div id="settings">
+		<style>
+				img {
+  					width: 100%;
+ 				 	height: auto;
+				}
+				</style>
+				<div style="height: 1vh;">
+					<img id="logo" src="./resources/images/zombies-wallpaper-preview.jpg"/>
+				</div>
         <div id="MainSett">
+		<style>
+				img {
+  					width: 100%;
+ 				 	height: auto;
+					
+				}
+				</style>
+				<div style="height: 1vh;">
+					<img id="logo" src="./resources/images/img.png"/>
+				</div>
             <span id="exitSettings">🡸 BACK</span>
             <div class="settingElem">
                 <h1 class="titleElement">Settings:</h1>
@@ -78,43 +97,45 @@
 					<span id="stadiumLights" class="difficulty">Turn off lights</span>
                 </div>
                 <table id="otherSettingsTable">
-                        <td><span>Mouse sensibility:</span></td>
-                        <td><span> 1 </span></td>
-                        <td><input id="sliderMouseSens" class="sliderSetting" type="range" min="0.5" max="1.5" value="1" step="0.1"></td>
-                        <td><span> 100</span></td>
+					<tr>
+						<td><span>Time:</span></td>
+                        <td><span> 0:30 </span></td>
+                        <td><input id="sliderTime" class="sliderClock" type="range" min="30" max="360" value="240" step="30"></td>
+                        <td><span> 6:00</span></td>
+
                     </tr>
                     <tr>
-                        <td><span>Lifes Quantity:</span></td>
-                        <td><span> 1 </span></td>
-                        <td><input id="sliderLifes" class="sliderSetting" type="range" min="1" max="10" value="5" step="1"></td>
-                        <td><span> 10</span></td>
-                    </tr>
-                    <tr>
-                        <td><span>Enemy Quantity:</span></td>
+						<td><span>Enemy</span></td>
                         <td><span> 5 </span></td>
-                        <td><input id="sliderEnemy" class="sliderSetting" type="range" min="5" max="50" value="25" step="5"></td>
+                        <td><input id="sliderEnemy" class="sliderZombie" type="range" min="5" max="50" value="25" step="5"></td>
                         <td><span> 50</span></td>
                     </tr>
                     <tr>
-                        <td><span>Time:</span></td>
-                        <td><span> 0:30 </span></td>
-                        <td><input id="sliderTime" class="sliderSetting" type="range" min="30" max="360" value="240" step="30"></td>
-                        <td><span> 6:00</span></td>
+						<td><span>Lifes:</span></td>
+                        <td><span> 1 </span></td>
+                        <td><input id="sliderLifes" class="sliderHeart" type="range" min="1" max="10" value="5" step="1"></td>
+                        <td><span> 10</span></td>
+                    </tr>
+                    <tr>
+						<td><span>Sensibility:</span></td>
+                        <td><span> 1 </span></td>
+                        <td><input id="sliderMouseSens" class="sliderMouse" type="range" min="0.5" max="1.5" value="1" step="0.1"></td>
+                        <td><span> 100</span></td>
                     </tr>
 					<tr>
-                        <td colspan="2">
+						<td colspan="2">
+						<span>GodMode:</span>
+						<input id="godModeCkBox" type="checkbox" unchecked></span>
+                        </td>
+                    </tr>
+                    <tr>
+						<td colspan="2">
                             <span>Viewfinder:</span>
                             <input id="viewfinderCkBox" type="checkbox" checked></span>
                         </td>
                     </tr>
-                    <tr>
-                        <td colspan="2">
-                            <span>GodMode:</span>
-                            <input id="godModeCkBox" type="checkbox" unchecked></span>
-                        </td>
-                    </tr>
                 </table>
-                (W,A,S,D = Move, SHIFT = Run, SPACE = Jump, MOUSE = Visual, R = Reload, T = Torch, Z = Change Camera, TAB = Change Weapon)
+                <p style="color:white">(W,A,S,D = Move, SHIFT = Run, SPACE = Jump, MOUSE = Visual, R = Reload, T = Torch, Z = Change Camera, TAB = Change Weapon)</p>
                 <div id="divBtnSettings">
                     <span id="confirmSettings" class="btnSettings">Save changes</span>
                     <span id="resetSettings" class="btnSettings">Reset settings</span>
