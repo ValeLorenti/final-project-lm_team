@@ -54,8 +54,8 @@
 						<span id="ammoSpanGame" class="spanLogoMode">ammo: 00/00</span>
 					
 					</div>
-					<span id="reloading" class="spanName" style="visibility: hidden;"> RELOADING! 💣 </span>
-					<span id="recover" class="spanName" style="visibility: hidden;"> +5 LIFES ❤️ </span>
+					<span id="reloading" class="spanInteraction" style="visibility: hidden;"> RELOADING! 💣 </span>
+					<span id="recover" class="spanInteraction" style="visibility: hidden;"> +5 LIFES ❤️ </span>
 					<span id="writer"></span>
 				</div>
 				<div id="PauseCanvas">
@@ -106,8 +106,8 @@
                     </tr>
                     <tr>
 						<td><span>Enemy</span></td>
-                        <td><span> 5 </span></td>
-                        <td><input id="sliderEnemy" class="sliderZombie" type="range" min="5" max="50" value="25" step="5"></td>
+                        <td><span> 2 </span></td>
+                        <td><input id="sliderEnemy" class="sliderZombie" type="range" min="2" max="50" value="25" step="2"></td>
                         <td><span> 50</span></td>
                     </tr>
                     <tr>
@@ -145,7 +145,9 @@
 		</div>
 		
 		<div id="gameOver">
+
 			<div id="winGame">
+
 				<span id="gameOverResult" class="spanName"></span>
 				<span id="gameOverTitle" class="spanValue"> Continue?</span>
 				<div id="gameOverStats">
@@ -157,9 +159,9 @@
 						<span class="spanName">Time: </span>
 						<span id="statsTime" class="spanValue"></span>
 					</div>
+						<a href="./" id="gameBackMenu2" class="backButton">🡸 Back to the Menu</a>
 				</div>
 				
-				<a href="./" id="gameBackMenu2" class="MSButton">🡸 Back to the Menu</a>
 			</div>
 		</div>
 		

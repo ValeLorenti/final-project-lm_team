@@ -6,9 +6,9 @@ export class PersonFactory {
 		ammo: 14,
 		timeBetweenAmmo: 0.45,
 		bullet: {
-			mass: 10,
+			mass: 3,
 			radius: 0.1,
-			shootSpeed: 30,
+			shootSpeed: 35,
 		}
 	};
     static GUN_MP5 = "mp5";
@@ -18,7 +18,7 @@ export class PersonFactory {
 		ammo: 50,
 		timeBetweenAmmo: 0.2,
 		bullet: {
-			mass: 10,
+			mass: 5,
 			radius: 0.15,
 			shootSpeed: 45,
 		}
@@ -26,11 +26,11 @@ export class PersonFactory {
     static GUN_MINIGUN = "minigun";
 	static GUN_MINIGUN_STATISTIC = {
 		name: PersonFactory.GUN_MINIGUN,
-		timeReloading: 5,
+		timeReloading: 0.1,
 		ammo: 200,
-		timeBetweenAmmo: 0.009,
+		timeBetweenAmmo: 0.006,
 		bullet: {
-			mass: 10,
+			mass: 8,
 			radius: 0.2,
 			shootSpeed: 60,
 		}

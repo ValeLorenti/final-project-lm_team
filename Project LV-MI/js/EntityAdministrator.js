@@ -1,5 +1,5 @@
 import {PersonMonitor} from './Monitors/PersonMonitor.js';
-import {BasicAIMonitor} from './Monitors/BasicAIMonitor.js';
+import {AIMonitor} from './Monitors/AIMonitor.js';
 import {PersonFactory} from './PersonFactory.js';
 
 export class EntityAdministrator{
@@ -100,10 +100,10 @@ export class EntityAdministrator{
                 var body = new CANNON.Body({ mass: 30, shape: new CANNON.Sphere(2), });
                 break;
             case EntityAdministrator.ENTITY_GIANT_ZOMBIE:
-                var body = new CANNON.Body({ mass: 80, shape: new CANNON.Sphere(7), });
+                var body = new CANNON.Body({ mass: 100, shape: new CANNON.Sphere(6), });
                 break;
             case EntityAdministrator.ENTITY_PLAYER:
-                var body = new CANNON.Body({ mass: 50, shape: new CANNON.Sphere(1), });
+                var body = new CANNON.Body({ mass: 50, shape: new CANNON.Sphere(1.5), });
                 body.linearDamping = 0.9;
                 break;
         }
@@ -192,7 +192,7 @@ class SmallZombieEntity extends Entity{
 		this.person = params.person;
         this.hit = 0;
 
-		this.controls = new BasicAIMonitor({
+		this.controls = new AIMonitor({
 			administrator: this.ADMINISTRATOR,
 			person: this.person,
 			entity: this,

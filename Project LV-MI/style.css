@@ -75,6 +75,7 @@ body {
 
 }
 
+
 .icon-bar a {
   float: left; /* Float links side by side */
   text-align: center; /* Center-align text */
@@ -92,8 +93,18 @@ body {
     border-radius: 10px;
     box-shadow: 0px 6px 15px white;
 }
-
-
+.icon-bar a:active {
+    background: var(--lightgreen);
+    color: lightgreen;
+}
+.icon-bar a:visited {
+    background: var(--lightgreen);
+    color: lightgreen;
+}
+.icon-bar a:focus {
+    background: var(--lightgreen);
+    color: lightgreen;
+}
 
 .menuBottonStart{
     background: var(--green);
@@ -265,6 +276,19 @@ body {
 	color: white;
 }
 
+.backButton{
+    border-radius: 20px;
+    padding: 6px 8px 6px 8px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.8);
+    margin: auto;
+    font-size: 24px;
+    padding: 10px 42px;
+    cursor: pointer;
+    color: white;
+    margin-top: 20px;
+}
+
 
 #settings{
     position: absolute;
@@ -379,7 +403,8 @@ body {
     background: var(--black);
     z-index: 40;
     transition: all 0.3s;
-
+    background-image: url("resources/images/zombieBackground.png");
+    background-repeat: no-repeat;
     display: none;
 }
 #winGame{
@@ -399,6 +424,13 @@ body {
 .spanValue{
     font-size: 30px;
     color: var(--darkgreen);
+}
+.spanInteraction{
+    color: #3a3a3a;
+    font-size: 30px;
+    bottom:  30px;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #fff;
 }
 .spanName{
     color: #3a3a3a;
@@ -453,18 +485,21 @@ body {
 .sliderHeart::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 15px;
-  height: 14px;
+  width: 32px;
+  height: 32px;
   border: 0;
-  background: url("resources/images/heart.png");
+  background: url("resources/images/hearticons.png") no-repeat;
+  transform: scale(0.7, 0.7);
+  object-fit: contain;
   cursor: pointer;
 }
 
 .sliderHeart::-moz-range-thumb {
-  width: 15px;
-  height: 14px;
+  width: 32px;
+  height: 32px;
   border: 0;
-  background: url("resources/images/heart.png");
+  background: url("resources/images/hearticons.png") no-repeat;
+  transform: scale(0.7, 0.7);
   cursor: pointer;
 }
 
@@ -488,10 +523,12 @@ body {
 .sliderZombie::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 25px;
-  height: 25px;
+  width: 32px;
+  height: 32px;
   border: 0;
-  background: url("resources/images/head_slider.png");
+  background: url("resources/images/zombieicons.png");
+  transform: scale(0.7, 0.7);
+  object-fit: contain;
   cursor: pointer;
   background-repeat: no-repeat;
 }
@@ -500,7 +537,8 @@ body {
   width: 25px;
   height: 25px;
   border: 0;
-  background: url("resources/images/head_slider.png");
+  background: url("resources/images/zombieicons.png");
+  transform: scale(0.7, 0.7);
   cursor: pointer;
   background-repeat: no-repeat;
 }
@@ -524,19 +562,22 @@ body {
 .sliderClock::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 25px;
-  height: 25px;
+  width: 32px;
+  height: 32px;
   border: 0;
-  background: url("resources/images/clock1.png");
+  background: url("resources/images/clockicons.png");
+  transform: scale(0.7, 0.7);
+  object-fit: contain;
   cursor: pointer;
   background-repeat: no-repeat;
 }
 
 .sliderClock::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
+  width: 32px;
+  height: 32px;
   border: 0;
-  background: url("resources/images/clock1.png");
+  background: url("resources/images/clockicons.png");
+  transform: scale(0.7, 0.7);
   cursor: pointer;
   background-repeat: no-repeat;
 }
@@ -560,19 +601,22 @@ body {
 .sliderMouse::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 25px;
-  height: 25px;
+  width: 32px;
+  height: 32px;
   border: 0;
-  background: url("resources/images/mouse.jpg");
+  background: url("resources/images/sensibilityicons.png");
+  transform: scale(0.7, 0.7);
+  object-fit: contain;
   cursor: pointer;
   background-repeat: no-repeat;
 }
 
 .sliderMouse::-moz-range-thumb {
-  width: 25px;
-  height: 25px;
+  width: 32px;
+  height: 32px;
   border: 0;
-  background: url("resources/images/mouse.jpg");
+  background: url("resources/images/sensibilityicons.png");
+  transform: scale(0.7, 0.7);
   cursor: pointer;
   background-repeat: no-repeat;
 }

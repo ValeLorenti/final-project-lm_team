@@ -329,6 +329,7 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 
 	for(var i=0; i<4; i++){
 		stadiumLs[i] = models["stadiumLight"].model.clone();
+		stadiumLs[i].castShadow = true;
 		scene.add(stadiumLs[i]);
 	}
 	
@@ -454,7 +455,7 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 					}
 					scene.add(tree);
 					tree.position.set(x, y, z);
-
+					//tree.castShadow = true;
 					var halfExtents2 = new CANNON.Vec3(1.5, 4, 1.5);
 					var treeShape = new CANNON.Box(halfExtents2);
 					var treeBody = new CANNON.Body({ mass: 0 });
@@ -750,7 +751,7 @@ class gameEnvironment {
 		this.torch.distance = 100;
 		this.torch.penumbra = 0.3;
 		this.torch.intensity = 2.5;
-		this.torch.castShadow = true;
+		//this.torch.castShadow = true;
 		this.torch.shadow.camera.near = 3.0;
 		this.torch.shadow.camera.far = 50;//camera.far;
 		this.torch.shadow.camera.fov = 40;
@@ -803,6 +804,7 @@ class gameEnvironment {
 					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB-left.png'), side: THREE.DoubleSide, dithering: true}),
 				];
 				const directionalLightDay = new THREE.DirectionalLight(0xffffff, 1);
+				directionalLightDay.castShadow = true;
 				directionalLightDay.position.set( 0, 100, 0 );
 				var ambientDay = new THREE.AmbientLight( 0x777777 );
 				this.scene.add( ambientDay );
@@ -818,6 +820,7 @@ class gameEnvironment {
 					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB1-left.jpg'), side: THREE.DoubleSide, dithering: true}),
 				];
 				const directionalLightEvening = new THREE.DirectionalLight(0xff0000, 0.2);
+				directionalLightEvening.castShadow = true;
 				directionalLightEvening.position.set( 150, 100, 150);
 				var ambientEvening = new THREE.AmbientLight( 0x555555 );
 				this.scene.add( ambientEvening );
@@ -833,6 +836,7 @@ class gameEnvironment {
 					new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources\\images\\sB2-left.jpg'), side: THREE.DoubleSide, dithering: true}),
 				];
 				const directionalLightNight = new THREE.DirectionalLight(0x10d8f, 0.1);
+				directionalLightNight.castShadow = true;
 				directionalLightNight.position.set( 150, 85, -150 );
 				var ambientNight = new THREE.AmbientLight( 0x333333 );
 				this.scene.add( ambientNight );
@@ -1252,9 +1256,9 @@ class gameOverEnvironment {
         this.statsTime = document.getElementById("statsTime");
 
         if(params.win){
-            this.gameOverResult.innerHTML ="You WON 🏆";
+            this.gameOverResult.innerHTML =" You WON 🏆 ";
         } else {
-            this.gameOverResult.innerHTML ="  You LOSE ❌";
+            this.gameOverResult.innerHTML =" You LOSE ❌ ";
         }
 
         this.statsEnemy.innerHTML = params.enemyKilled+"/"+params.numEnemy;
