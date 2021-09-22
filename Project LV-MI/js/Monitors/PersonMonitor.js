@@ -187,16 +187,16 @@ export class PersonMonitor {
 
         this.inputSpeed.set(0,0,0);
         if (this.input.keys.forward){
-            this.inputSpeed.z = -this.ADMINISTRATOR.getSpeedFactor() * time*4;
+            this.inputSpeed.z = -this.ADMINISTRATOR.getSpeedFactor() * time*2;
         }
         if (this.input.keys.backward){
-            this.inputSpeed.z = this.ADMINISTRATOR.getSpeedFactor() * time*4;
+            this.inputSpeed.z = this.ADMINISTRATOR.getSpeedFactor() * time*2;
         }
         if (this.input.keys.left){
-            this.inputSpeed.x = -this.ADMINISTRATOR.getSpeedFactor() * time*4;
+            this.inputSpeed.x = -this.ADMINISTRATOR.getSpeedFactor() * time*2;
         }
         if (this.input.keys.right){
-            this.inputSpeed.x = this.ADMINISTRATOR.getSpeedFactor() * time*4;
+            this.inputSpeed.x = this.ADMINISTRATOR.getSpeedFactor() * time*2;
         }
 		if (this.input.keys.space && this.canJump){
 			this.velocity.y = this.jumpSpeed;

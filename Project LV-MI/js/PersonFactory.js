@@ -26,7 +26,7 @@ export class PersonFactory {
     static GUN_MINIGUN = "minigun";
 	static GUN_MINIGUN_STATISTIC = {
 		name: PersonFactory.GUN_MINIGUN,
-		timeReloading: 0.1,
+		timeReloading: 4.5,
 		ammo: 200,
 		timeBetweenAmmo: 0.006,
 		bullet: {

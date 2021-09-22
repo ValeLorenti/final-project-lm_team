@@ -13,6 +13,7 @@ export class AIMonitor {
 		this.timeToShot = Math.random()*500;
 		this.timeToMove = Math.random()*1000;
 		this.move = false;
+		this.scoreAdministrator = params.scoreAdministrator;
 	}
 	
 	update(time) {
@@ -22,7 +23,7 @@ export class AIMonitor {
 		this.body.velocity.z *= 0.95;
 		
 		var distance = this.player.body.position.distanceTo(this.body.position);
-		if((distance<this.maxDistance*1.6) || (distance<this.maxDistance*2.5 && this.entity.hit>0)){
+		if((distance<this.maxDistance*1.6) || (distance<this.maxDistance*2.5 && this.entity.hit>0) || (time < 5500)){
 			var direction = this.computeDirection();
 			this.target.rotation.y = Math.atan2(-direction.x,-direction.z);
 			if(distance<this.maxDistance) {				//From maxDistance start to shot

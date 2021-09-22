@@ -851,7 +851,7 @@ class gameEnvironment {
 
 		// floor
 		var geometry = new THREE.PlaneGeometry( 300, 300, 300, 50);
-		geometry.applyMatrix( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
+		geometry.applyMatrix4( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
 		
 
 		//var material = new THREE.MeshLambertMaterial( { color: 0xeeee00 } );
@@ -1166,7 +1166,7 @@ class gameEnvironment {
 	spawnEnemy() {
 		for(let i=0; i < ADMINISTRATOR.getEnemyQuantity(); i++) {
 			var gun = PersonFactory.GUN_ALL[Math.floor(Math.random()*PersonFactory.GUN_ALL.length)];
-			var minDistanceSquared = 625;
+			var minDistanceSquared = 1225;
 
 			var position = [0,0,0];
 			position[0] = Math.random()*2-1;
@@ -1177,11 +1177,11 @@ class gameEnvironment {
 			position[2] *= (factor+Math.random()*100);
 
 			if(i%2 == 0){
-				position[1] = 2.5;
+				position[1] = 15;
 				this.entityAdministrator.addEntity({name: EntityAdministrator.ENTITY_SMALL_ZOMBIE, weapons: [gun], position: position, maxDistance: 25});
 			}
 			if(i%2 != 0){
-				position[1] = 2.5*5;
+				position[1] = 15*5;
 				this.entityAdministrator.addEntity({name: EntityAdministrator.ENTITY_GIANT_ZOMBIE, weapons: [gun], position: position, maxDistance: 25});
 			}
 		}
