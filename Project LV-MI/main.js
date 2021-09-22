@@ -455,7 +455,6 @@ function mapGenerator(world, scene, boxes, boxMeshes, spheres, sphereMeshes, mod
 					}
 					scene.add(tree);
 					tree.position.set(x, y, z);
-					//tree.castShadow = true;
 					var halfExtents2 = new CANNON.Vec3(1.5, 4, 1.5);
 					var treeShape = new CANNON.Box(halfExtents2);
 					var treeBody = new CANNON.Body({ mass: 0 });
@@ -618,7 +617,6 @@ class gameEnvironment {
 				pauseCanvas.style.display = 'flex';
 			}
 
-			// Hook pointer lock state change events
 			document.addEventListener( 'pointerlockchange', pointerlockchange.bind(this), false );
 			document.addEventListener( 'mozpointerlockchange', pointerlockchange.bind(this), false );
 			document.addEventListener( 'webkitpointerlockchange', pointerlockchange.bind(this), false );
@@ -626,7 +624,7 @@ class gameEnvironment {
 			document.addEventListener( 'mozpointerlockerror', pointerlockerror, false );
 			document.addEventListener( 'webkitpointerlockerror', pointerlockerror, false );
 			instructions.style.display = 'none';
-			// Ask the browser to lock the pointer
+	
 			element.requestPointerLock = element.requestPointerLock || element.mozRequestPointerLock || element.webkitRequestPointerLock;
 				if ( /Firefox/i.test( navigator.userAgent ) ) {
 
@@ -680,21 +678,20 @@ class gameEnvironment {
 		
 		this.entityAdministrator.update(time);
 		this.bulletAdministrator.update(time)
-		//this.controls.update( Date.now() - this.time );
 		
-		// Update ball positions
+		
 		for(var i=0; i<this.balls.length; i++){
 			this.ballMeshes[i].position.copy(this.balls[i].position);
 			this.ballMeshes[i].quaternion.copy(this.balls[i].quaternion);
 		}
 
-		// Update box positions
+		
 		for(var i=0; i < this.boxes.length; i++){
 			this.boxMeshes[i].position.copy(this.boxes[i].position);
 			this.boxMeshes[i].quaternion.copy(this.boxes[i].quaternion);
 		}
 
-		// Update sphere positions
+		
 		for(var i=0; i < this.spheres.length; i++){
 			this.sphereMeshes[i].position.copy(this.spheres[i].position);
 			this.sphereMeshes[i].quaternion.copy(this.spheres[i].quaternion);
@@ -708,7 +705,7 @@ class gameEnvironment {
 		TWEEN.update()
 	}
 
-	//Draw Scene
+	
 	render() {
 		this.controls.update( Date.now() - this.time );
 		if(this.activeCamera==0) this.renderer.render( this.scene, this.camera );
@@ -722,7 +719,6 @@ class gameEnvironment {
 		this.time = Date.now();
 	}
 
-	//Run game loop (update, render, repet) var x = 120; var y = 7.5; var z = 100;
 		
 	GameLoop() {
 		this.animationFrameID = requestAnimationFrame(this.GameLoop.bind(this));
@@ -732,7 +728,7 @@ class gameEnvironment {
 			this.render();	
         }
 	}
-//---------------------------------------------------------------------
+
 	
 	init() {
 		
@@ -751,9 +747,8 @@ class gameEnvironment {
 		this.torch.distance = 100;
 		this.torch.penumbra = 0.3;
 		this.torch.intensity = 2.5;
-		//this.torch.castShadow = true;
 		this.torch.shadow.camera.near = 3.0;
-		this.torch.shadow.camera.far = 50;//camera.far;
+		this.torch.shadow.camera.far = 50;
 		this.torch.shadow.camera.fov = 40;
 		this.torch.shadowMapBias = 0.1;
 		this.torch.shadowMapDarkness = 0.7;
@@ -854,8 +849,6 @@ class gameEnvironment {
 		geometry.applyMatrix4( new THREE.Matrix4().makeRotationX( - Math.PI / 2 ) );
 		
 
-		//var material = new THREE.MeshLambertMaterial( { color: 0xeeee00 } );
-		//var material = new THREE.MeshPhongMaterial( { color: 0xeeee00, dithering: true } );
 		var groundTexture = new THREE.TextureLoader().load('resources\\images\\field.png');
 		groundTexture.wrapS = THREE.RepeatWrapping;
 		groundTexture.wrapT = THREE.RepeatWrapping;
@@ -922,7 +915,6 @@ class gameEnvironment {
 
 			var boxBody = new CANNON.Body({ mass: 0 });
 			boxBody.addShape(boxShape);
-			//var randomColor = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
 			var wallTexture = new THREE.TextureLoader().load('resources\\images\\wallBrick.png');
 			wallTexture.wrapS = THREE.RepeatWrapping;
 			wallTexture.wrapT = THREE.RepeatWrapping;
@@ -1138,14 +1130,14 @@ class gameEnvironment {
 		
 		mapGenerator(this.world, this.scene, this.boxes, this.boxMeshes, this.spheres, this.sphereMeshes, this.models);
 		
-		//Add personaggio
+
 		var weaponsPlayer = [PersonFactory.GUN_PISTOL, "mp5", "minigun"];
 		var playerStartPosition = [0, 1.6, 0];
 		this.playerEntity = this.entityAdministrator.addEntityAndReturn({name: EntityAdministrator.ENTITY_PLAYER, weapons : weaponsPlayer, position: playerStartPosition})
 		this.playerEntity.person.getMesh().add(this.torch);
 		this.playerEntity.person.getMesh().add(this.torch.target);
 		this.entityAdministrator.setPlayer(this.playerEntity);
-		//this.person = new PersonFactory({administrator : ADMINISTRATOR, weapons : [PersonFactory.GUN_PISTOL, "ak47", "sniper", "rpg"]});
+
 
 		this.controls = new PersonMonitor({administrator: ADMINISTRATOR, entity: this.playerEntity, camera: this.camera, camera2: this.camera2, camera3: this.camera3, bulletAdministrator: this.bulletAdministrator, scoreAdministrator: this.scoreAdministrator});
 		
@@ -1208,21 +1200,21 @@ class gameEnvironment {
 		world.gravity.set(0, -20, 0);
 		world.broadphase = new CANNON.NaiveBroadphase();
 
-		// Create a slippery material (friction coefficient = 0.0)
+
 		var physicsMaterial = new CANNON.Material();
 		var physicsContactMaterial = new CANNON.ContactMaterial(physicsMaterial,
 																physicsMaterial,
-																0.0, // friction coefficient
-																0.3  // restitution
+																0.0, 
+																0.3  
 																);
-		// Create other non slippery Material
+	
 		var groundMaterial = new CANNON.Material();
 		groundMaterial.friction = 200.0;
 		
-		// We must add the contact materials to the world
+
 		world.addContactMaterial(physicsContactMaterial);
 		
-		// Create a plane
+
 		var groundShape = new CANNON.Plane();
 		var groundBody = new CANNON.Body({ mass: 0 });
 		groundShape.material = groundMaterial;
@@ -1252,7 +1244,7 @@ class gameOverEnvironment {
         this.gameOverResult = document.getElementById("gameOverResult");
 
         this.statsEnemy = document.getElementById("statsEnemy");
-        //this._statsScore = document.getElementById("statsScore");
+      
         this.statsTime = document.getElementById("statsTime");
 
         if(params.win){
@@ -1262,8 +1254,8 @@ class gameOverEnvironment {
         }
 
         this.statsEnemy.innerHTML = params.enemyKilled+"/"+params.numEnemy;
-        //var score = ("0000" + params.score);
-        //this._statsScore.innerHTML = score.substr(score.length-4);
+       
+       
         this.statsTime.innerHTML = parseInt(params.time / 60) + ":" + (params.time % 60).toLocaleString('en-US',
             { minimumIntegerDigits: 2, useGrouping: false });
         

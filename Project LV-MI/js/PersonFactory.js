@@ -76,7 +76,7 @@ export class PersonFactory {
 	
 	buildPerson() {
 
-		//Generate person
+	
 		if(this.typeFlag == 'player'){
 		   var headTexture = [
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveLeft.png'), side: THREE.DoubleSide, dithering: true}),
@@ -97,7 +97,7 @@ export class PersonFactory {
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantHeadRight.png'), side: THREE.DoubleSide, dithering: true}),
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/giantHeadLeft.png'), side: THREE.DoubleSide, dithering: true}),
 		  ];
-		   //var boxMaterial = new THREE.MeshPhongMaterial( { map: headTexture } );
+
 		   this.headMesh = this.createMeshedBox(0.6, 0.6, 0.6, 0, 0, 0, headTexture);
 		   this.headMesh.rotation.y  = Math.PI/2;
 		   this.high = 3*3;
@@ -113,7 +113,7 @@ export class PersonFactory {
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieHeadSlide.png'), side: THREE.DoubleSide, dithering: true}),
 		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/zombieFace.png'), side: THREE.DoubleSide, dithering: true}),
 		  ];
-		   //var boxMaterial = new THREE.MeshPhongMaterial( { map: headTexture } );
+		 
 		  this.headMesh = this.createMeshedBox(0.6, 0.6, 0.6, 0, 0, 0, headTexture);
 		 }
 
@@ -123,7 +123,7 @@ export class PersonFactory {
 		this.headGroup.name = "head";
 		this.headGroup.add(this.headMesh);
 		
-		// Body mesh models and groups
+
 		if(this.typeFlag == 'player'){
 		   var boxGeometry = new THREE.BoxGeometry(0.6, 1.2, 0.45); 
 		   var bodyTexture = [
@@ -163,7 +163,7 @@ export class PersonFactory {
 		  }
 		
 		
-		//Legs
+	
 		this.leftLeg = new THREE.Object3D;
 		this.leftLeg.position.y = -1.5;
 		this.leftLeg.position.x = -0.155;
@@ -204,7 +204,7 @@ export class PersonFactory {
 		this.legGroup.name = "leg"
 		this.legGroup.add(this.leftLeg, this.rightLeg);
 		
-		//Arms
+
 		this.leftArm = new THREE.Object3D;
 		this.leftArm.position.x = -0.45;
 		this.leftArm.position.y = -0.45;
@@ -250,7 +250,7 @@ export class PersonFactory {
 		this.bodyGroup.name = "body"
 		this.bodyGroup.add(this.bodyMesh, this.legGroup, this.armGroup);
 		
-		// Character Group
+
 		this.person = new THREE.Group();
 		this.person.name = "robot";
 		this.person.add(this.headGroup, this.bodyGroup);
@@ -279,7 +279,7 @@ export class PersonFactory {
 					this.weapons[this.weaponsQuantity].position.set(0.0,-1.0,0);
 					this.weapons[this.weaponsQuantity].rotation.y = Math.PI/2;
 					this.weapons[this.weaponsQuantity].rotation.z = -Math.PI/2;
-					//this.weapons[this.weaponsQuantity].rotation.x = -Math.PI;
+				
 					break;
 			}
 			this.weaponsQuantity++;
@@ -296,7 +296,6 @@ export class PersonFactory {
 	}
 	
 	walkingAnimation() {
-		//Generate Animations
 		this.legTween1 = new TWEEN.Tween({x: 0, y: 0, z: 0}).to( {x: Math.PI/6, y: 0, z: 0}, 50/this.ADMINISTRATOR.getSpeedFactor() )
 			.easing(TWEEN.Easing.Quadratic.InOut)
 		this.legTween2 = new TWEEN.Tween({x: Math.PI/6, y: 0, z: 0}).to( {x:-Math.PI/6, y: 0, z: 0}, 100/this.ADMINISTRATOR.getSpeedFactor() )

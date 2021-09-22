@@ -28,7 +28,7 @@ export class AIMonitor {
 	
 			var direction = this.computeDirection();
 			this.target.rotation.y = Math.atan2(-direction.x,-direction.z);
-			if(distance<this.maxDistance) {				//From maxDistance start to shot
+			if(distance<this.maxDistance) {				
 				if(this.timeToShot<0) {
 					this.bulletAdministrator.buildNewBullet(this.entity,direction)
 					this.currAmmo -= 1;
@@ -37,7 +37,7 @@ export class AIMonitor {
 				else
 					this.timeToShot -= time;
 			}
-			if(distance>this.maxDistance*0.8) {			//When arrive to maxDistance*0.8 stop to move forward and move laterally
+			if(distance>this.maxDistance*0.8) {		
 				this.timeToMove = 0;
 				this.directionMove = new THREE.Vector3(0,0,-1);
 				if(!this.move) {

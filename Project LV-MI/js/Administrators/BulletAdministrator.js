@@ -50,7 +50,7 @@ export class BulletAdministrator {
 								direction.y * bullet.velocity,
 								direction.z * bullet.velocity);
 
-		// Move the ball outside the player sphere
+
 		var radiusDistance = entity.body.shapes[0].radius*1.02 + bullet.shape.radius;
 		x += direction.x * (radiusDistance);
 		y += direction.y * (radiusDistance);

@@ -31,7 +31,7 @@ export class PersonMonitor {
 		this.isMoving = false;
 		this.canJump = false;
 
-		this.contactNormal = new CANNON.Vec3(); // Normal in the contact, pointing *out* of whatever the player touched
+		this.contactNormal = new CANNON.Vec3(); 
 		this.upAxis = new CANNON.Vec3(0,1,0);
 		
 		this.quat = new THREE.Quaternion();
@@ -52,15 +52,13 @@ export class PersonMonitor {
 	onCollision(e) {
 		var contact = e.contact;
 
-		// contact.bi and contact.bj are the colliding bodies, and contact.ni is the collision normal.
-		// We do not yet know which one is which! Let's check.
-		if(contact.bi.id == this.personBody.id)  // bi is the player body, flip the contact normal
+	
+		if(contact.bi.id == this.personBody.id)  
 			contact.ni.negate(this.contactNormal);
 		else
-			this.contactNormal.copy(contact.ni); // bi is something else. Keep the normal as it is
+			this.contactNormal.copy(contact.ni); 
 
-		// If contactNormal.dot(upAxis) is between 0 and 1, we know that the contact normal is somewhat in the up direction.
-		if(this.contactNormal.dot(this.upAxis) > 0.5) // Use a "good" threshold value between 0 and 1 here!
+		if(this.contactNormal.dot(this.upAxis) > 0.5) 
 			this.canJump = true;
 	}
 	
@@ -173,7 +171,7 @@ export class PersonMonitor {
 		}
 	}
 
-    // Moves the camera to the Cannon.js object position and adds velocity to the object if the run key is down
+
     update(time) {
         if ( this.ADMINISTRATOR.gameEnable === false ) return;
 		
@@ -243,18 +241,18 @@ export class PersonMonitor {
 			this.isMoving = false;
 		} 
 		
-        // Convert velocity to world coordinates
+
         this.euler.x = this.ObjPitch.rotation.x;
         this.euler.y = this.ObjYaw.rotation.y;
         this.euler.order = "XYZ";
         this.quat.setFromEuler(this.euler);
         this.inputSpeed.applyQuaternion(this.quat);
-        //this.quat.multiplyVector3(this.inputSpeed);
-		if(!this.isMoving) {		//to avoid too much slippage
+
+		if(!this.isMoving) {		
 			this.velocity.x *= 0.93;
 			this.velocity.z *= 0.93;
 		}
-        // Add to the object
+
         this.velocity.x += this.inputSpeed.x;
         this.velocity.z += this.inputSpeed.z;
         this.ObjYaw.position.copy(this.personBody.position);

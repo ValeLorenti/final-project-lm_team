@@ -10,7 +10,7 @@ export class ScoreAdministrator{
 
         this.currLifes = this.totalLifes;
 		
-        //this.currScore = 0;
+ 
         this.startTime = 0;
         this.currTime = 0;
         this.pauseTime = 0;
@@ -126,8 +126,7 @@ export class ScoreAdministrator{
         this.timeSpanGame.innerHTML = "time: " + parseInt(this.currPassedTime / 60) + ":" + (this.currPassedTime % 60).toLocaleString('en-US',
             { minimumIntegerDigits: 2, useGrouping: false });
         this.enemySpanGame.innerHTML = "enemy: " + this.killedEnemy + "/" + this.quantityEnemy;
-        //var score = ("0000" + this.currScore);
-        //this.scoreSpanGame.innerHTML = "score: " + score.substr(score.length-4);
+
 		if(this.gun) {
 			this.ammoSpanGame.innerHTML = this.gun.name +": " + this.gun.currAmmo + "/" + this.gun.ammo;
 		}
