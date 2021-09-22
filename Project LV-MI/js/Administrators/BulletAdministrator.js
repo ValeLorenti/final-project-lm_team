@@ -1,4 +1,4 @@
-import {PersonFactory} from './PersonFactory.js';
+import {PersonFactory} from './../PersonFactory.js';
 
 export class BulletAdministrator {
 	static BULLET_PISTOL = "bulletPistol";

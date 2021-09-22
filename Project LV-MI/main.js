@@ -1,8 +1,8 @@
 import {PersonMonitor} from './js/Monitors/PersonMonitor.js';
 import {PersonFactory} from './js/PersonFactory.js';
-import {ScoreAdministrator} from './js/ScoreAdministrator.js';
-import {EntityAdministrator} from './js/EntityAdministrator.js';
-import {BulletAdministrator} from './js/BulletAdministrator.js';
+import {ScoreAdministrator} from './js/Administrators/ScoreAdministrator.js';
+import {EntityAdministrator} from './js/Administrators/EntityAdministrator.js';
+import {BulletAdministrator} from './js/Administrators/BulletAdministrator.js';
 
 class gameAdministrator {
 	constructor(){
