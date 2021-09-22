@@ -201,6 +201,7 @@ class SmallZombieEntity extends Entity{
 			player: this.player,
 			maxDistance: this.maxDistance,
 			bulletAdministrator: this.entityAdministrator.bulletAdministrator,
+			scoreAdministrator: this.scoreAdministrator,
 		});
 	}
 

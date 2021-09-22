@@ -23,7 +23,9 @@ export class AIMonitor {
 		this.body.velocity.z *= 0.95;
 		
 		var distance = this.player.body.position.distanceTo(this.body.position);
-		if((distance<this.maxDistance*1.6) || (distance<this.maxDistance*2.5 && this.entity.hit>0) || (time < 5500)){
+		if((distance<this.maxDistance*1.6) || (distance<this.maxDistance*2.5 && this.entity.hit>0)
+			|| (this.scoreAdministrator.getRemaningTime() > 0.67*this.ADMINISTRATOR.getTime())){
+	
 			var direction = this.computeDirection();
 			this.target.rotation.y = Math.atan2(-direction.x,-direction.z);
 			if(distance<this.maxDistance) {				//From maxDistance start to shot
