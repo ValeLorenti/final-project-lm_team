@@ -429,8 +429,10 @@ body {
     color: #3a3a3a;
     font-size: 30px;
     bottom:  30px;
+    text-align: center;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #fff;
+    position: absolute;
 }
 .spanName{
     color: #3a3a3a;
@@ -619,5 +621,14 @@ body {
   transform: scale(0.7, 0.7);
   cursor: pointer;
   background-repeat: no-repeat;
+}
+.header {
+  border-bottom: 1px solid #bbb;
+}
+
+.title {
+  float: right;
+  text-align: center;
+  width: 66%;
 }
 
