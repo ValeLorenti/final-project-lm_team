@@ -14,7 +14,7 @@ TWEEN.js https://github.com/tweenjs/tween.js
 
 
 <h2>PLAY</h2>
-https://sapienzainteractivegraphicscourse.github.io/final-project-lm_team/
+https://sapienzainteractivegraphicscourse.github.io/final-project-lm_team/ 
 
 <h2>Usefull links</h2>
 
