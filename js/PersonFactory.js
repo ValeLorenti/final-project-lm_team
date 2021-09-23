@@ -79,12 +79,12 @@ export class PersonFactory {
 	
 		if(this.typeFlag == 'player'){
 		   var headTexture = [
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveLeft.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveRight.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveUp.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveDown.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveBack.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveFront.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveLeft.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveRight.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveUp.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveDown.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveBack.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveFront.png'), side: THREE.DoubleSide, dithering: true}),
 		  ];
 		  this.headMesh = this.createMeshedBox(0.6, 0.6, 0.6, 0, 0, 0, headTexture);
 		 }
@@ -127,12 +127,12 @@ export class PersonFactory {
 		if(this.typeFlag == 'player'){
 		   var boxGeometry = new THREE.BoxGeometry(0.6, 1.2, 0.45); 
 		   var bodyTexture = [
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveBodyLeft.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveBodyRight.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveBodyUp.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveBodyDown.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveBodyBack.png'), side: THREE.DoubleSide, dithering: true}),
-		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveBodyFront.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveBodyLeft.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveBodyRight.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveBodyUp.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveBodyDown.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveBodyBack.png'), side: THREE.DoubleSide, dithering: true}),
+		   new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveBodyFront.png'), side: THREE.DoubleSide, dithering: true}),
 		  ];
 		   this.bodyMesh = this.createMeshedBox(0.6, 1.2, 0.45, 0, -0.9, 0, bodyTexture);
 		  }
@@ -169,7 +169,7 @@ export class PersonFactory {
 		this.leftLeg.position.x = -0.155;
 		this.leftLeg.name = "Left Leg";
 		if(this.typeFlag == 'player') {
-		   var legTexture =  new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveLeg.png'), side: THREE.DoubleSide, dithering: true});
+		   var legTexture =  new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveLeg.png'), side: THREE.DoubleSide, dithering: true});
 		   this.leftLegMesh = this.createMeshedBox(0.28, 1.0, 0.3, 0, -0.45, 0, legTexture);
 		}
 			
@@ -188,7 +188,7 @@ export class PersonFactory {
 		this.rightLeg.position.x = 0.155;
 		this.rightLeg.name = "Right Leg"
 		if(this.typeFlag == 'player') {
-		   var legTexture =  new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveLeg.png'), side: THREE.DoubleSide, dithering: true});
+		   var legTexture =  new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveLeg.png'), side: THREE.DoubleSide, dithering: true});
 		   this.rightLegMesh = this.createMeshedBox(0.28, 1.0, 0.3, 0, -0.45, 0, legTexture);
 		}
 		if(this.typeFlag == 'giant'){
@@ -210,7 +210,7 @@ export class PersonFactory {
 		this.leftArm.position.y = -0.45;
 		this.leftArm.name = "Left Arm"
 		if(this.typeFlag == 'player'){
-			var armTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveArm.png'), side: THREE.DoubleSide, dithering: true});
+			var armTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveArm.png'), side: THREE.DoubleSide, dithering: true});
 			this.leftArmMesh = this.createMeshedBox(0.2775, 0.9, 0.3, 0, -0.3, 0, armTexture);
 		}
 		if(this.typeFlag == 'giant'){
@@ -228,7 +228,7 @@ export class PersonFactory {
 		this.rightArm.position.y = -0.45;
 		this.rightArm.name = "Right Arm"
 		if(this.typeFlag == 'player') {
-			var armTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/adventure_SteveArm.png'), side: THREE.DoubleSide, dithering: true});
+			var armTexture = new THREE.MeshBasicMaterial( { map: new THREE.TextureLoader().load('resources/images/SteveArm.png'), side: THREE.DoubleSide, dithering: true});
 			this.rightArmMesh = this.createMeshedBox(0.2775, 0.9, 0.3, 0, -0.3, 0, armTexture);
 		}
 		if(this.typeFlag == 'giant'){
