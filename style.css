@@ -68,7 +68,7 @@ body {
 
 .icon-bar {
   width: 97.5%; /* Full-width */
-  top: 90%;
+  height: 80%;
   background-color: var(--green);
   border: 4px solid var(--darkgreen);
   display: inline-block;
