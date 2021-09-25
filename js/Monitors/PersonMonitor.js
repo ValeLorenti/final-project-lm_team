@@ -200,6 +200,8 @@ export class PersonMonitor {
 			this.velocity.y = this.jumpSpeed;
 			this.canJump = false;
 			this.input.keys.space = false;
+			var audio = new Audio('resources/audios/TennisShoeFootsteps.mp3');
+			audio.play();
 		}
 		if (this.input.keys.shift && !this.shiftHelded){
 			this.ADMINISTRATOR.multiplySpeedFactor();
